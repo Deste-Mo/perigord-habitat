@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home, Search, Wrench, FileText } from "lucide-react";
+import { Home, Search, Wrench, FileText, LayoutDashboard } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -7,12 +7,21 @@ export default function HomePage() {
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center gap-3">
-            <Wrench className="w-10 h-10 text-indigo-600" />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Qui fait quoi ?</h1>
-              <p className="text-sm text-gray-600">Plateforme de gestion des incidents locatifs</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Wrench className="w-10 h-10 text-indigo-600" />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Qui fait quoi ?</h1>
+                <p className="text-sm text-gray-600">Plateforme de gestion des incidents locatifs</p>
+              </div>
             </div>
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              <LayoutDashboard className="w-5 h-5" />
+              Dashboard
+            </Link>
           </div>
         </div>
       </header>
