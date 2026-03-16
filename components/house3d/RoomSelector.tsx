@@ -1,14 +1,13 @@
 'use client'
 
-import { Home, UtensilsCrossed, Bed, Bath, DoorOpen } from 'lucide-react'
+import { Home, UtensilsCrossed, Bath, TreePine } from 'lucide-react'
 import type { Room } from './houseData'
 
 const roomIcons: Record<string, React.ReactNode> = {
-  salon: <Home size={18} />,
+  sejour: <Home size={18} />,
   cuisine: <UtensilsCrossed size={18} />,
-  chambre: <Bed size={18} />,
   'salle-de-bain': <Bath size={18} />,
-  entree: <DoorOpen size={18} />,
+  exterieur: <TreePine size={18} />,
 }
 
 interface RoomSelectorProps {

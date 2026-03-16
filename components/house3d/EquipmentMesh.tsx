@@ -338,6 +338,20 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
     )
   }
 
+  // === TOILET ===
+  if (type === 'toilet') {
+    return (
+      <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
+        {/* Tank */}
+        <OBox s={[size[0] * 0.7, size[1] * 0.8, size[2] * 0.3]} c={meshColor} p={[0, size[1] * 0.4, -size[2] / 2 + size[2] * 0.15]} />
+        {/* Bowl */}
+        <OBox s={[size[0], size[1] * 0.5, size[2] * 0.7]} c={meshColor} p={[0, size[1] * 0.25, size[2] * 0.05]} />
+        {/* Seat */}
+        <OBox s={[size[0] - 0.04, 0.03, size[2] * 0.6]} c={PALETTE.white} p={[0, size[1] * 0.52, size[2] * 0.05]} />
+      </group>
+    )
+  }
+
   // === DEFAULT BOX ===
   return (
     <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
