@@ -158,6 +158,11 @@ export default function HouseScene() {
           enableDamping
           dampingFactor={0.05}
           enableRotate
+          mouseButtons={{
+            LEFT: THREE.MOUSE.ROTATE,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN,
+          }}
           minPolarAngle={0.1}
           maxPolarAngle={Math.PI / 2.2}
           minZoom={20}
@@ -168,23 +173,40 @@ export default function HouseScene() {
 
       <InfoPanel equipment={selectedEquipment} onClose={handleClosePanel} />
 
-      {/* Bouton vue aérienne */}
-      <button
-        onClick={handleToggleView}
-        className={`absolute right-4 top-4 z-20 px-3 py-2 rounded-xl text-sm font-medium shadow-lg border transition-all ${
-          isAerialView
-            ? 'bg-blue-600 text-white border-blue-700'
-            : 'bg-white/90 dark:bg-gray-900/90 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800'
-        }`}
-      >
-        {isAerialView ? 'Vue isométrique' : 'Vue aérienne'}
-      </button>
+      {/* Boutons de vue */}
+      <div className="absolute right-4 top-4 z-20 flex flex-col gap-2">
+        <button
+          onClick={handleToggleView}
+          className={`px-3 py-2 rounded-xl text-sm font-medium shadow-lg border transition-all ${
+            isAerialView
+              ? 'bg-blue-600 text-white border-blue-700'
+              : 'bg-white/90 dark:bg-gray-900/90 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800'
+          }`}
+        >
+          {isAerialView ? 'Vue isométrique' : 'Vue aérienne'}
+        </button>
+        <button
+          onClick={() => {
+            if (controlsRef.current) {
+              controlsRef.current.object.position.set(17, 12, 14)
+              controlsRef.current.target.set(5, 0, -3)
+              controlsRef.current.update()
+              setIsAerialView(false)
+            }
+          }}
+          className="px-3 py-2 rounded-xl text-sm font-medium shadow-lg border transition-all bg-white/90 dark:bg-gray-900/90 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          Reset vue
+        </button>
+      </div>
 
       {!selectedEquipment && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg px-4 py-2 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
           <span>Molette : zoomer</span>
           <span className="w-px h-3 bg-gray-300 dark:bg-gray-600" />
-          <span>Clic droit + glisser : tourner</span>
+          <span>Clic gauche : tourner</span>
+          <span className="w-px h-3 bg-gray-300 dark:bg-gray-600" />
+          <span>Clic droit : déplacer</span>
           <span className="w-px h-3 bg-gray-300 dark:bg-gray-600" />
           <span>Clic sur objet : details</span>
         </div>
