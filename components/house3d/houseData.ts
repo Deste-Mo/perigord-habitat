@@ -7,7 +7,7 @@ export interface Equipment {
   position: [number, number, number]
   size: [number, number, number]
   color: string
-  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet' | 'garage'
+  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet' | 'garage' | 'cave' | 'staircase' | 'boiler' | 'vmc' | 'mailbox' | 'septic' | 'tree' | 'lawn' | 'basket' | 'waterheater'
 }
 
 export interface Room {
@@ -43,6 +43,9 @@ export const PALETTE = {
   cream: '#d8d0c4',
   grass: '#8aad8a',
   grassDark: '#6d9670',
+  stone: '#b8c4ce',
+  stoneDark: '#5a6d7e',
+  concrete: '#4a5a66',
 }
 
 // =============================================
@@ -342,7 +345,7 @@ const sdbEquipment: Equipment[] = [
     position: [3, 0, -8], size: [0.8, 0.02, 0.5], color: '#a7c3d9',
   },
   {
-    id: 'panier-linge', name: 'Panier à linge', type: 'box',
+    id: 'panier-linge', name: 'Panier à linge', type: 'basket',
     description: 'Panier à linge en osier avec couvercle.',
     consumption: 'N/A', tips: 'Triez le linge par couleur pour optimiser les machines.',
     position: [1.5, 0, -8.5], size: [0.4, 0.6, 0.35], color: PALETTE.cream,
@@ -374,7 +377,7 @@ const sdbEquipment: Equipment[] = [
     position: [2.5, 2.5, -6.3], size: [0.25, 0.15, 0.04], color: PALETTE.furnitureLight,
   },
   {
-    id: 'cumulus', name: 'Cumulus / Chauffe-eau', type: 'cabinet',
+    id: 'cumulus', name: 'Cumulus / Chauffe-eau', type: 'waterheater',
     description: 'Ballon d\'eau chaude électrique 200L.',
     consumption: '1500-2500 kWh/an', tips: 'Sous contrat d\'entretien bailleur (charges récupérables). Réglez à 55°C.',
     position: [4.5, 0, -9.5], size: [0.6, 1.5, 0.5], color: PALETTE.furnitureLight,
@@ -382,17 +385,76 @@ const sdbEquipment: Equipment[] = [
 ]
 
 // =============================================
-// EXTÉRIEUR - pos [-1,0,5], size [14, 0.5, 4.5]
+// EXTÉRIEUR - pos [-1,0,5], size [12.5, 0.5, 4.5]
 // world x: -1→13, world z: 5→0.5
 // Outdoor area in front of the house (ne chevauche pas la maison)
 // =============================================
 const exterieurEquipment: Equipment[] = [
+  // ── Zone gauche : cave (à côté du séjour) ──
   {
-    id: 'cave', name: 'Cave', type: 'cabinet',
-    description: 'Accès cave avec porte et serrure.',
+    id: 'cave', name: 'Cave', type: 'cave',
+    description: 'Cave / cellier avec porte et serrure.',
     consumption: 'N/A', tips: 'Entretien de tous les locaux loués (cave, garage, cellier) à votre charge. Nettoyez et aérez.',
-    position: [-0.5, 0, 1], size: [1.2, 1.5, 0.8], color: PALETTE.furnitureDark,
+    position: [-1.8, 0, -3], size: [1.8, 1.6, 1.5], color: PALETTE.stoneDark,
   },
+
+  // ── Zone technique (contre le mur gauche de la maison) ──
+  {
+    id: 'chaudiere', name: 'Chaudière', type: 'boiler',
+    description: 'Chaudière gaz ou fioul avec contrat d\'entretien obligatoire.',
+    consumption: '8000-15000 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Vérifiez la pression.',
+    position: [0.5, 0, 0.8], size: [0.7, 1.2, 0.5], color: PALETTE.metal,
+  },
+  {
+    id: 'vmc', name: 'VMC', type: 'vmc',
+    description: 'Ventilation mécanique contrôlée.',
+    consumption: '50-150 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Nettoyez les grilles.',
+    position: [1.8, 0, 0.8], size: [0.5, 0.5, 0.4], color: PALETTE.metal,
+  },
+
+  // ── Zone centrale : allée d'accès + boîte aux lettres ──
+  {
+    id: 'allee', name: 'Allée / chemin', type: 'rug',
+    description: 'Allée d\'accès au logement.',
+    consumption: 'N/A', tips: 'Déneigement et désherbage de l\'allée à votre charge.',
+    position: [3.5, 0, 2.75], size: [1.3, 0.01, 4], color: PALETTE.cream,
+  },
+  {
+    id: 'boite-lettres', name: 'Boîte aux lettres', type: 'mailbox',
+    description: 'Boîte aux lettres normalisée.',
+    consumption: 'N/A', tips: 'Remplacement de la serrure et des clés à votre charge.',
+    position: [2.5, 0, 4.3], size: [0.3, 0.9, 0.2], color: PALETTE.metal,
+  },
+
+  // ── Zone centre-droit : balcon + fosse septique ──
+  {
+    id: 'balcon', name: 'Balcon (évacuation)', type: 'box',
+    description: 'Balcon avec évacuation d\'eau et grille.',
+    consumption: 'N/A', tips: 'Débouchage à votre charge. Retirez les feuilles, nettoyez la grille.',
+    position: [6, 0, 0.8], size: [2, 0.08, 1], color: PALETTE.floor,
+  },
+  {
+    id: 'fosse-septique', name: 'Fosse septique', type: 'septic',
+    description: 'Fosse septique ou système d\'assainissement individuel.',
+    consumption: 'N/A', tips: 'Sous contrat d\'entretien (charges récupérables). Vidange régulière.',
+    position: [6.5, 0, 2.5], size: [1.2, 0.12, 0.8], color: PALETTE.furnitureDark,
+  },
+
+  // ── Zone verte (droite du jardin) : pelouse + arbre ──
+  {
+    id: 'pelouse', name: 'Entretien pelouse / haies', type: 'lawn',
+    description: 'Jardin privatif : pelouse, haies, arbustes.',
+    consumption: 'N/A', tips: 'Tonte et taille à votre charge si jardin privatif (Décret n°87-712).',
+    position: [8.5, 0, 3], size: [1, 1.5, 1], color: PALETTE.green,
+  },
+  {
+    id: 'arbre', name: 'Arbre', type: 'tree',
+    description: 'Arbre du jardin.',
+    consumption: 'N/A', tips: 'L\'élagage est à la charge du locataire pour un jardin privatif.',
+    position: [10.5, 0, 3.5], size: [0.6, 2.2, 0.6], color: PALETTE.green,
+  },
+
+  // ── Zone garage (extrême droite) ──
   {
     id: 'garage', name: 'Garage (poignée, serrure)', type: 'garage',
     description: 'Garage pour voiture avec porte sectionnelle et serrure.',
@@ -400,52 +462,10 @@ const exterieurEquipment: Equipment[] = [
     position: [13.5, 0, -3], size: [4, 2.8, 5.5], color: PALETTE.furniture,
   },
   {
-    id: 'chaudiere', name: 'Chaudière', type: 'cabinet',
-    description: 'Chaudière gaz ou fioul avec contrat d\'entretien obligatoire.',
-    consumption: '8000-15000 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Vérifiez la pression.',
-    position: [2, 0, 1], size: [0.7, 1.2, 0.5], color: PALETTE.metal,
-  },
-  {
-    id: 'vmc', name: 'VMC', type: 'box',
-    description: 'Ventilation mécanique contrôlée.',
-    consumption: '50-150 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Nettoyez les grilles.',
-    position: [3.5, 0, 1.5], size: [0.5, 0.5, 0.4], color: PALETTE.metal,
-  },
-  {
-    id: 'fosse-septique', name: 'Fosse septique', type: 'box',
-    description: 'Fosse septique ou système d\'assainissement individuel.',
-    consumption: 'N/A', tips: 'Sous contrat d\'entretien (charges récupérables). Vidange régulière.',
-    position: [7, 0, 1], size: [1.2, 0.12, 0.8], color: PALETTE.furnitureDark,
-  },
-  {
-    id: 'balcon', name: 'Balcon (évacuation)', type: 'box',
-    description: 'Balcon avec évacuation d\'eau et grille.',
-    consumption: 'N/A', tips: 'Débouchage à votre charge. Retirez les feuilles, nettoyez la grille.',
-    position: [5, 0, 3], size: [2, 0.08, 1], color: PALETTE.floor,
-  },
-  {
-    id: 'pelouse', name: 'Entretien pelouse / haies', type: 'plant',
-    description: 'Jardin privatif : pelouse, haies, arbustes.',
-    consumption: 'N/A', tips: 'Tonte et taille à votre charge si jardin privatif (Décret n°87-712).',
-    position: [9.5, 0, 2], size: [1, 1.5, 1], color: PALETTE.green,
-  },
-  {
-    id: 'arbre', name: 'Arbre', type: 'plant',
-    description: 'Arbre du jardin.',
-    consumption: 'N/A', tips: 'L\'élagage est à la charge du locataire pour un jardin privatif.',
-    position: [11, 0, 3], size: [0.6, 2.2, 0.6], color: PALETTE.green,
-  },
-  {
-    id: 'boite-lettres', name: 'Boîte aux lettres', type: 'box',
-    description: 'Boîte aux lettres normalisée.',
-    consumption: 'N/A', tips: 'Remplacement de la serrure et des clés à votre charge.',
-    position: [5.5, 0, 4], size: [0.3, 0.9, 0.2], color: PALETTE.metal,
-  },
-  {
-    id: 'allee', name: 'Allée / chemin', type: 'rug',
-    description: 'Allée d\'accès au logement.',
-    consumption: 'N/A', tips: 'Déneigement et désherbage de l\'allée à votre charge.',
-    position: [5.5, 0, 2.5], size: [1.5, 0.01, 4], color: PALETTE.cream,
+    id: 'route-garage', name: 'Route d\'accès garage', type: 'rug',
+    description: 'Allée carrossable menant au garage.',
+    consumption: 'N/A', tips: 'Entretien de l\'allée carrossable à votre charge. Nettoyez les taches d\'huile.',
+    position: [13.5, 0, 2.25], size: [4, 0.02, 4.5], color: '#9a9590',
   },
 ]
 
@@ -467,7 +487,7 @@ export const rooms: Room[] = [
   },
   {
     id: 'exterieur', name: 'Extérieur',
-    position: [-1, 0, 5], size: [14, 0.5, 4.5],
+    position: [-1, 0, 5], size: [12.5, 0.5, 4.5],
     floorColor: PALETTE.grass, equipment: exterieurEquipment,
   },
 ]

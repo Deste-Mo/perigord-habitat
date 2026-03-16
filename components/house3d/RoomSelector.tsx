@@ -1,12 +1,13 @@
 'use client'
 
-import { Home, UtensilsCrossed, Bath, TreePine } from 'lucide-react'
+import { Home, UtensilsCrossed, Bath, TreePine, ArrowDownToLine } from 'lucide-react'
 import type { Room } from './houseData'
 
 const roomIcons: Record<string, React.ReactNode> = {
   sejour: <Home size={18} />,
   cuisine: <UtensilsCrossed size={18} />,
   'salle-de-bain': <Bath size={18} />,
+  cave: <ArrowDownToLine size={18} />,
   exterieur: <TreePine size={18} />,
 }
 

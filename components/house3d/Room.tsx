@@ -16,6 +16,9 @@ export function Room({ room, onSelectEquipment, selectedEquipment }: RoomProps) 
   const wallHeight = room.size[1]
   const wallThickness = 0.08
   const isExterior = room.id === 'exterieur'
+  const isCave = room.id === 'cave'
+  const wallColor = isCave ? PALETTE.stone : PALETTE.wall
+  const wallInnerColor = isCave ? PALETTE.stone : PALETTE.wallInner
 
   return (
     <group position={room.position}>
@@ -32,21 +35,21 @@ export function Room({ room, onSelectEquipment, selectedEquipment }: RoomProps) 
           {/* Back wall (far from camera) */}
           <mesh position={[room.size[0] / 2, wallHeight / 2, -room.size[2]]}>
             <boxGeometry args={[room.size[0], wallHeight, wallThickness]} />
-            <meshBasicMaterial color={PALETTE.wall} />
+            <meshBasicMaterial color={wallColor} />
             <Edges threshold={15} color={PALETTE.outline} linewidth={1} />
           </mesh>
 
           {/* Left wall (far from camera) */}
           <mesh position={[0, wallHeight / 2, -room.size[2] / 2]}>
             <boxGeometry args={[wallThickness, wallHeight, room.size[2]]} />
-            <meshBasicMaterial color={PALETTE.wallInner} />
+            <meshBasicMaterial color={wallInnerColor} />
             <Edges threshold={15} color={PALETTE.outline} linewidth={1} />
           </mesh>
 
           {/* Right wall */}
           <mesh position={[room.size[0], wallHeight / 2, -room.size[2] / 2]}>
             <boxGeometry args={[wallThickness, wallHeight, room.size[2]]} />
-            <meshBasicMaterial color={PALETTE.wallInner} />
+            <meshBasicMaterial color={wallInnerColor} />
             <Edges threshold={15} color={PALETTE.outline} linewidth={1} />
           </mesh>
 
