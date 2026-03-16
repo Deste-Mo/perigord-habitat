@@ -35,6 +35,43 @@ function Scene({ onSelectEquipment, selectedEquipment }: {
 
       <Ground />
 
+      {/* ── Interior partition vertical lines (plafond → sol) ── */}
+      {/* Central cross point — where all 4 main rooms meet */}
+      <mesh position={[6.1, 1.4, -5.1]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Salon/Chambre partition — front edge */}
+      <mesh position={[6.1, 1.4, 0]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Cuisine/SDB partition — back edge (before entrée) */}
+      <mesh position={[6.1, 1.4, -10.2]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Salon/Cuisine partition — left exterior edge */}
+      <mesh position={[0, 1.4, -5.1]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Chambre/SDB partition — right exterior edge */}
+      <mesh position={[11.2, 1.4, -5.1]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Entrée left corner — where entrée meets cuisine */}
+      <mesh position={[0, 1.4, -10.4]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+      {/* Entrée right corner — where entrée meets SDB */}
+      <mesh position={[11.2, 1.4, -10.4]}>
+        <boxGeometry args={[0.04, 2.8, 0.04]} />
+        <meshBasicMaterial color={PALETTE.outline} />
+      </mesh>
+
       {/* Rooms */}
       {rooms.map((room) => (
         <Room
