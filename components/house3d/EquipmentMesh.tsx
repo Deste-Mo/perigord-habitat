@@ -352,6 +352,64 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
     )
   }
 
+  // === GARAGE ===
+  if (type === 'garage') {
+    const w = size[0] // largeur
+    const h = size[1] // hauteur
+    const d = size[2] // profondeur
+    const wallT = 0.1 // épaisseur murs
+    const roofT = 0.1
+    const doorH = h * 0.85
+    const doorW = w - wallT * 2
+    const panelCount = 5 // nombre de panneaux de la porte sectionnelle
+
+    return (
+      <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
+        {/* Sol du garage */}
+        <OBox s={[w, 0.05, d]} c={PALETTE.furnitureDark} p={[0, 0.025, 0]} />
+
+        {/* Mur arrière */}
+        <OBox s={[w, h, wallT]} c={meshColor} p={[0, h / 2, -d / 2 + wallT / 2]} />
+
+        {/* Mur gauche */}
+        <OBox s={[wallT, h, d]} c={meshColor} p={[-w / 2 + wallT / 2, h / 2, 0]} />
+
+        {/* Mur droit */}
+        <OBox s={[wallT, h, d]} c={meshColor} p={[w / 2 - wallT / 2, h / 2, 0]} />
+
+        {/* Toit */}
+        <OBox s={[w + 0.15, roofT, d + 0.15]} c={PALETTE.furnitureDark} p={[0, h + roofT / 2, 0]} />
+        {/* Débord de toit avant */}
+        <OBox s={[w + 0.15, roofT * 0.6, 0.2]} c={PALETTE.furnitureDark} p={[0, h + roofT * 0.3, d / 2 + 0.1]} />
+
+        {/* Porte sectionnelle (face avant) — panneaux horizontaux */}
+        {Array.from({ length: panelCount }).map((_, i) => {
+          const panelH = doorH / panelCount
+          const y = panelH * (i + 0.5)
+          return (
+            <OBox
+              key={`panel-${i}`}
+              s={[doorW, panelH - 0.03, 0.04]}
+              c={i % 2 === 0 ? PALETTE.furnitureLight : PALETTE.furniture}
+              p={[0, y, d / 2 - 0.02]}
+            />
+          )
+        })}
+
+        {/* Cadre de la porte */}
+        {/* Montant gauche */}
+        <OBox s={[0.06, doorH, 0.06]} c={outlineColor} p={[-doorW / 2, doorH / 2, d / 2]} />
+        {/* Montant droit */}
+        <OBox s={[0.06, doorH, 0.06]} c={outlineColor} p={[doorW / 2, doorH / 2, d / 2]} />
+        {/* Linteau */}
+        <OBox s={[doorW + 0.12, 0.06, 0.06]} c={outlineColor} p={[0, doorH, d / 2]} />
+
+        {/* Poignée */}
+        <OBox s={[0.15, 0.04, 0.06]} c={PALETTE.metal} p={[0, doorH * 0.15, d / 2 + 0.04]} />
+      </group>
+    )
+  }
+
   // === DEFAULT BOX ===
   return (
     <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>

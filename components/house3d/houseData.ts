@@ -7,7 +7,7 @@ export interface Equipment {
   position: [number, number, number]
   size: [number, number, number]
   color: string
-  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet'
+  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet' | 'garage'
 }
 
 export interface Room {
@@ -394,10 +394,10 @@ const exterieurEquipment: Equipment[] = [
     position: [-0.5, 0, 1], size: [1.2, 1.5, 0.8], color: PALETTE.furnitureDark,
   },
   {
-    id: 'garage', name: 'Garage (poignée, serrure)', type: 'cabinet',
-    description: 'Porte de garage avec serrure et poignée.',
+    id: 'garage', name: 'Garage (poignée, serrure)', type: 'garage',
+    description: 'Garage pour voiture avec porte sectionnelle et serrure.',
     consumption: 'N/A', tips: 'Lubrifiez la serrure. Entretien courant à votre charge.',
-    position: [12, 0, 1.5], size: [1.5, 2, 1.5], color: PALETTE.furniture,
+    position: [13.5, 0, -3], size: [4, 2.8, 5.5], color: PALETTE.furniture,
   },
   {
     id: 'chaudiere', name: 'Chaudière', type: 'cabinet',
