@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Box } from "lucide-react";
 
 export function HeaderApp() {
   return (
@@ -12,6 +13,11 @@ export function HeaderApp() {
         </span>
       </div>
       <div className="flex items-center gap-3">
+        <Button variant="ghost">
+          <Link href="/schema-logement-konva">
+            <Box size={18} />
+          </Link>
+        </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link href="/dashboard">Se connecter</Link>
         </Button>
