@@ -111,11 +111,11 @@ export function ChatInput({
         </div>
       </div>
 
-      <p className="text-center text-xs text-gray-400 mt-3">
+      {/* <p className="text-center text-xs text-gray-400 mt-3">
         Appuyez sur{" "}
         <kbd className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">Entrée</kbd> pour envoyer ·{" "}
         <kbd className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">Maj+Entrée</kbd> pour un saut de ligne
-      </p>
+      </p> */}
     </div>
   );
 }
