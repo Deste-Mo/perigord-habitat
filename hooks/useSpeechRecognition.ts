@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
-// Web Speech API types not included in default TS lib
 interface ISpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
@@ -11,7 +10,7 @@ interface ISpeechRecognition extends EventTarget {
   stop(): void;
   onresult: ((e: SpeechRecognitionEvent) => void) | null;
   onend: (() => void) | null;
-  onerror: (() => void) | null;
+  onerror: ((e: Event) => void) | null;
 }
 
 interface SpeechRecognitionEvent extends Event {
@@ -28,6 +27,9 @@ declare global {
 export function useSpeechRecognition(onResult: (text: string) => void) {
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  // Toujours garder la dernière version du callback sans recréer toggle
+  const onResultRef = useRef(onResult);
+  useEffect(() => { onResultRef.current = onResult; }, [onResult]);
 
   const toggle = useCallback(() => {
     const SpeechRecognition =
@@ -38,8 +40,10 @@ export function useSpeechRecognition(onResult: (text: string) => void) {
       return;
     }
 
-    if (listening) {
-      recognitionRef.current?.stop();
+    // Arrêter si déjà en écoute
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
       setListening(false);
       return;
     }
@@ -51,16 +55,23 @@ export function useSpeechRecognition(onResult: (text: string) => void) {
 
     recognition.onresult = (e: SpeechRecognitionEvent) => {
       const transcript = e.results[0][0].transcript;
-      onResult(transcript);
+      onResultRef.current(transcript); // toujours la version fraîche
     };
 
-    recognition.onend = () => setListening(false);
-    recognition.onerror = () => setListening(false);
+    recognition.onend = () => {
+      recognitionRef.current = null;
+      setListening(false);
+    };
+
+    recognition.onerror = () => {
+      recognitionRef.current = null;
+      setListening(false);
+    };
 
     recognitionRef.current = recognition;
     recognition.start();
     setListening(true);
-  }, [listening, onResult]);
+  }, []); // pas de dépendances — stable pour toujours
 
   return { listening, toggle };
 }

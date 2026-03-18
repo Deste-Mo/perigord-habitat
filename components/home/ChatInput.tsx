@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { Send, Paperclip, Mic, X, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
@@ -24,9 +24,15 @@ export function ChatInput({
 }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { listening, toggle: toggleMic } = useSpeechRecognition((text) => {
-    onChange(message ? `${message} ${text}` : text);
-  });
+  const messageRef = useRef(message);
+  messageRef.current = message;
+
+  const handleSpeechResult = useCallback((text: string) => {
+    const current = messageRef.current;
+    onChange(current ? `${current} ${text}` : text);
+  }, [onChange]);
+
+  const { listening, toggle: toggleMic } = useSpeechRecognition(handleSpeechResult);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
