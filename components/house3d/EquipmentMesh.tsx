@@ -415,6 +415,187 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
     )
   }
 
+  // === SHUTTER (volet battant à persiennes) ===
+  if (type === 'shutter') {
+    const w = size[0]
+    const h = size[1]
+    const d = size[2]
+    const panelW = w * 0.42
+    const panelH = h * 0.85
+    const frameT = 0.03
+    const slatCount = Math.floor(panelH / 0.07)
+    const slatH = (panelH - frameT * 2) / slatCount
+    const slatDepth = d * 1.2
+    const shutterColor = '#8B2E3B'
+    const activeColor = isSelected ? '#b0c8dc' : hovered ? '#c5daea' : shutterColor
+    const hingeColor = '#2a2a2a'
+    const openAngle = Math.PI / 6
+
+    return (
+      <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
+        {/* === FENÊTRE CENTRALE === */}
+        {/* Cadre de fenêtre extérieur */}
+        <OBox s={[w * 0.58, panelH + 0.08, 0.04]} c={'#f0ede8'} p={[0, 0, 0]} />
+        {/* Appui de fenêtre (rebord) */}
+        <OBox s={[w * 0.66, 0.04, 0.1]} c={'#e8e4de'} p={[0, -panelH / 2 - 0.02, 0.03]} />
+        {/* Vitre gauche */}
+        <mesh position={[-w * 0.075, 0, 0.01]}>
+          <boxGeometry args={[w * 0.24, panelH - 0.06, 0.01]} />
+          <meshBasicMaterial color={'#8ab4d6'} transparent opacity={0.45} />
+          <Edges threshold={15} color={'#d0d0d0'} linewidth={1} />
+        </mesh>
+        {/* Vitre droite */}
+        <mesh position={[w * 0.075, 0, 0.01]}>
+          <boxGeometry args={[w * 0.24, panelH - 0.06, 0.01]} />
+          <meshBasicMaterial color={'#8ab4d6'} transparent opacity={0.45} />
+          <Edges threshold={15} color={'#d0d0d0'} linewidth={1} />
+        </mesh>
+        {/* Montant central fenêtre */}
+        <OBox s={[0.025, panelH - 0.04, 0.03]} c={'#f0ede8'} p={[0, 0, 0.015]} />
+        {/* Petit-bois horizontal (croisillon) */}
+        <OBox s={[w * 0.52, 0.02, 0.03]} c={'#f0ede8'} p={[0, panelH * 0.15, 0.015]} />
+
+        {/* === VOLET GAUCHE (ouvert) === */}
+        <group position={[-w * 0.3, 0, 0]} rotation={[0, openAngle, 0]}>
+          {/* Cadre du panneau */}
+          <OBox s={[panelW, panelH, frameT]} c={activeColor} p={[-panelW / 2, 0, 0]} />
+          {/* Montant gauche */}
+          <OBox s={[frameT, panelH, frameT + 0.01]} c={activeColor} p={[-panelW + frameT / 2, 0, 0]} />
+          {/* Montant droit */}
+          <OBox s={[frameT, panelH, frameT + 0.01]} c={activeColor} p={[-frameT / 2, 0, 0]} />
+          {/* Traverse haute */}
+          <OBox s={[panelW, frameT, frameT + 0.01]} c={activeColor} p={[-panelW / 2, panelH / 2 - frameT / 2, 0]} />
+          {/* Traverse basse */}
+          <OBox s={[panelW, frameT, frameT + 0.01]} c={activeColor} p={[-panelW / 2, -panelH / 2 + frameT / 2, 0]} />
+          {/* Traverse médiane */}
+          <OBox s={[panelW - frameT * 2, frameT * 0.7, frameT + 0.005]} c={activeColor} p={[-panelW / 2, 0, 0]} />
+
+          {/* Lames persiennes (partie haute) */}
+          {Array.from({ length: Math.floor(slatCount / 2) }).map((_, i) => {
+            const y = panelH / 2 - frameT - slatH * 0.5 - i * slatH
+            if (y < frameT * 0.5) return null
+            return (
+              <mesh key={`ls-h-${i}`} position={[-panelW / 2, y, 0]} rotation={[Math.PI * 0.12, 0, 0]}>
+                <boxGeometry args={[panelW - frameT * 2.5, slatH * 0.55, slatDepth]} />
+                <meshLambertMaterial color={activeColor} />
+                <Edges threshold={15} color={outlineColor} linewidth={1} />
+              </mesh>
+            )
+          })}
+          {/* Lames persiennes (partie basse) */}
+          {Array.from({ length: Math.floor(slatCount / 2) }).map((_, i) => {
+            const y = -frameT * 0.5 - slatH * 0.5 - i * slatH
+            if (y < -panelH / 2 + frameT) return null
+            return (
+              <mesh key={`ls-b-${i}`} position={[-panelW / 2, y, 0]} rotation={[Math.PI * 0.12, 0, 0]}>
+                <boxGeometry args={[panelW - frameT * 2.5, slatH * 0.55, slatDepth]} />
+                <meshLambertMaterial color={activeColor} />
+                <Edges threshold={15} color={outlineColor} linewidth={1} />
+              </mesh>
+            )
+          })}
+
+          {/* Charnières gauches */}
+          {[-panelH * 0.32, 0, panelH * 0.32].map((yPos, i) => (
+            <group key={`hinge-l-${i}`}>
+              <mesh position={[0, yPos, 0]}>
+                <boxGeometry args={[0.025, 0.06, 0.04]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+              <mesh position={[0.015, yPos, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.03, 6]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+            </group>
+          ))}
+
+          {/* Crochet d'arrêt (espagnolette) */}
+          <mesh position={[-panelW + 0.04, -panelH * 0.15, frameT / 2 + 0.01]}>
+            <cylinderGeometry args={[0.008, 0.008, 0.1, 6]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+          <mesh position={[-panelW + 0.04, -panelH * 0.2, frameT / 2 + 0.015]}>
+            <boxGeometry args={[0.02, 0.02, 0.025]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+        </group>
+
+        {/* === VOLET DROIT (ouvert) === */}
+        <group position={[w * 0.3, 0, 0]} rotation={[0, -openAngle, 0]}>
+          {/* Cadre du panneau */}
+          <OBox s={[panelW, panelH, frameT]} c={activeColor} p={[panelW / 2, 0, 0]} />
+          {/* Montant gauche */}
+          <OBox s={[frameT, panelH, frameT + 0.01]} c={activeColor} p={[frameT / 2, 0, 0]} />
+          {/* Montant droit */}
+          <OBox s={[panelW, panelH, frameT + 0.01]} c={activeColor} p={[panelW - frameT / 2, 0, 0]} />
+          {/* Traverse haute */}
+          <OBox s={[panelW, frameT, frameT + 0.01]} c={activeColor} p={[panelW / 2, panelH / 2 - frameT / 2, 0]} />
+          {/* Traverse basse */}
+          <OBox s={[panelW, frameT, frameT + 0.01]} c={activeColor} p={[panelW / 2, -panelH / 2 + frameT / 2, 0]} />
+          {/* Traverse médiane */}
+          <OBox s={[panelW - frameT * 2, frameT * 0.7, frameT + 0.005]} c={activeColor} p={[panelW / 2, 0, 0]} />
+
+          {/* Lames persiennes (partie haute) */}
+          {Array.from({ length: Math.floor(slatCount / 2) }).map((_, i) => {
+            const y = panelH / 2 - frameT - slatH * 0.5 - i * slatH
+            if (y < frameT * 0.5) return null
+            return (
+              <mesh key={`rs-h-${i}`} position={[panelW / 2, y, 0]} rotation={[Math.PI * 0.12, 0, 0]}>
+                <boxGeometry args={[panelW - frameT * 2.5, slatH * 0.55, slatDepth]} />
+                <meshLambertMaterial color={activeColor} />
+                <Edges threshold={15} color={outlineColor} linewidth={1} />
+              </mesh>
+            )
+          })}
+          {/* Lames persiennes (partie basse) */}
+          {Array.from({ length: Math.floor(slatCount / 2) }).map((_, i) => {
+            const y = -frameT * 0.5 - slatH * 0.5 - i * slatH
+            if (y < -panelH / 2 + frameT) return null
+            return (
+              <mesh key={`rs-b-${i}`} position={[panelW / 2, y, 0]} rotation={[Math.PI * 0.12, 0, 0]}>
+                <boxGeometry args={[panelW - frameT * 2.5, slatH * 0.55, slatDepth]} />
+                <meshLambertMaterial color={activeColor} />
+                <Edges threshold={15} color={outlineColor} linewidth={1} />
+              </mesh>
+            )
+          })}
+
+          {/* Charnières droites */}
+          {[-panelH * 0.32, 0, panelH * 0.32].map((yPos, i) => (
+            <group key={`hinge-r-${i}`}>
+              <mesh position={[0, yPos, 0]}>
+                <boxGeometry args={[0.025, 0.06, 0.04]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+              <mesh position={[-0.015, yPos, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.03, 6]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+            </group>
+          ))}
+
+          {/* Crochet d'arrêt */}
+          <mesh position={[panelW - 0.04, -panelH * 0.15, frameT / 2 + 0.01]}>
+            <cylinderGeometry args={[0.008, 0.008, 0.1, 6]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+          <mesh position={[panelW - 0.04, -panelH * 0.2, frameT / 2 + 0.015]}>
+            <boxGeometry args={[0.02, 0.02, 0.025]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+        </group>
+
+        {/* Arrêts de volet au mur (pentures basses) */}
+        {[-1, 1].map((side, i) => (
+          <mesh key={`stop-${i}`} position={[side * (w * 0.55), -panelH / 2 - 0.02, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.015, 0.01, 0.06, 6]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+        ))}
+      </group>
+    )
+  }
+
   // === CURTAIN ===
   if (type === 'curtain') {
     return (
@@ -428,6 +609,73 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
         <OBox s={[size[0] * 0.35, size[1], size[2]]} c={meshColor} p={[-size[0] * 0.33, 0, 0]} />
         {/* Right curtain panel */}
         <OBox s={[size[0] * 0.35, size[1], size[2]]} c={meshColor} p={[size[0] * 0.33, 0, 0]} />
+      </group>
+    )
+  }
+
+  // === DOOR (porte intérieure battante) ===
+  if (type === 'door') {
+    const w = size[0]
+    const h = size[1]
+    const d = size[2]
+    const frameT = 0.04
+    const doorColor = isSelected ? '#b0c8dc' : hovered ? '#c5daea' : '#e8e0d4'
+    const frameColor = '#f0ede8'
+    const hingeColor = '#2a2a2a'
+    return (
+      <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
+        {/* === CADRE DE PORTE (dormant) === */}
+        {/* Montant gauche */}
+        <OBox s={[frameT, h + frameT, d + 0.02]} c={frameColor} p={[-w / 2 - frameT / 2, h / 2, 0]} />
+        {/* Montant droit */}
+        <OBox s={[frameT, h + frameT, d + 0.02]} c={frameColor} p={[w / 2 + frameT / 2, h / 2, 0]} />
+        {/* Traverse haute (linteau) */}
+        <OBox s={[w + frameT * 2, frameT, d + 0.02]} c={frameColor} p={[0, h + frameT / 2, 0]} />
+        {/* Seuil */}
+        <OBox s={[w + frameT * 2, 0.02, d + 0.04]} c={PALETTE.woodDark} p={[0, 0.01, 0]} />
+
+        {/* === BATTANT (porte fermée) === */}
+        <group position={[0, 0, 0]}>
+          {/* Panneau principal */}
+          <OBox s={[w, h, d]} c={doorColor} p={[0, h / 2, 0]} />
+
+          {/* Moulures décoratives (2 panneaux en relief) */}
+          <OBox s={[w * 0.65, h * 0.32, 0.01]} c={meshColor} p={[0, h * 0.72, d / 2 + 0.005]} />
+          <OBox s={[w * 0.65, h * 0.32, 0.01]} c={meshColor} p={[0, h * 0.28, d / 2 + 0.005]} />
+          {/* Moulures côté intérieur */}
+          <OBox s={[w * 0.65, h * 0.32, 0.01]} c={meshColor} p={[0, h * 0.72, -d / 2 - 0.005]} />
+          <OBox s={[w * 0.65, h * 0.32, 0.01]} c={meshColor} p={[0, h * 0.28, -d / 2 - 0.005]} />
+
+          {/* Poignée (côté extérieur) */}
+          <OBox s={[0.02, 0.12, 0.04]} c={PALETTE.metal} p={[w / 2 - 0.08, h * 0.48, d / 2 + 0.03]} />
+          {/* Rosace de poignée */}
+          <mesh position={[w / 2 - 0.08, h * 0.48, d / 2 + 0.01]}>
+            <cylinderGeometry args={[0.025, 0.025, 0.01, 8]} />
+            <meshLambertMaterial color={PALETTE.metal} />
+          </mesh>
+          {/* Poignée (côté intérieur) */}
+          <OBox s={[0.02, 0.12, 0.04]} c={PALETTE.metal} p={[w / 2 - 0.08, h * 0.48, -d / 2 - 0.03]} />
+
+          {/* Serrure (trou) */}
+          <mesh position={[w / 2 - 0.08, h * 0.42, d / 2 + 0.01]}>
+            <cylinderGeometry args={[0.008, 0.008, 0.02, 6]} />
+            <meshLambertMaterial color={hingeColor} />
+          </mesh>
+
+          {/* Charnières (3) */}
+          {[h * 0.15, h * 0.5, h * 0.85].map((yPos, i) => (
+            <group key={`hinge-${i}`}>
+              <mesh position={[-w / 2 + 0.01, yPos, 0]}>
+                <boxGeometry args={[0.03, 0.07, d + 0.01]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+              <mesh position={[-w / 2, yPos, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.04, 6]} />
+                <meshLambertMaterial color={hingeColor} />
+              </mesh>
+            </group>
+          ))}
+        </group>
       </group>
     )
   }
@@ -849,47 +1097,72 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
     const h = size[1]
     const d = size[2]
 
+    const halfW = w / 2
+    const halfD = d / 2
+    const bushH = h * 0.8
+    const bushThick = 0.35
+    const bushColors = ['#2e7d1e', '#3a8a2a', '#257018', '#4a9c3f', '#1f6314']
+
+    // Génère une haie rectangulaire continue le long d'un axe
+    const hedgeRow = (
+      axis: 'x' | 'z',
+      fixedPos: number,
+      range: number,
+      key: string
+    ) => {
+      const gapW = 1.8
+      const segCount = Math.max(4, Math.floor(range / 0.8))
+      const segLen = range / segCount
+      return Array.from({ length: segCount }).map((_, i) => {
+        const t = -range / 2 + segLen * (i + 0.5)
+        // Laisser un trou au centre pour l'entrée
+        if (axis === 'x' && Math.abs(t) < gapW / 2) return null
+        const px = axis === 'x' ? t : fixedPos
+        const pz = axis === 'z' ? t : fixedPos
+        const c = bushColors[i % bushColors.length]
+        const hVar = bushH * (0.92 + (i % 3) * 0.06)
+        const thickVar = bushThick * (0.9 + (i % 2) * 0.15)
+        const bw = axis === 'x' ? segLen * 1.05 : thickVar
+        const bd = axis === 'z' ? segLen * 1.05 : thickVar
+        return (
+          <group key={`${key}-${i}`}>
+            {/* Bloc principal rectangulaire */}
+            <mesh position={[px, hVar / 2, pz]}>
+              <boxGeometry args={[bw, hVar, bd]} />
+              <meshLambertMaterial color={c} />
+            </mesh>
+            {/* Couche supérieure légèrement plus large (feuillage dessus) */}
+            <mesh position={[px, hVar * 0.85, pz]}>
+              <boxGeometry args={[bw * 1.08, hVar * 0.25, bd * 1.08]} />
+              <meshLambertMaterial color={bushColors[(i + 2) % bushColors.length]} />
+            </mesh>
+            {/* Petites variations de feuillage sur les faces */}
+            <mesh position={[px, hVar * 0.5, pz + (axis === 'x' ? thickVar * 0.45 : 0)]}>
+              <boxGeometry args={[bw * 0.6, hVar * 0.4, 0.08]} />
+              <meshLambertMaterial color={bushColors[(i + 3) % bushColors.length]} />
+            </mesh>
+            <mesh position={[px + (axis === 'z' ? thickVar * 0.45 : 0), hVar * 0.4, pz]}>
+              <boxGeometry args={[0.08, hVar * 0.35, bd * 0.6]} />
+              <meshLambertMaterial color={bushColors[(i + 1) % bushColors.length]} />
+            </mesh>
+          </group>
+        )
+      })
+    }
+
     return (
       <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
-        {/* Carré de pelouse */}
-        <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[w * 1.5, d * 1.5]} />
-          <meshBasicMaterial color={PALETTE.grass} />
-          <Edges threshold={15} color={PALETTE.grassDark} linewidth={1} />
-        </mesh>
+        {/* Haie avant (côté opposé à la maison, +z) */}
+        {hedgeRow('x', halfD, w, 'front')}
 
-        {/* Haie arrière (buisson rectangulaire taillé) */}
-        <mesh position={[0, h * 0.35, -d * 0.6]}>
-          <boxGeometry args={[w * 1.4, h * 0.7, d * 0.3]} />
-          <meshLambertMaterial color={color} />
-          <Edges threshold={15} color={outlineColor} linewidth={1} />
-        </mesh>
-
-        {/* Haie latérale gauche */}
-        <mesh position={[-w * 0.65, h * 0.3, 0]}>
-          <boxGeometry args={[d * 0.25, h * 0.6, d * 1]} />
-          <meshLambertMaterial color={PALETTE.grassDark} />
-          <Edges threshold={15} color={outlineColor} linewidth={1} />
-        </mesh>
-
-        {/* Petits touffes d'herbe (brins) */}
-        {[[-0.2, 0.15], [0.25, -0.1], [0.05, 0.3], [-0.3, -0.2]].map(([xOff, zOff], i) => (
-          <mesh key={`grass-${i}`} position={[xOff, h * 0.12, zOff]}>
-            <coneGeometry args={[0.06, h * 0.25, 4]} />
-            <meshLambertMaterial color={i % 2 === 0 ? color : PALETTE.grassDark} />
-          </mesh>
-        ))}
-
-        {/* Tondeuse (petit objet au sol) */}
-        <OBox s={[0.25, 0.12, 0.18]} c={PALETTE.red} p={[w * 0.4, 0.06, d * 0.3]} />
-        {/* Poignée de tondeuse */}
-        <mesh position={[w * 0.4, 0.22, d * 0.3 + 0.12]} rotation={[0.5, 0, 0]}>
+        {/* Tondeuse posée sur le gazon */}
+        <OBox s={[0.25, 0.12, 0.18]} c={PALETTE.red} p={[w * 0.3, 0.06, d * 0.2]} />
+        <mesh position={[w * 0.3, 0.22, d * 0.2 + 0.12]} rotation={[0.5, 0, 0]}>
           <cylinderGeometry args={[0.012, 0.012, 0.25, 4]} />
           <meshLambertMaterial color={PALETTE.furnitureDark} />
         </mesh>
-        {/* Roues tondeuse */}
         {[[-0.1, -0.07], [-0.1, 0.07], [0.1, -0.07], [0.1, 0.07]].map(([xOff, zOff], i) => (
-          <mesh key={`wheel-${i}`} position={[w * 0.4 + xOff, 0.03, d * 0.3 + zOff]} rotation={[Math.PI / 2, 0, 0]}>
+          <mesh key={`wheel-${i}`} position={[w * 0.3 + xOff, 0.03, d * 0.2 + zOff]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.03, 0.03, 0.02, 6]} />
             <meshLambertMaterial color={PALETTE.outline} />
           </mesh>
@@ -1085,6 +1358,121 @@ export function EquipmentMesh({ equipment, roomPosition, onSelect, isSelected }:
 
         {/* Poignée */}
         <OBox s={[0.15, 0.04, 0.06]} c={PALETTE.metal} p={[0, doorH * 0.15, d / 2 + 0.04]} />
+      </group>
+    )
+  }
+
+  // === BALCONY (balcon d'évacuation avec garde-corps et escalier) ===
+  if (type === 'balcony') {
+    const w = size[0]
+    const h = size[1]
+    const d = size[2]
+    const dalleH = 0.12
+    const railH = 1.0
+    const railThick = 0.04
+    const barDiam = 0.025
+    const metalColor = isSelected ? '#8fafc8' : hovered ? '#7a9ab5' : '#4a4a4a'
+    const dalleColor = isSelected ? '#b0c8dc' : hovered ? '#c5daea' : '#b0a89a'
+    const grillColor = '#6a6a6a'
+
+    return (
+      <group position={relPos} onClick={click} onPointerOver={over} onPointerOut={out}>
+        {/* Dalle du balcon */}
+        <mesh position={[0, dalleH / 2, 0]}>
+          <boxGeometry args={[w, dalleH, d]} />
+          <meshLambertMaterial color={dalleColor} />
+          <Edges threshold={15} color={outlineColor} linewidth={1} />
+        </mesh>
+
+        {/* Grille d'évacuation au centre */}
+        <mesh position={[0, dalleH + 0.005, 0]}>
+          <boxGeometry args={[0.4, 0.01, 0.4]} />
+          <meshLambertMaterial color={grillColor} />
+        </mesh>
+        {/* Barres de la grille */}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <mesh key={`grille-${i}`} position={[-0.16 + i * 0.08, dalleH + 0.01, 0]}>
+            <boxGeometry args={[0.015, 0.008, 0.38]} />
+            <meshLambertMaterial color={'#555'} />
+          </mesh>
+        ))}
+
+        {/* Garde-corps avant (+z) */}
+        {/* Main courante */}
+        <mesh position={[0, dalleH + railH, d / 2]}>
+          <boxGeometry args={[w, railThick, railThick]} />
+          <meshLambertMaterial color={metalColor} />
+          <Edges threshold={15} color={outlineColor} linewidth={1} />
+        </mesh>
+        {/* Barre basse */}
+        <mesh position={[0, dalleH + 0.15, d / 2]}>
+          <boxGeometry args={[w, railThick * 0.7, railThick * 0.7]} />
+          <meshLambertMaterial color={metalColor} />
+        </mesh>
+        {/* Barreaux verticaux avant */}
+        {Array.from({ length: Math.max(3, Math.floor(w / 0.15)) }).map((_, i) => {
+          const count = Math.max(3, Math.floor(w / 0.15))
+          const x = -w / 2 + (w / (count + 1)) * (i + 1)
+          return (
+            <mesh key={`bar-front-${i}`} position={[x, dalleH + railH / 2 + 0.07, d / 2]}>
+              <cylinderGeometry args={[barDiam / 2, barDiam / 2, railH - 0.15, 6]} />
+              <meshLambertMaterial color={metalColor} />
+            </mesh>
+          )
+        })}
+
+        {/* Garde-corps gauche (-x) */}
+        <mesh position={[-w / 2, dalleH + railH, 0]}>
+          <boxGeometry args={[railThick, railThick, d]} />
+          <meshLambertMaterial color={metalColor} />
+          <Edges threshold={15} color={outlineColor} linewidth={1} />
+        </mesh>
+        {Array.from({ length: Math.max(2, Math.floor(d / 0.15)) }).map((_, i) => {
+          const count = Math.max(2, Math.floor(d / 0.15))
+          const z = -d / 2 + (d / (count + 1)) * (i + 1)
+          return (
+            <mesh key={`bar-left-${i}`} position={[-w / 2, dalleH + railH / 2 + 0.07, z]}>
+              <cylinderGeometry args={[barDiam / 2, barDiam / 2, railH - 0.15, 6]} />
+              <meshLambertMaterial color={metalColor} />
+            </mesh>
+          )
+        })}
+
+        {/* Garde-corps droit (+x) */}
+        <mesh position={[w / 2, dalleH + railH, 0]}>
+          <boxGeometry args={[railThick, railThick, d]} />
+          <meshLambertMaterial color={metalColor} />
+          <Edges threshold={15} color={outlineColor} linewidth={1} />
+        </mesh>
+        {Array.from({ length: Math.max(2, Math.floor(d / 0.15)) }).map((_, i) => {
+          const count = Math.max(2, Math.floor(d / 0.15))
+          const z = -d / 2 + (d / (count + 1)) * (i + 1)
+          return (
+            <mesh key={`bar-right-${i}`} position={[w / 2, dalleH + railH / 2 + 0.07, z]}>
+              <cylinderGeometry args={[barDiam / 2, barDiam / 2, railH - 0.15, 6]} />
+              <meshLambertMaterial color={metalColor} />
+            </mesh>
+          )
+        })}
+
+        {/* Poteaux d'angle */}
+        {[[-w / 2, d / 2], [w / 2, d / 2], [-w / 2, -d / 2], [w / 2, -d / 2]].map(([px, pz], i) => (
+          <mesh key={`post-${i}`} position={[px, dalleH + railH / 2 + 0.07, pz]}>
+            <cylinderGeometry args={[0.03, 0.03, railH + 0.05, 6]} />
+            <meshLambertMaterial color={metalColor} />
+          </mesh>
+        ))}
+
+        {/* Escalier d'évacuation (côté arrière, -z) */}
+        {Array.from({ length: 4 }).map((_, i) => (
+          <group key={`step-${i}`}>
+            <mesh position={[0, dalleH - (i + 1) * (dalleH / 4) - i * 0.06, -d / 2 - 0.25 - i * 0.3]}>
+              <boxGeometry args={[w * 0.6, 0.04, 0.28]} />
+              <meshLambertMaterial color={metalColor} />
+              <Edges threshold={15} color={outlineColor} linewidth={1} />
+            </mesh>
+          </group>
+        ))}
       </group>
     )
   }

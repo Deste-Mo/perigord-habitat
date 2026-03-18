@@ -7,7 +7,7 @@ export interface Equipment {
   position: [number, number, number]
   size: [number, number, number]
   color: string
-  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet' | 'garage' | 'cave' | 'staircase' | 'boiler' | 'vmc' | 'mailbox' | 'septic' | 'tree' | 'lawn' | 'basket' | 'waterheater'
+  type?: 'box' | 'sofa' | 'table' | 'bed' | 'lamp' | 'tv' | 'fridge' | 'sink' | 'stove' | 'shower' | 'washer' | 'chair' | 'desk' | 'cabinet' | 'shelf' | 'plant' | 'rug' | 'radiator' | 'mirror' | 'curtain' | 'picture' | 'toilet' | 'garage' | 'cave' | 'staircase' | 'boiler' | 'vmc' | 'mailbox' | 'septic' | 'tree' | 'lawn' | 'basket' | 'waterheater' | 'shutter' | 'door' | 'balcony'
 }
 
 export interface Room {
@@ -103,10 +103,10 @@ const sejourEquipment: Equipment[] = [
     position: [5.3, 0, -0.5], size: [0.45, 1.2, 0.45], color: PALETTE.green,
   },
   {
-    id: 'rideau-sejour', name: 'Rideaux', type: 'curtain',
-    description: 'Rideaux occultants thermiques.',
-    consumption: 'N/A', tips: 'Les rideaux thermiques réduisent les pertes de chaleur de 25% en hiver.',
-    position: [3, 1.4, -0.05], size: [2, 2.6, 0.06], color: '#a7c3d9',
+    id: 'porte-sejour', name: 'Porte', type: 'door',
+    description: 'Porte intérieure battante avec poignée.',
+    consumption: 'N/A', tips: 'Entretien des gonds, poignées et serrures à votre charge (Décret n°87-712).',
+    position: [3, 0, -0.05], size: [0.9, 2.1, 0.06], color: PALETTE.furnitureLight,
   },
 
   // --- Équipements schema-logement ---
@@ -123,10 +123,10 @@ const sejourEquipment: Equipment[] = [
     position: [5.95, 0.35, -3.5], size: [0.06, 0.1, 0.06], color: PALETTE.furnitureLight,
   },
   {
-    id: 'volet', name: 'Volet', type: 'curtain',
-    description: 'Volet roulant ou battant, manivelle et sangle.',
+    id: 'volet', name: 'Volet', type: 'shutter',
+    description: 'Volet battant à persiennes avec lames orientables.',
     consumption: 'N/A', tips: 'Réparation manivelle, sangle, treuil à votre charge. Remplacement complet = bailleur.',
-    position: [0.8, 1.4, -0.05], size: [1.2, 2.6, 0.06], color: PALETTE.furniture,
+    position: [0.8, 1.4, -0.05], size: [1.2, 1.2, 0.06], color: PALETTE.furniture,
   },
   {
     id: 'sol-parquet', name: 'Sol (parquet / carrelage)', type: 'rug',
@@ -403,13 +403,13 @@ const exterieurEquipment: Equipment[] = [
     id: 'chaudiere', name: 'Chaudière', type: 'boiler',
     description: 'Chaudière gaz ou fioul avec contrat d\'entretien obligatoire.',
     consumption: '8000-15000 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Vérifiez la pression.',
-    position: [0.5, 0, 0.8], size: [0.7, 1.2, 0.5], color: PALETTE.metal,
+    position: [-0.5, 0, 7], size: [0.7, 1.2, 0.5], color: PALETTE.metal,
   },
   {
     id: 'vmc', name: 'VMC', type: 'vmc',
     description: 'Ventilation mécanique contrôlée.',
     consumption: '50-150 kWh/an', tips: 'Sous contrat d\'entretien (charges récupérables). Nettoyez les grilles.',
-    position: [1.8, 0, 0.8], size: [0.5, 0.5, 0.4], color: PALETTE.metal,
+    position: [0.7, 0, 7], size: [0.5, 0.5, 0.4], color: PALETTE.metal,
   },
 
   // ── Zone centrale : allée d'accès + boîte aux lettres ──
@@ -417,18 +417,18 @@ const exterieurEquipment: Equipment[] = [
     id: 'allee', name: 'Allée / chemin', type: 'rug',
     description: 'Allée d\'accès au logement.',
     consumption: 'N/A', tips: 'Déneigement et désherbage de l\'allée à votre charge.',
-    position: [3.5, 0, 2.75], size: [1.3, 0.01, 4], color: PALETTE.cream,
+    position: [3, 0, 4.5], size: [1.3, 0.01, 9], color: PALETTE.cream,
   },
   {
     id: 'boite-lettres', name: 'Boîte aux lettres', type: 'mailbox',
     description: 'Boîte aux lettres normalisée.',
     consumption: 'N/A', tips: 'Remplacement de la serrure et des clés à votre charge.',
-    position: [2.5, 0, 4.3], size: [0.3, 0.9, 0.2], color: PALETTE.metal,
+    position: [6.2, 0, 9], size: [0.3, 0.9, 0.2], color: PALETTE.metal,
   },
 
   // ── Zone centre-droit : balcon + fosse septique ──
   {
-    id: 'balcon', name: 'Balcon (évacuation)', type: 'box',
+    id: 'balcon', name: 'Balcon (évacuation)', type: 'balcony',
     description: 'Balcon avec évacuation d\'eau et grille.',
     consumption: 'N/A', tips: 'Débouchage à votre charge. Retirez les feuilles, nettoyez la grille.',
     position: [6, 0, 0.8], size: [2, 0.08, 1], color: PALETTE.floor,
@@ -445,7 +445,7 @@ const exterieurEquipment: Equipment[] = [
     id: 'pelouse', name: 'Entretien pelouse / haies', type: 'lawn',
     description: 'Jardin privatif : pelouse, haies, arbustes.',
     consumption: 'N/A', tips: 'Tonte et taille à votre charge si jardin privatif (Décret n°87-712).',
-    position: [8.5, 0, 3], size: [1, 1.5, 1], color: PALETTE.green,
+    position: [5.25, 0, 4.75], size: [12.5, 1, 8.5], color: PALETTE.green,
   },
   {
     id: 'arbre', name: 'Arbre', type: 'tree',
@@ -465,7 +465,7 @@ const exterieurEquipment: Equipment[] = [
     id: 'route-garage', name: 'Route d\'accès garage', type: 'rug',
     description: 'Allée carrossable menant au garage.',
     consumption: 'N/A', tips: 'Entretien de l\'allée carrossable à votre charge. Nettoyez les taches d\'huile.',
-    position: [13.5, 0, 2.25], size: [4, 0.02, 4.5], color: '#9a9590',
+    position: [13.5, 0, 4.75], size: [4, 0.02, 8.5], color: '#9a9590',
   },
 ]
 
@@ -487,7 +487,7 @@ export const rooms: Room[] = [
   },
   {
     id: 'exterieur', name: 'Extérieur',
-    position: [-1, 0, 5], size: [12.5, 0.5, 4.5],
+    position: [-1, 0, 9], size: [12.5, 0.5, 8.5],
     floorColor: PALETTE.grass, equipment: exterieurEquipment,
   },
 ]
