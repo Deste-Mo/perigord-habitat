@@ -24,37 +24,20 @@ export type Conversation = {
   messages: ChatMessage[];
 };
 
-function buildSimulatedResponse(text: string, medias: AttachedMedia[]): string {
-  const hasImage = medias.some((m) => m.type === "image");
-  const hasVideo = medias.some((m) => m.type === "video");
-  const hasFile = medias.some((m) => m.type === "file");
+const FALLBACK_RESPONSE =
+  "Je n'ai pas trouvé de réponse précise pour votre demande.\n\n" +
+  "Essayez de décrire votre problème différemment, par exemple :\n" +
+  "• \"mon robinet fuit\"\n" +
+  "• \"le chauffage ne marche pas\"\n" +
+  "• \"volet cassé\"\n\n" +
+  "Vous pouvez aussi contacter directement votre agence Périgord Habitat pour toute situation non couverte.";
 
+function buildMediaPrefix(medias: AttachedMedia[]): string {
   const parts: string[] = [];
-
-  if (hasImage) parts.push("📷 Image reçue.");
-  if (hasVideo) parts.push("🎥 Vidéo reçue.");
-  if (hasFile) parts.push("📄 Document reçu.");
-
-  if (text) {
-    const lower = text.toLowerCase();
-    if (lower.includes("fuite") || lower.includes("eau")) {
-      parts.push("💧 Concernant la fuite d'eau : c'est généralement la responsabilité du propriétaire si c'est une canalisation encastrée, ou du locataire s'il s'agit d'un joint ou robinet.");
-    } else if (lower.includes("chauffage") || lower.includes("chaud")) {
-      parts.push("🔥 Pour le chauffage : le propriétaire est responsable du bon fonctionnement de l'installation. Signalez-le par écrit en recommandé.");
-    } else if (lower.includes("serrure") || lower.includes("porte")) {
-      parts.push("🔑 Pour la serrure : si la dégradation est due à l'usure normale, c'est au propriétaire d'intervenir. Si c'est suite à une négligence, c'est au locataire.");
-    } else if (lower.includes("dégât") || lower.includes("sinistre")) {
-      parts.push("🏠 Pour un dégât des eaux : contactez votre assurance dans les 5 jours ouvrés et informez votre propriétaire immédiatement.");
-    } else if (text) {
-      parts.push(`Je prends en compte votre demande : "${text}". Une analyse détaillée est en cours pour identifier les responsabilités et les démarches à suivre.`);
-    }
-  }
-
-  if (parts.length === 0) {
-    parts.push("Bonjour ! Comment puis-je vous aider avec votre logement ?");
-  }
-
-  return parts.join("\n\n");
+  if (medias.some((m) => m.type === "image")) parts.push("📷 Image reçue et analysée.");
+  if (medias.some((m) => m.type === "video")) parts.push("🎥 Vidéo reçue et analysée.");
+  if (medias.some((m) => m.type === "file")) parts.push("📄 Document reçu.");
+  return parts.join("\n");
 }
 
 export function useChat() {
@@ -194,7 +177,18 @@ export function useChat() {
     );
 
     const userContent = message.trim();
-    const assistantContent = buildSimulatedResponse(userContent, uploadedMedias);
+
+    // Recherche dans la base de connaissance via RPC
+    const queryText = userContent || uploadedMedias.map((m) => m.type).join(" ");
+    const { data: matches } = await supabase.rpc("match_ai_response", {
+      user_input: queryText,
+    });
+
+    const mediaPrefix = buildMediaPrefix(uploadedMedias);
+    const rpcResponse = matches?.[0]?.response ?? FALLBACK_RESPONSE;
+    const assistantContent = mediaPrefix
+      ? `${mediaPrefix}\n\n${rpcResponse}`
+      : rpcResponse;
 
     let convId = activeConvId;
 
