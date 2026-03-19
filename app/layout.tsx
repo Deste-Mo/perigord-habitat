@@ -5,6 +5,7 @@ import '@/lib/fontawesome'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AuthProvider } from '@/providers/AuthProvider'
 
 // Désactiver l'ajout automatique de CSS par Font Awesome
 config.autoAddCss = false
@@ -35,7 +36,9 @@ export default function RootLayout({
           defaultTheme='light'
           enableSystem
           disableTransitionOnChange>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
