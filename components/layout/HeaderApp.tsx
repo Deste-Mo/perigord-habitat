@@ -147,10 +147,10 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Se connecter</Link>
+                <Link href="/client/auth/login">Se connecter</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/register">S'inscrire</Link>
+                <Link href="/client/auth/register">S'inscrire</Link>
               </Button>
             </>
           )

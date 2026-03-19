@@ -28,29 +28,40 @@ export async function middleware(req: NextRequest) {
     }
   );
 
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+  const role = user?.user_metadata?.role ?? user?.app_metadata?.role;
 
   const pathname = req.nextUrl.pathname;
-  const authPaths = ["/client/auth/login", "/client/auth/register"];
+  const clientAuthPaths = ["/client/auth/login", "/client/auth/register"];
+  const adminAuthPath = "/admin/auth/login";
 
-  // Déjà connecté → rediriger hors des pages auth
-  if (user && authPaths.includes(pathname)) {
+  // --- LOGIQUE CLIENT ---
+  // Connecté (client) + page auth client → rediriger vers l'app client
+  if (user && clientAuthPaths.includes(pathname)) {
     return NextResponse.redirect(new URL("/client/materiels", req.url));
   }
-
-  // Pas connecté → bloquer les pages client protégées
-  if (!user && pathname.startsWith("/client") && !authPaths.includes(pathname)) {
+  // Pas connecté + page client protégée → login client
+  if (!user && pathname.startsWith("/client") && !clientAuthPaths.includes(pathname)) {
     return NextResponse.redirect(new URL("/client/auth/login", req.url));
   }
 
-  // Pas connecté → bloquer le dashboard admin
+  // --- LOGIQUE ADMIN ---
+  // Connecté admin + page login admin → rediriger vers dashboard
+  if (user && role === "admin" && pathname === adminAuthPath) {
+    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+  }
+  // Pas connecté + dashboard admin → login admin
   if (!user && pathname.startsWith("/admin/dashboard")) {
-    return NextResponse.redirect(new URL("/client/auth/login", req.url));
+    return NextResponse.redirect(new URL("/admin/auth/login", req.url));
+  }
+  // Connecté mais pas admin + dashboard admin → refus
+  if (user && role !== "admin" && pathname.startsWith("/admin/dashboard")) {
+    return NextResponse.redirect(new URL("/client/materiels", req.url));
   }
 
   return res;
 }
 
 export const config = {
-  matcher: ["/client/:path*", "/admin/dashboard/:path*"],
+  matcher: ["/client/:path*", "/admin/dashboard/:path*", "/admin/auth/login"],
 };
