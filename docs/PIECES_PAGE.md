@@ -4,7 +4,7 @@
 Page complète de gestion des pièces (types de pièces dans un logement) avec recherche, statistiques et actions CRUD. Affichage en grille et en tableau.
 
 ## Route
-`/dashboard/pieces`
+`/admin/dashboard/pieces`
 
 ## Fonctionnalités
 

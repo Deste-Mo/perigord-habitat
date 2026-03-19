@@ -2,7 +2,7 @@
 
 ## ✅ Pages conformes
 
-### 1. Bailleurs (`/dashboard/bailleurs`)
+### 1. Bailleurs (`/admin/dashboard/bailleurs`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -29,7 +29,7 @@ interface Bailleur {
 
 ---
 
-### 2. Incidents (`/dashboard/incidents`)
+### 2. Incidents (`/admin/dashboard/incidents`)
 **Statut**: ✅ Conforme (corrigé)
 
 **Interface TypeScript**:
@@ -59,7 +59,7 @@ interface Incident {
 
 ---
 
-### 3. Médias (`/dashboard/medias`)
+### 3. Médias (`/admin/dashboard/medias`)
 **Statut**: ✅ Conforme (corrigé)
 
 **Interface TypeScript**:
@@ -92,7 +92,7 @@ interface Media {
 
 ---
 
-### 4. Logements (`/dashboard/logements`)
+### 4. Logements (`/admin/dashboard/logements`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -130,7 +130,7 @@ interface Logement {
 
 ---
 
-### 5. Locataires (`/dashboard/locataires`)
+### 5. Locataires (`/admin/dashboard/locataires`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -179,7 +179,7 @@ interface Locataire {
 
 ---
 
-### 6. Pièces (`/dashboard/pieces`)
+### 6. Pièces (`/admin/dashboard/pieces`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -214,7 +214,7 @@ interface Piece {
 
 ---
 
-### 7. Équipements (`/dashboard/equipements`)
+### 7. Équipements (`/admin/dashboard/equipements`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -254,7 +254,7 @@ interface Equipement {
 
 ---
 
-### 8. Pannes (`/dashboard/pannes`)
+### 8. Pannes (`/admin/dashboard/pannes`)
 **Statut**: ✅ Conforme
 
 **Interface TypeScript**:
@@ -294,7 +294,7 @@ interface Panne {
 
 ---
 
-### 9. Paramètres (`/dashboard/parametres`)
+### 9. Paramètres (`/admin/dashboard/parametres`)
 **Statut**: ✅ Créée (page système)
 
 **Note**: Cette page ne correspond pas à une table de la base de données. Elle gère les paramètres système (notifications, sécurité, apparence, base de données, email).
@@ -308,7 +308,7 @@ interface Panne {
 
 ---
 
-### 10. Utilisateurs (`/dashboard/utilisateurs`)
+### 10. Utilisateurs (`/admin/dashboard/utilisateurs`)
 **Statut**: ✅ Créée (utilisateurs admin)
 
 **Note**: Cette page gère les utilisateurs administrateurs de la plateforme, pas les locataires. Les locataires sont dans la table `locataires` liée à `auth.users`.

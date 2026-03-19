@@ -39,7 +39,7 @@ const SidebarContent: MenuItem[] = [
         name: "Tableau de bord",
         icon: "solar:widget-add-line-duotone",
         id: uniqueId(),
-        url: "/dashboard",
+        url: "/admin/dashboard",
         isPro: false
       },
     ],
@@ -51,31 +51,31 @@ const SidebarContent: MenuItem[] = [
         name: "Incidents",
         icon: "solar:danger-triangle-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/incidents",
+        url: "/admin/dashboard/incidents",
         isPro: false,
         children: [
           {
             name: "Tous les incidents",
             id: uniqueId(),
-            url: "/dashboard/incidents",
+            url: "/admin/dashboard/incidents",
             isPro: false
           },
           {
             name: "Nouveaux",
             id: uniqueId(),
-            url: "/dashboard/incidents/nouveaux",
+            url: "/admin/dashboard/incidents/nouveaux",
             isPro: false
           },
           {
             name: "En cours",
             id: uniqueId(),
-            url: "/dashboard/incidents/en-cours",
+            url: "/admin/dashboard/incidents/en-cours",
             isPro: false
           },
           {
             name: "Résolus",
             id: uniqueId(),
-            url: "/dashboard/incidents/resolus",
+            url: "/admin/dashboard/incidents/resolus",
             isPro: false
           },
         ],
@@ -84,7 +84,7 @@ const SidebarContent: MenuItem[] = [
         name: "Médias",
         icon: "solar:gallery-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/medias",
+        url: "/admin/dashboard/medias",
         isPro: false
       },
     ],
@@ -96,21 +96,21 @@ const SidebarContent: MenuItem[] = [
         name: "Bailleurs",
         icon: "solar:buildings-2-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/bailleurs",
+        url: "/admin/dashboard/bailleurs",
         isPro: false
       },
       {
         name: "Logements",
         icon: "solar:home-2-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/logements",
+        url: "/admin/dashboard/logements",
         isPro: false
       },
       {
         name: "Locataires",
         icon: "solar:users-group-rounded-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/locataires",
+        url: "/admin/dashboard/locataires",
         isPro: false
       },
     ],
@@ -122,21 +122,21 @@ const SidebarContent: MenuItem[] = [
         name: "Pièces",
         icon: "solar:home-angle-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/pieces",
+        url: "/admin/dashboard/pieces",
         isPro: false
       },
       {
         name: "Équipements",
         icon: "solar:settings-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/equipements",
+        url: "/admin/dashboard/equipements",
         isPro: false
       },
       {
         name: "Pannes",
         icon: "solar:document-text-line-duotone",
         id: uniqueId(),
-        url: "/dashboard/pannes",
+        url: "/admin/dashboard/pannes",
         isPro: false
       },
     ],

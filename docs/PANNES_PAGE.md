@@ -4,7 +4,7 @@
 Page complète de gestion de la base de connaissances des pannes avec recherche, filtres, statistiques et actions CRUD.
 
 ## Route
-`/dashboard/pannes`
+`/admin/dashboard/pannes`
 
 ## Fonctionnalités
 

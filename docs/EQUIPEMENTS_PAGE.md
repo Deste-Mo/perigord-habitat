@@ -4,7 +4,7 @@
 Page complète de gestion des équipements avec recherche, filtres multiples, statistiques et actions CRUD.
 
 ## Route
-`/dashboard/equipements`
+`/admin/dashboard/equipements`
 
 ## Fonctionnalités
 

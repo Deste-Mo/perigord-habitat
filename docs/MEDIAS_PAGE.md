@@ -135,7 +135,7 @@ Affichage en temps réel :
 
 ## Routes
 
-- `/dashboard/medias` - Page principale de gestion des médias
+- `/admin/dashboard/medias` - Page principale de gestion des médias
 
 ## Technologies utilisées
 

@@ -4,7 +4,7 @@
 Page complète de gestion des logements avec recherche, filtres, statistiques et actions CRUD.
 
 ## Route
-`/dashboard/logements`
+`/admin/dashboard/logements`
 
 ## Fonctionnalités
 

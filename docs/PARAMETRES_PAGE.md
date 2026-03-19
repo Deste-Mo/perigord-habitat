@@ -4,7 +4,7 @@
 Page de configuration de la plateforme avec différentes sections pour gérer les paramètres système.
 
 ## Route
-`/dashboard/parametres`
+`/admin/dashboard/parametres`
 
 ## Sections
 

@@ -8,7 +8,7 @@ export default function EnCoursIncidentsPage() {
 
   useEffect(() => {
     // Rediriger vers la page principale avec le filtre
-    router.replace("/dashboard/incidents?statut=en_cours");
+    router.replace("/admin/dashboard/incidents?statut=en_cours");
   }, [router]);
 
   return (

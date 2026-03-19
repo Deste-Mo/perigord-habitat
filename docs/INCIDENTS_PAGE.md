@@ -71,10 +71,10 @@ interface Incident {
 
 ## Routes
 
-- `/dashboard/incidents` - Liste complète
-- `/dashboard/incidents/nouveaux` - Filtre nouveaux
-- `/dashboard/incidents/en-cours` - Filtre en cours
-- `/dashboard/incidents/resolus` - Filtre résolus
+- `/admin/dashboard/incidents` - Liste complète
+- `/admin/dashboard/incidents/nouveaux` - Filtre nouveaux
+- `/admin/dashboard/incidents/en-cours` - Filtre en cours
+- `/admin/dashboard/incidents/resolus` - Filtre résolus
 
 ## Prochaines étapes
 

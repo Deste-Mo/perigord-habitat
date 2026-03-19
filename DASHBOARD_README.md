@@ -71,7 +71,7 @@ perigord-habitat/
 ## Accès au dashboard
 
 - **Page d'accueil**: `http://localhost:3000/`
-- **Dashboard**: `http://localhost:3000/dashboard`
+- **Dashboard**: `http://localhost:3000/admin/dashboard`
 
 Un bouton "Dashboard" est disponible dans le header de la page d'accueil.
 
@@ -113,7 +113,7 @@ npm start
 ## Personnalisation
 
 ### Modifier le menu sidebar
-Éditez le fichier `app/dashboard/layout/sidebar/Sidebaritems.ts`
+Éditez le fichier `app/admin/dashboard/layout/sidebar/Sidebaritems.ts`
 
 ### Modifier les couleurs
 Les couleurs sont définies dans les fichiers CSS :
@@ -121,7 +121,7 @@ Les couleurs sont définies dans les fichiers CSS :
 - `app/css/theme/dark-colors.css` - Thème sombre
 
 ### Ajouter des pages
-Créez de nouveaux fichiers dans `app/dashboard/` et ajoutez les routes correspondantes dans le sidebar.
+Créez de nouveaux fichiers dans `app/admin/dashboard/` et ajoutez les routes correspondantes dans le sidebar.
 
 ## Notes
 

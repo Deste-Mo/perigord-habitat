@@ -78,30 +78,41 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             <>
               {/* Nav icons */}
               {NAV_AUTH.map(({ href, icon: Icon, title }) => (
-                <Button
+                <Link
                   key={href}
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  title={title}
-                  className={pathname === href ? "bg-primary/10 text-primary" : "text-gray-500 hover:text-primary hover:bg-primary/10"}
+                  href={href}
+                  className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors text-xs font-medium ${
+                    pathname === href
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-500 hover:text-primary hover:bg-primary/10"
+                  }`}
                 >
-                  <Link href={href}><Icon size={18} /></Link>
-                </Button>
+                  <Icon size={18} />
+                  <span>{title}</span>
+                </Link>
               ))}
 
               {/* Notification */}
-              <Button variant="ghost" size="icon" title="Notifications" className="text-gray-500 hover:text-primary hover:bg-primary/10 relative">
-                <Bell size={18} />
-                {/* badge */}
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500" />
-              </Button>
+              <Link
+                href="/client/notifications"
+                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors relative ${
+                  pathname === "/client/notifications"
+                    ? "bg-primary/10 text-primary"
+                    : "text-gray-500 hover:text-primary hover:bg-primary/10"
+                }`}
+              >
+                <span className="relative">
+                  <Bell size={18} />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500" />
+                </span>
+                <span className="text-xs font-medium">Alertes</span>
+              </Link>
 
               {/* Profil dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="ml-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    <Avatar className="h-8 w-8">
+                    <Avatar className="h-10 w-10">
                       <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
                         {initials}
                       </AvatarFallback>

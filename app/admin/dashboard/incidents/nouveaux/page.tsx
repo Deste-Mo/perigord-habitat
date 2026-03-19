@@ -8,7 +8,7 @@ export default function NouveauxIncidentsPage() {
 
   useEffect(() => {
     // Rediriger vers la page principale avec le filtre
-    router.replace("/dashboard/incidents?statut=nouveau");
+    router.replace("/admin/dashboard/incidents?statut=nouveau");
   }, [router]);
 
   return (

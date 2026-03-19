@@ -4,7 +4,7 @@
 Page complète de gestion des utilisateurs administrateurs avec recherche, filtres, statistiques et actions CRUD.
 
 ## Route
-`/dashboard/utilisateurs`
+`/admin/dashboard/utilisateurs`
 
 ## Fonctionnalités
 
@@ -79,7 +79,7 @@ interface Utilisateur {
 - `gestionnaire` : Consultation et gestion limitée
 
 ## Note importante
-Cette page gère les utilisateurs administrateurs de la plateforme, pas les locataires. Les locataires sont gérés dans la page `/dashboard/locataires` et sont liés à `auth.users` via la table `locataires`.
+Cette page gère les utilisateurs administrateurs de la plateforme, pas les locataires. Les locataires sont gérés dans la page `/admin/dashboard/locataires` et sont liés à `auth.users` via la table `locataires`.
 
 ## Composants UI utilisés
 - Input (recherche)

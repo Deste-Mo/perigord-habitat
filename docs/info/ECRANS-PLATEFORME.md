@@ -290,7 +290,7 @@
 ---
 
 ### 12. Dashboard bailleur
-**Route**: `/admin/dashboard`
+**Route**: `/admin/admin/dashboard`
 
 **KPIs (en haut)**:
 - Nombre d'incidents total (ce mois)
@@ -794,7 +794,7 @@ Pour un lancement rapide (MVP), voici les écrans essentiels :
 | Priorité | Écran | Route | Complexité |
 |----------|-------|-------|------------|
 | 🔴 P0 | Connexion admin | `/admin/login` | Basse |
-| 🔴 P0 | Dashboard | `/admin/dashboard` | Haute |
+| 🔴 P0 | Dashboard | `/admin/admin/dashboard` | Haute |
 | 🔴 P0 | Liste incidents | `/admin/incidents` | Moyenne |
 | 🔴 P0 | Détail incident | `/admin/incidents/:id` | Moyenne |
 | 🟡 P1 | Personnalisation | `/admin/personnalisation` | Moyenne |

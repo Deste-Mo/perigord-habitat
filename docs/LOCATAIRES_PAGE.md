@@ -4,7 +4,7 @@
 Page complète de gestion des locataires avec recherche, filtres, statistiques et actions CRUD.
 
 ## Route
-`/dashboard/locataires`
+`/admin/dashboard/locataires`
 
 ## Fonctionnalités
 

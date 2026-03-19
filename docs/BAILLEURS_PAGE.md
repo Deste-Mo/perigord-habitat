@@ -142,7 +142,7 @@ interface Bailleur {
 
 ## Routes
 
-- `/dashboard/bailleurs` - Page principale de gestion des bailleurs
+- `/admin/dashboard/bailleurs` - Page principale de gestion des bailleurs
 
 ## Correspondance base de données
 

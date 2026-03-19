@@ -118,7 +118,7 @@ const page = () => {
                 Incidents récents
               </h2>
               <Link
-                href="/dashboard/incidents"
+                href="/admin/dashboard/incidents"
                 className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
               >
                 Voir tout →
@@ -152,7 +152,7 @@ const page = () => {
             </h2>
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <Link
-                href="/dashboard/incidents"
+                href="/admin/dashboard/incidents"
                 className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors text-center group"
               >
                 <AlertTriangle className="w-8 h-8 mx-auto mb-2 text-orange-600 group-hover:text-indigo-600" />
@@ -161,7 +161,7 @@ const page = () => {
                 </p>
               </Link>
               <Link
-                href="/dashboard/bailleurs"
+                href="/admin/dashboard/bailleurs"
                 className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors text-center group"
               >
                 <Building2 className="w-8 h-8 mx-auto mb-2 text-blue-600 group-hover:text-indigo-600" />
@@ -170,7 +170,7 @@ const page = () => {
                 </p>
               </Link>
               <Link
-                href="/dashboard/logements"
+                href="/admin/dashboard/logements"
                 className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors text-center group"
               >
                 <Home className="w-8 h-8 mx-auto mb-2 text-green-600 group-hover:text-indigo-600" />
@@ -179,7 +179,7 @@ const page = () => {
                 </p>
               </Link>
               <Link
-                href="/dashboard/locataires"
+                href="/admin/dashboard/locataires"
                 className="p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors text-center group"
               >
                 <Users className="w-8 h-8 mx-auto mb-2 text-purple-600 group-hover:text-indigo-600" />

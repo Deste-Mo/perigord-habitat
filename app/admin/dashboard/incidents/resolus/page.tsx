@@ -8,7 +8,7 @@ export default function ResolusIncidentsPage() {
 
   useEffect(() => {
     // Rediriger vers la page principale avec le filtre
-    router.replace("/dashboard/incidents?statut=resolu");
+    router.replace("/admin/dashboard/incidents?statut=resolu");
   }, [router]);
 
   return (
