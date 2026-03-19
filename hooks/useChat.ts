@@ -15,6 +15,12 @@ export type ChatMessage = {
   medias?: AttachedMedia[];
 };
 
+export type Conversation = {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+};
+
 function buildSimulatedResponse(text: string, medias: AttachedMedia[]): string {
   const hasImage = medias.some((m) => m.type === "image");
   const hasVideo = medias.some((m) => m.type === "video");
@@ -55,12 +61,15 @@ function buildSimulatedResponse(text: string, medias: AttachedMedia[]): string {
 }
 
 export function useChat() {
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const idRef = useRef(0);
 
   const nextId = () => String(++idRef.current);
+
+  const messages = conversations.find((c) => c.id === activeConvId)?.messages ?? [];
 
   const addFiles = (newFiles: File[]) => {
     setAttachedFiles((prev) => [...prev, ...newFiles]);
@@ -95,13 +104,44 @@ export function useChat() {
       content: buildSimulatedResponse(message.trim(), medias),
     };
 
-    setMessages((prev) => [...prev, userMsg, assistantMsg]);
+    if (activeConvId) {
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConvId
+            ? { ...c, messages: [...c.messages, userMsg, assistantMsg] }
+            : c
+        )
+      );
+    } else {
+      const newId = nextId();
+      const newConv: Conversation = {
+        id: newId,
+        title: message.trim().slice(0, 45) || "Nouvelle discussion",
+        messages: [userMsg, assistantMsg],
+      };
+      setConversations((prev) => [newConv, ...prev]);
+      setActiveConvId(newId);
+    }
+
+    setMessage("");
+    setAttachedFiles([]);
+  };
+
+  const newConversation = () => {
+    setActiveConvId(null);
+    setMessage("");
+    setAttachedFiles([]);
+  };
+
+  const switchConversation = (id: string) => {
+    setActiveConvId(id);
     setMessage("");
     setAttachedFiles([]);
   };
 
   const resetChat = () => {
-    setMessages([]);
+    setConversations([]);
+    setActiveConvId(null);
     setMessage("");
     setAttachedFiles([]);
   };
@@ -120,8 +160,12 @@ export function useChat() {
     addFiles,
     removeFile,
     messages,
+    conversations,
+    activeConvId,
     handleSend,
     handleKeyDown,
     resetChat,
+    newConversation,
+    switchConversation,
   };
 }
