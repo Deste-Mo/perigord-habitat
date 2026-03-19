@@ -76,11 +76,11 @@ export function LoginForm() {
         <Separator className="flex-1" />
       </div>
 
-      <GoogleButton label="Continuer avec Google" onClick={loginWithGoogle} disabled={pending} />
+      {/* <GoogleButton label="Continuer avec Google" onClick={loginWithGoogle} disabled={pending} /> */}
 
       <p className="text-center text-sm text-gray-500">
         Pas encore de compte ?{" "}
-        <Link href="/register" className="text-indigo-600 font-medium hover:underline">
+        <Link href="/client/auth/register" className="text-indigo-600 font-medium hover:underline">
           S'inscrire
         </Link>
       </p>
