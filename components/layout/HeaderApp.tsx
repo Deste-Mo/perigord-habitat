@@ -2,35 +2,49 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Box, MessageSquare, Menu, X, User, Settings, LogOut, LayoutDashboard, List } from "lucide-react";
+import {
+  Home, MessageSquare, Box, Bell, Menu, X, LogOut,
+  FileText, Wrench, AlertTriangle, UserCircle, History,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-  SheetTitle,
+  Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle,
 } from "@/components/ui/sheet";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAuth } from "@/hooks/useAuth";
 
-const NAV_ITEMS_GUEST = [
-  { href: "/login", label: "Se connecter" },
-  { href: "/register", label: "S'inscrire" },
+/* ── icônes nav principale (session connectée) ── */
+const NAV_AUTH = [
+  { href: "/",                  icon: Home,           title: "Accueil" },
+  { href: "/client/chat",       icon: MessageSquare,  title: "Assistant IA" },
+  { href: "/client/materiels",  icon: Box,            title: "Matériels" },
 ];
 
-const NAV_ITEMS_AUTH = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/dashboard/parametres", label: "Paramètres" },
+/* ── items dropdown profil ── */
+const DROPDOWN_ITEMS = [
+  { href: "/client/notices",       icon: FileText,      label: "Notices" },
+  { href: "/client/interventions", icon: Wrench,        label: "Interventions" },
+  { href: "/client/incidents",     icon: AlertTriangle, label: "Incidents" },
+  { href: "/client/profile",       icon: UserCircle,    label: "Profil" },
+  { href: "/client/historique",    icon: History,       label: "Historique" },
+];
+
+/* ── items mobile (session connectée) ── */
+const MOBILE_AUTH = [
+  { href: "/",                  label: "Accueil" },
+  { href: "/client/chat",       label: "Assistant IA" },
+  { href: "/client/materiels",  label: "Matériels" },
+  { href: "/client/notices",    label: "Notices" },
+  { href: "/client/interventions", label: "Interventions" },
+  { href: "/client/incidents",  label: "Incidents" },
+  { href: "/client/profile",    label: "Profil" },
+  { href: "/client/historique", label: "Historique" },
 ];
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -41,7 +55,6 @@ function getInitials(name?: string | null, email?: string | null) {
 
 export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   const pathname = usePathname();
-  const isSchemaPage = pathname === "/schema-logement-konva";
   const { user, loading, logout } = useAuth();
 
   const displayName = user?.user_metadata?.full_name ?? user?.email ?? null;
@@ -58,53 +71,68 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
         </span>
       </Link>
 
-      {/* Desktop */}
+      {/* ── Desktop ── */}
       <div className="hidden sm:flex items-center gap-1">
-        <Button variant="ghost" size="icon" className="bg-primary/10 text-primary hover:bg-primary/20" asChild title={isSchemaPage ? "Chat" : "Schéma logement"}>
-          <Link href={isSchemaPage ? "/" : "/schema-logement-konva"}>
-            {isSchemaPage ? <MessageSquare size={18} /> : <Box size={18} /> }
-          </Link>
-        </Button>
-
         {!loading && (
           user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 ml-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
-                      {initials}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52">
-                <div className="px-3 py-2">
-                  <p className="text-sm font-medium text-gray-900 truncate">{displayName}</p>
-                  {user.user_metadata?.full_name && (
-                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                  )}
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/client/materiels" className="flex items-center gap-2 cursor-pointer">
-                    <List size={15} /> Listes des matériels
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/parametres" className="flex items-center gap-2 cursor-pointer">
-                    <Settings size={15} /> Paramètres
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer"
+            <>
+              {/* Nav icons */}
+              {NAV_AUTH.map(({ href, icon: Icon, title }) => (
+                <Button
+                  key={href}
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                  title={title}
+                  className={pathname === href ? "bg-primary/10 text-primary" : "text-gray-500 hover:text-primary hover:bg-primary/10"}
                 >
-                  <LogOut size={15} /> Se déconnecter
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <Link href={href}><Icon size={18} /></Link>
+                </Button>
+              ))}
+
+              {/* Notification */}
+              <Button variant="ghost" size="icon" title="Notifications" className="text-gray-500 hover:text-primary hover:bg-primary/10 relative">
+                <Bell size={18} />
+                {/* badge */}
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500" />
+              </Button>
+
+              {/* Profil dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="ml-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                        {initials}
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-52">
+                  <div className="px-3 py-2">
+                    <p className="text-sm font-medium text-gray-900 truncate">{displayName}</p>
+                    {user.user_metadata?.full_name && (
+                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                    )}
+                  </div>
+                  <DropdownMenuSeparator />
+                  {DROPDOWN_ITEMS.map(({ href, icon: Icon, label }) => (
+                    <DropdownMenuItem key={href} asChild>
+                      <Link href={href} className="flex items-center gap-2 cursor-pointer">
+                        <Icon size={15} /> {label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer"
+                  >
+                    <LogOut size={15} /> Se déconnecter
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
@@ -118,18 +146,16 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
         )}
       </div>
 
-      {/* Mobile — Sheet plein écran */}
+      {/* ── Mobile ── */}
       <div className="sm:hidden">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu size={20} />
-            </Button>
+            <Button variant="ghost" size="icon"><Menu size={20} /></Button>
           </SheetTrigger>
           <SheetContent side="left" className="h-screen w-screen flex flex-col px-6 py-6">
             <VisuallyHidden><SheetTitle>Menu</SheetTitle></VisuallyHidden>
 
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6">
               <Link href="/" className="flex items-center gap-2" onClick={onLogoClick}>
                 <Image src="/logo-default.png" alt="Qui fait quoi" width={32} height={32} className="rounded" />
                 <span className="font-semibold text-lg text-gray-900">Qui fait quoi ?</span>
@@ -142,9 +168,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             {user && (
               <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
                 <Avatar className="h-10 w-10">
-                  <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                    {initials}
-                  </AvatarFallback>
+                  <AvatarFallback className="bg-primary/10 text-primary font-semibold">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">{displayName}</p>
@@ -155,12 +179,17 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               </div>
             )}
 
-            <nav className="flex flex-col gap-2 flex-1">
-              {(user ? NAV_ITEMS_AUTH : NAV_ITEMS_GUEST).map((item) => (
-                <SheetClose asChild key={item.label}>
+            <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
+              {(user ? MOBILE_AUTH : [
+                { href: "/login",     label: "Se connecter" },
+                { href: "/register",  label: "S'inscrire" },
+              ]).map((item) => (
+                <SheetClose asChild key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-lg font-medium text-gray-700 hover:text-indigo-600 py-3 border-b border-gray-100 transition-colors"
+                    className={`text-base font-medium py-3 border-b border-gray-100 transition-colors ${
+                      pathname === item.href ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
+                    }`}
                   >
                     {item.label}
                   </Link>
@@ -170,10 +199,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
             {user && (
               <SheetClose asChild>
-                <button
-                  onClick={logout}
-                  className="flex items-center gap-2 text-red-600 font-medium py-3 mt-4"
-                >
+                <button onClick={logout} className="flex items-center gap-2 text-red-600 font-medium py-3 mt-4">
                   <LogOut size={18} /> Se déconnecter
                 </button>
               </SheetClose>
