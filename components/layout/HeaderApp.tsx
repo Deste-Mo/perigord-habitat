@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Home, Bot, Building2, BookOpen, HelpCircle,
   Phone, UserCircle, Menu, X, LogOut, Bell,
+  AlertTriangle, History, FileText,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -28,10 +29,24 @@ const NAV_MAIN = [
   { href: "/client/contacts",      icon: Phone,         title: "Contacts" },
 ];
 
-const MOBILE_NAV = [
+// Items du compte — partagés entre dropdown desktop et menu mobile
+const ACCOUNT_ITEMS = [
+  { href: "/accounts",                 icon: UserCircle,    title: "Mon profil"              },
+  { href: "/client/incidents",         icon: AlertTriangle, title: "Mes incidents"           },
+  { href: "/client/compte/historique", icon: History,       title: "Historique"              },
+  { href: "/decouverte",               icon: Building2,     title: "Découvertes"             },
+  { href: "/client/compte/documents",  icon: FileText,      title: "Documents / Équipements" },
+];
+
+// Dashboard uniquement bailleur — ajouté dynamiquement
+const DASHBOARD_ITEM = { href: "/dashboard", icon: UserCircle, title: "Dashboard" };
+
+// Mobile : nav principale + notifications + items compte
+const buildMobileNav = (isBailleur: boolean) => [
   ...NAV_MAIN,
-  { href: "/notification", icon: Bell,       title: "Notifications" },
-  { href: "/accounts",             icon: UserCircle, title: "Mon compte" },
+  { href: "/notification", icon: Bell, title: "Notifications" },
+  ...ACCOUNT_ITEMS,
+  ...(isBailleur ? [DASHBOARD_ITEM] : []),
 ];
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -48,6 +63,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   const initials = getInitials(user?.user_metadata?.full_name, user?.email);
   const role = (user?.user_metadata?.role ?? user?.app_metadata?.role) as string | undefined;
   const isLocataire = role === "locataire";
+  const isBailleur = !isLocataire;
+  const mobileNav = buildMobileNav(isBailleur);
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-card border-b border-border shadow-sm">
@@ -119,7 +136,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                     </span>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52">
+                <DropdownMenuContent align="end" className="w-56">
                   <div className="px-3 py-2">
                     <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
                     {user.user_metadata?.full_name && (
@@ -127,22 +144,24 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                     )}
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/accounts" className="flex items-center gap-2 cursor-pointer">
-                      <UserCircle size={15} /> Mon profil
-                    </Link>
-                  </DropdownMenuItem>
-                  {!isLocataire && (
+                  {ACCOUNT_ITEMS.map(({ href, icon: Icon, title }) => (
+                    <DropdownMenuItem key={href} asChild>
+                      <Link href={href} className="flex items-center gap-2 cursor-pointer">
+                        <Icon size={15} /> {title}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                  {isBailleur && (
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
-                        <UserCircle size={15} /> Dashboard
+                      <Link href={DASHBOARD_ITEM.href} className="flex items-center gap-2 cursor-pointer">
+                        <DASHBOARD_ITEM.icon size={15} /> {DASHBOARD_ITEM.title}
                       </Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={logout}
-                    className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer"
+                    className="flex items-center gap-2 text-destructive focus:text-destructive cursor-pointer"
                   >
                     <LogOut size={15} /> Se déconnecter
                   </DropdownMenuItem>
@@ -196,20 +215,22 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             )}
 
             <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
-              {(user ? MOBILE_NAV : [
-                { href: "/login",    title: "Se connecter" },
-                { href: "/register", title: "S'inscrire" },
+              {(user ? mobileNav : [
+                { href: "/login",    icon: UserCircle, title: "Se connecter" },
+                { href: "/register", icon: UserCircle, title: "S'inscrire"   },
               ]).map((item) => {
+                const Icon = item.icon;
                 const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
                 return (
                   <SheetClose asChild key={item.href}>
                     <Link
                       href={item.href}
-                      className={`text-base font-medium py-3 border-b border-border transition-colors ${
+                      className={`flex items-center gap-3 py-3 border-b border-border transition-colors ${
                         isActive ? "text-primary" : "text-foreground hover:text-primary"
                       }`}
                     >
-                      {item.title}
+                      <Icon size={18} className="shrink-0" />
+                      <span className="text-base font-medium">{item.title}</span>
                     </Link>
                   </SheetClose>
                 );
