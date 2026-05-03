@@ -19,6 +19,11 @@ const HousePreview3D = dynamic(
   { ssr: false, loading: () => <div className="w-full h-full rounded-2xl bg-blue-500/30 animate-pulse" /> }
 );
 
+const EquipmentMiniature3D = dynamic(
+  () => import("@/components/logements/EquipmentMiniature3D").then(m => m.EquipmentMiniature3D),
+  { ssr: false, loading: () => <div className="w-full h-full bg-gray-100 animate-pulse" /> }
+);
+
 // ── Données ────────────────────────────────────────────────────────────────────
 const ALL_EQ = equipementsData.equipements as Equipment[];
 
@@ -192,16 +197,27 @@ export default function LogementsPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [conseilPiece, setConseilPiece] = useState(PIECES[0].id);
 
-  // Clic sur un point rouge → scroll vers la card + highlight
+  // Clic sur un point bleu → s'assurer que la bonne pièce est active, scroll vers la card + highlight
   const handleEquipementClick = useCallback((equipementId: string) => {
+    // Trouver l'équipement dans les données
+    const eq = ALL_EQ.find(e => e.id === equipementId);
+    if (!eq) return;
+
+    // Trouver la pièce correspondante dans PIECES
+    const pieceCorrespondante = PIECES.find(p => p.id === eq.piece);
+    if (pieceCorrespondante) {
+      setActivePiece(pieceCorrespondante);
+    }
+
     setHighlightedEqId(equipementId);
-    // Scroll vers la card
+
+    // Scroll vers la card (après que la pièce soit changée et les cards rendues)
     setTimeout(() => {
       const el = document.getElementById(`eq-card-${equipementId}`);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-    }, 50);
+    }, 150);
     // Retirer le highlight après 2.5s
     setTimeout(() => setHighlightedEqId(null), 2500);
   }, []);
@@ -301,7 +317,7 @@ export default function LogementsPage() {
             {/* ── ILLUSTRATION 3D ── */}
             {/* Le Canvas reste monté en permanence pour éviter la perte de contexte WebGL.
                 On le cache visuellement quand la pièce n'a pas de vue 3D. */}
-            <div className="relative bg-[#e8f0fe] rounded-2xl overflow-hidden mb-4" style={{ height: 500 }}>
+            <div className="relative bg-[black]] rounded-2xl overflow-hidden mb-4" style={{ height: 500 }}>
               <div className={`w-full h-full ${activePiece.piece3D ? 'block' : 'hidden'}`}>
                 <RoomPreview3D
                   piece={activePiece.piece3D ?? 'sejour'}
@@ -418,6 +434,16 @@ export default function LogementsPage() {
   );
 }
 
+// ── Mapping piece.id → piece3D ────────────────────────────────────────────────
+const PIECE_TO_3D: Record<string, 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir'> = {
+  "Entrée / Couloir":       "couloir",
+  "Salon / Séjour":         "sejour",
+  "Cuisine":                "cuisine",
+  "Salle de bain / Douche": "salleDeBain",
+  "Chambre":                "chambre",
+  "WC / Toilettes":         "salleDeBain",
+};
+
 // ── Card équipement ────────────────────────────────────────────────────────────
 function EqCard({ eq, onClick, highlighted = false }: {
   eq: Equipment;
@@ -425,21 +451,34 @@ function EqCard({ eq, onClick, highlighted = false }: {
   highlighted?: boolean;
 }) {
   const cfg = RESP_CFG[eq.typeRemarque];
+  const piece3D = PIECE_TO_3D[eq.piece];
+  const has3D = !!(piece3D && eq.position3D);
+
   return (
     <button
       id={`eq-card-${eq.id}`}
       onClick={() => onClick(eq)}
       className={`group rounded-xl border hover:shadow-md transition-all overflow-hidden text-left flex flex-col ${
         highlighted
-          ? 'border-red-400 shadow-lg shadow-red-100 bg-red-50 scale-105'
+          ? 'border-blue-500 shadow-lg shadow-blue-100 bg-blue-50 scale-105'
           : 'bg-white border-gray-200 hover:border-blue-300'
       }`}
     >
-      {/* Illustration */}
-      <div className={`h-24 flex items-center justify-center transition-colors ${
-        highlighted ? 'bg-red-100' : 'bg-gray-50 group-hover:bg-blue-50'
+      {/* Illustration 3D ou emoji fallback */}
+      <div className={`h-24 relative overflow-hidden transition-colors ${
+        highlighted ? 'bg-blue-100' : 'bg-gray-50 group-hover:bg-blue-50'
       }`}>
-        <span className="text-5xl group-hover:scale-110 transition-transform duration-200">{emoji(eq.nom)}</span>
+        {has3D ? (
+          <EquipmentMiniature3D
+            piece={piece3D}
+            position3D={eq.position3D!}
+            className="w-full h-full"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-4xl group-hover:scale-110 transition-transform duration-200">{emoji(eq.nom)}</span>
+          </div>
+        )}
       </div>
       {/* Nom + badge */}
       <div className="p-2.5 flex flex-col flex-1">

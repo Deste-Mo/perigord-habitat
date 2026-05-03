@@ -1,11 +1,10 @@
 'use client';
-import React from 'react';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { PriseElectrique } from '../structure/PriseElectrique';
 import { RobinetThermostatique } from '../structure/RobinetThermostatique';
+import { Fenetre } from '../structure/Fenetre';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
-import * as THREE from 'three';
 
 /**
  * SÉJOUR — centre (-2.5, -1.5), 5.5m × 5.0m
@@ -527,6 +526,19 @@ export function Sejour({ lumiere, filDefer = false, masquerPlafond = false }: Pr
           <meshStandardMaterial {...mat(ventilation)} />
         </mesh>
       ))}
+
+      {/* Fenêtre — mur gauche du séjour (x=-5.875), centrée en z=-1.5 */}
+      <Fenetre
+        position={[-5.875, 1.4, -1.5]}
+        rotation={[0, Math.PI / 2, 0]}
+        largeur={1.2}
+        hauteur={1.0}
+        idPiece="sejour"
+        idElement="fenetreSejour"
+        equipementId="salon-3"
+        equipementIdVolet="salon-4"
+        equipementIdStore="salon-5"
+      />
 
       {/* Tableau électrique — mur avant, près de la porte d'entrée, h=1.5m */}
       <group {...tableauElec.propsInteraction} position={[-0.3, 1.5, -4.83]}>

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { Environment, Sky, Billboard } from '@react-three/drei';
+import { Environment, Billboard } from '@react-three/drei';
 import * as THREE from 'three';
 import { FournisseurScene } from '@/hooks/SceneProvider';
 import { useScene } from '@/hooks/useSceneStore';
@@ -11,83 +11,44 @@ import { Cuisine } from '@/components/scene/pieces/Cuisine';
 import { Chambre } from '@/components/scene/pieces/Chambre';
 import { SalleDeBain } from '@/components/scene/pieces/SalleDeBain';
 import { Couloir } from '@/components/scene/pieces/Couloir';
+import { Mur } from '@/components/scene/structure/Mur';
+import { Fenetre } from '@/components/scene/structure/Fenetre';
+import { Porte } from '@/components/scene/structure/Porte';
 import { EclairagePrincipal } from '@/components/scene/eclairage/EclairagePrincipal';
-import { HAUTEUR_MUR, EPAISSEUR_MUR } from '@/lib/three/constantes';
+import {
+  LARGEUR_MAISON,
+  PROFONDEUR_MAISON,
+  EPAISSEUR_MUR,
+  HAUTEUR_MUR,
+} from '@/lib/three/constantes';
 import equipementsData from '@/data/equipements.json';
 import type { Equipment } from '@/types/equipment';
 
 export type PieceId3D = 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir';
 
-// Mapping pièce 3D → nom de pièce dans le JSON
-const PIECE_LABEL: Record<PieceId3D, string[]> = {
-  sejour:      ['Salon / Séjour'],
-  cuisine:     ['Cuisine'],
-  chambre:     ['Chambre'],
-  salleDeBain: ['Salle de bain / Douche', 'WC / Toilettes'],
-  couloir:     ['Entrée / Couloir'],
+// ── Constantes géométriques (identiques à StructureMaison) ───────────────────
+const lm  = LARGEUR_MAISON   / 2;   // 6
+const pm  = PROFONDEUR_MAISON / 2;  // 5
+const em2 = EPAISSEUR_MUR    / 2;   // 0.125
+const EXT = '#f5f5f5';
+const INT = '#e8e8e8';
+
+type Ouverture = { centre: number; largeur: number; yBot: number; yTop: number };
+const F_SEJOUR_GAUCHE:  Ouverture = { centre: -1.5, largeur: 1.2, yBot: 0.90, yTop: 1.90 };
+const F_CHAMBRE_GAUCHE: Ouverture = { centre:  3.5, largeur: 1.0, yBot: 0.95, yTop: 1.85 };
+const F_CUISINE_AVANT:  Ouverture = { centre:  3.5, largeur: 1.4, yBot: 0.85, yTop: 1.95 };
+
+// ── Sol limité aux dimensions exactes de la pièce ────────────────────────────
+const PIECE_SOL: Record<PieceId3D, { cx: number; cz: number; w: number; d: number }> = {
+  sejour:      { cx: -2.5,   cz: -1.5,  w: 5.5,  d: 5.0  },
+  cuisine:     { cx:  3.5,   cz: -1.5,  w: 5.0,  d: 5.0  },
+  chambre:     { cx: -2.625, cz:  3.25, w: 6.5,  d: 3.25 },
+  salleDeBain: { cx:  4.25,  cz:  3.25, w: 3.25, d: 3.25 },
+  couloir:     { cx:  1.625, cz:  3.25, w: 1.5,  d: 3.25 },
 };
 
-// Récupère les équipements avec position3D pour une pièce donnée
-function getEquipementsAvecPosition(piece: PieceId3D): Equipment[] {
-  const labels = PIECE_LABEL[piece];
-  return (equipementsData.equipements as Equipment[]).filter(
-    (eq) => labels.includes(eq.piece) && eq.position3D
-  );
-}
-
-// ── Config caméra ─────────────────────────────────────────────────────────────
-export const ROOM_CONFIG: Record<PieceId3D, {
-  xMin: number; xMax: number; zMin: number; zMax: number;
-  camPos: [number, number, number];
-  camTarget: [number, number, number];
-}> = {
-  // Séjour : X -5.875→0.625, Z -4.875→1.125
-  // Caméra coin avant-droit, vue isométrique 45° qui couvre toute la pièce
-  // FOV 35 + distance modérée = bon zoom sans perdre les murs extrêmes
-  sejour: {
-    xMin: -5.875, xMax: 0.625, zMin: -4.875, zMax: 1.125,
-    camPos:    [5,  7,  7],
-    camTarget: [-2.5, 0.5, -1.5],
-  },
-  // Cuisine : X 0.875→5.875, Z -4.875→1.125
-  cuisine: {
-    xMin:  0.875, xMax: 5.875, zMin: -4.875, zMax: 1.125,
-    camPos:    [10, 7,  7],
-    camTarget: [ 3.5, 0.5, -1.5],
-  },
-  // Chambre : X -5.875→0.625, Z 1.625→4.875
-  chambre: {
-    xMin: -5.875, xMax: 0.625, zMin:  1.625, zMax: 4.875,
-    camPos:    [5,  7, 11],
-    camTarget: [-2.625, 0.5, 3.25],
-  },
-  // Salle de bain : X 2.625→5.875, Z 1.625→4.875
-  salleDeBain: {
-    xMin:  2.625, xMax: 5.875, zMin:  1.625, zMax: 4.875,
-    camPos:    [11, 7, 11],
-    camTarget: [ 4.25, 0.5, 3.25],
-  },
-  // Couloir : X 0.875→2.375, Z 1.625→4.875
-  couloir: {
-    xMin:  0.875, xMax: 2.375, zMin:  1.625, zMax: 4.875,
-    camPos:    [7,  6, 11],
-    camTarget: [ 1.625, 0.5, 3.25],
-  },
-};
-
-// ── Mur de fond ───────────────────────────────────────────────────────────────
-function MurFond({ x, z, largeur, rotY = 0 }: { x: number; z: number; largeur: number; rotY?: number }) {
-  return (
-    <mesh position={[x, HAUTEUR_MUR / 2, z]} rotation={[0, rotY, 0]} receiveShadow>
-      <boxGeometry args={[largeur, HAUTEUR_MUR, EPAISSEUR_MUR]} />
-      <meshStandardMaterial color="#e8e4de" roughness={0.85} side={THREE.BackSide} />
-    </mesh>
-  );
-}
-
-function SolPiece({ xMin, xMax, zMin, zMax }: { xMin: number; xMax: number; zMin: number; zMax: number }) {
-  const cx = (xMin + xMax) / 2, cz = (zMin + zMax) / 2;
-  const w = xMax - xMin, d = zMax - zMin;
+function SolPiece({ piece }: { piece: PieceId3D }) {
+  const { cx, cz, w, d } = PIECE_SOL[piece];
   return (
     <mesh position={[cx, -0.01, cz]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
       <planeGeometry args={[w, d]} />
@@ -96,7 +57,188 @@ function SolPiece({ xMin, xMax, zMin, zMax }: { xMin: number; xMax: number; zMin
   );
 }
 
-// ── Point rouge pulsant — Billboard toujours au-dessus des équipements ───────
+// Reconstruit un mur percé (segments autour des ouvertures) — même logique que StructureMaison
+function MurPerce({ debut, fin, ouvertures = [], couleur = EXT }: {
+  debut: [number, number]; fin: [number, number];
+  ouvertures?: Ouverture[]; couleur?: string;
+}) {
+  const dx  = fin[0] - debut[0];
+  const dz  = fin[1] - debut[1];
+  const isX = Math.abs(dx) > Math.abs(dz);
+  const start  = isX ? debut[0] : debut[1];
+  const end    = isX ? fin[0]   : fin[1];
+  const fixed  = isX ? debut[1] : debut[0];
+  const D = (a: number): [number, number] => isX ? [a, fixed] : [fixed, a];
+
+  const sorted = [...ouvertures].sort((a, b) => a.centre - b.centre);
+  const segs: React.ReactElement[] = [];
+  let cur = start, k = 0;
+
+  for (const o of sorted) {
+    const L = o.centre - o.largeur / 2;
+    const R = o.centre + o.largeur / 2;
+    if (cur < L)
+      segs.push(<Mur key={k++} debut={D(cur)} fin={D(L)} couleur={couleur} />);
+    if (o.yBot > 0)
+      segs.push(<Mur key={k++} debut={D(L)} fin={D(R)} hauteur={o.yBot} couleur={couleur} />);
+    if (o.yTop < HAUTEUR_MUR)
+      segs.push(<Mur key={k++} debut={D(L)} fin={D(R)} hauteur={HAUTEUR_MUR - o.yTop} yMin={o.yTop} couleur={couleur} />);
+    cur = R;
+  }
+  if (cur < end)
+    segs.push(<Mur key={k++} debut={D(cur)} fin={D(end)} couleur={couleur} />);
+
+  return <>{segs}</>;
+}
+
+// ── Ouvertures portes (identiques à StructureMaison) ─────────────────────────
+const P_ENTREE:       Ouverture = { centre: -1.05,  largeur: 0.9,  yBot: 0, yTop: 2.1  };
+const P_SEJ_CHAMBRE:  Ouverture = { centre: -2.625, largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_CUI_COULOIR:  Ouverture = { centre:  1.5,   largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_CHAM_COULOIR: Ouverture = { centre:  3.25,  largeur: 0.85, yBot: 0, yTop: 2.05 };
+const P_COULOIR_SDB:  Ouverture = { centre:  3.2,   largeur: 0.8,  yBot: 0, yTop: 2.05 };
+
+// ── Murs visibles depuis la caméra isométrique (fond de scène uniquement) ─────
+// Caméra toujours dans le coin z+/x+ de chaque pièce.
+// On garde UNIQUEMENT les murs du fond (z- et x-) et on omet les murs proches
+// de la caméra (z+ et x+) pour laisser voir l'intérieur.
+// Les portes et leurs linteaux sont rendus via MurPerce + <Porte>.
+function MursFond({ piece }: { piece: PieceId3D }) {
+  switch (piece) {
+
+    case 'sejour':
+      // Caméra [5,7,7] → fond = mur gauche (x=-6) + mur arrière (z=-5)
+      // Cloison z=+1.5 est côté caméra → pas de porte affichée dessus
+      return (
+        <>
+          {/* Mur gauche (fond) avec fenêtre */}
+          <MurPerce debut={[-lm, -pm]} fin={[-lm, 1.5]} ouvertures={[F_SEJOUR_GAUCHE]} couleur={EXT} />
+          <Fenetre
+            position={[-lm + em2, 1.4, -1.5]}
+            rotation={[0, Math.PI / 2, 0]}
+            largeur={1.2} hauteur={1.0}
+            idPiece="sejour" idElement="fenetreSejour"
+            equipementId="salon-3" equipementIdVolet="salon-4" equipementIdStore="salon-5"
+          />
+          {/* Mur arrière (fond) z=-5 avec porte d'entrée */}
+          <MurPerce debut={[-lm, -pm]} fin={[-1.5, -pm]} ouvertures={[P_ENTREE]} couleur={EXT} />
+          <Mur debut={[-0.6, -pm]} fin={[0.75, -pm]} couleur={EXT} />
+          <Porte position={[-1.05, 0, -pm + 0.02]} />
+        </>
+      );
+
+    case 'cuisine':
+      // Caméra [10,7,7] → fond = cloison x=+0.75 + mur arrière (z=-5)
+      // Cloison z=+1.5 est côté caméra → pas de porte affichée dessus
+      return (
+        <>
+          {/* Cloison gauche (fond) — pas de porte sur ce segment */}
+          <Mur debut={[0.75, -pm]} fin={[0.75, 1.5]} couleur={INT} />
+          {/* Mur arrière (fond) z=-5 avec fenêtre cuisine */}
+          <MurPerce debut={[-0.6, -pm]} fin={[lm, -pm]} ouvertures={[F_CUISINE_AVANT]} couleur={EXT} />
+          <Fenetre
+            position={[3.5, 1.4, -pm + em2]}
+            largeur={1.4} hauteur={1.1}
+            idPiece="cuisine" idElement="fenetreCuisine1"
+          />
+        </>
+      );
+
+    case 'chambre':
+      // Caméra [5,7,11] → fond = mur gauche (x=-6) + cloison z=+1.5
+      // Cloison x=+0.75 est côté caméra → pas de porte affichée dessus
+      return (
+        <>
+          {/* Mur gauche (fond) avec fenêtre */}
+          <MurPerce debut={[-lm, 1.5]} fin={[-lm, pm]} ouvertures={[F_CHAMBRE_GAUCHE]} couleur={EXT} />
+          <Fenetre
+            position={[-lm + em2, 1.4, 3.5]}
+            rotation={[0, Math.PI / 2, 0]}
+            largeur={1.0} hauteur={0.9}
+            idPiece="chambre" idElement="fenetreChambre1"
+            equipementId="chambre-3" equipementIdVolet="chambre-4" equipementIdStore="chambre-5"
+          />
+          {/* Cloison avant (fond) z=+1.5 avec porte séjour/chambre */}
+          <MurPerce debut={[-lm, 1.5]} fin={[-2.2, 1.5]} ouvertures={[P_SEJ_CHAMBRE]} couleur={INT} />
+          <Mur debut={[-2.2, 1.5]} fin={[0.75, 1.5]} couleur={INT} />
+          <Porte position={[-2.625, 0, 1.5]} largeur={0.85} hauteur={2.05} />
+        </>
+      );
+
+    case 'salleDeBain':
+      // Caméra [11,7,11] → fond = cloison avant (z=+1.5) + cloison gauche (x=+2.5)
+      return (
+        <>
+          {/* Cloison avant (fond) z=+1.5 — pas de porte */}
+          <Mur debut={[2.5, 1.5]} fin={[lm, 1.5]} couleur={INT} />
+          {/* Cloison gauche (fond) x=+2.5 avec porte couloir/SDB */}
+          <MurPerce debut={[2.5, 1.5]} fin={[2.5, pm]} ouvertures={[P_COULOIR_SDB]} couleur={INT} />
+          <Porte position={[2.5, 0, 3.2]} rotation={[0, Math.PI / 2, 0]} largeur={0.8} hauteur={2.05} />
+        </>
+      );
+
+    case 'couloir':
+      // Caméra [7,6,11] → fond = cloison gauche (x=+0.75) + cloison avant (z=+1.5)
+      return (
+        <>
+          {/* Cloison gauche (fond) x=+0.75 avec porte chambre/couloir */}
+          <MurPerce debut={[0.75, 1.5]} fin={[0.75, pm]} ouvertures={[P_CHAM_COULOIR]} couleur={INT} />
+          <Porte position={[0.75, 0, 3.25]} rotation={[0, Math.PI / 2, 0]} largeur={0.85} hauteur={2.05} />
+          {/* Cloison avant (fond) z=+1.5 avec porte cuisine/couloir */}
+          <MurPerce debut={[0.75, 1.5]} fin={[2.5, 1.5]} ouvertures={[P_CUI_COULOIR]} couleur={INT} />
+          <Porte position={[1.5, 0, 1.5]} largeur={0.85} hauteur={2.05} />
+        </>
+      );
+
+    default:
+      return null;
+  }
+}
+
+// ── Mapping pièce → labels JSON ───────────────────────────────────────────────
+const PIECE_LABEL: Record<PieceId3D, string[]> = {
+  sejour:      ['Salon / Séjour'],
+  cuisine:     ['Cuisine'],
+  chambre:     ['Chambre'],
+  salleDeBain: ['Salle de bain / Douche', 'WC / Toilettes'],
+  couloir:     ['Entrée / Couloir'],
+};
+
+function getEquipementsAvecPosition(piece: PieceId3D): Equipment[] {
+  const labels = PIECE_LABEL[piece];
+  const all = (equipementsData.equipements as Equipment[]).filter(
+    (eq) => labels.includes(eq.piece) && eq.position3D
+  );
+
+  // Dédupliquer les positions trop proches (distance < 0.15m) — garder le premier
+  const deduped: Equipment[] = [];
+  for (const eq of all) {
+    const pos = eq.position3D!;
+    const tooClose = deduped.some(existing => {
+      const ep = existing.position3D!;
+      const dx = pos[0] - ep[0];
+      const dy = pos[1] - ep[1];
+      const dz = pos[2] - ep[2];
+      return Math.sqrt(dx*dx + dy*dy + dz*dz) < 0.15;
+    });
+    if (!tooClose) deduped.push(eq);
+  }
+  return deduped;
+}
+
+// ── Config caméra ─────────────────────────────────────────────────────────────
+export const ROOM_CONFIG: Record<PieceId3D, {
+  camPos: [number, number, number];
+  camTarget: [number, number, number];
+}> = {
+  sejour:      { camPos: [5,  7,  7], camTarget: [-2.5,   0.5, -1.5]  },
+  cuisine:     { camPos: [10, 7,  7], camTarget: [ 3.5,   0.5, -1.5]  },
+  chambre:     { camPos: [5,  7, 11], camTarget: [-2.625, 0.5,  3.25] },
+  salleDeBain: { camPos: [11, 7, 11], camTarget: [ 4.25,  0.5,  3.25] },
+  couloir:     { camPos: [7,  6, 11], camTarget: [ 1.625, 0.5,  3.25] },
+};
+
+// ── Point rouge cliquable ─────────────────────────────────────────────────────
 function PointCliquable({
   position, equipementId, onClic,
 }: {
@@ -105,37 +247,20 @@ function PointCliquable({
   onClic: (id: string) => void;
 }) {
   return (
-    <Billboard
-      position={position}
-      follow={true}
-      renderOrder={999}
-    >
+    <Billboard position={position} follow={true} renderOrder={999}>
       <group
         onClick={(e) => { e.stopPropagation(); onClic(equipementId); }}
         onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
       >
-        {/* Halo */}
         <mesh renderOrder={999}>
           <circleGeometry args={[0.18, 16]} />
-          <meshBasicMaterial
-            color="#ef4444"
-            transparent
-            opacity={0.25}
-            side={THREE.DoubleSide}
-            depthTest={false}
-          />
+          <meshBasicMaterial color="#2563eb" transparent opacity={0.25} side={THREE.DoubleSide} depthTest={false} />
         </mesh>
-        {/* Point central */}
         <mesh position={[0, 0, 0.001]} renderOrder={1000}>
           <circleGeometry args={[0.09, 16]} />
-          <meshBasicMaterial
-            color="#ef4444"
-            side={THREE.DoubleSide}
-            depthTest={false}
-          />
+          <meshBasicMaterial color="#2563eb" side={THREE.DoubleSide} depthTest={false} />
         </mesh>
-        {/* Croix blanche */}
         <mesh position={[0, 0, 0.002]} renderOrder={1001}>
           <planeGeometry args={[0.1, 0.02]} />
           <meshBasicMaterial color="white" side={THREE.DoubleSide} depthTest={false} />
@@ -149,17 +274,15 @@ function PointCliquable({
   );
 }
 
-// ── Bridge : lit equipementModalId du store et remonte via callback ────────────
+// ── Bridge store → callback ───────────────────────────────────────────────────
 function EquipementBridge({ onEquipementClick }: { onEquipementClick: (id: string) => void }) {
   const { equipementModalId, setEquipementModalId } = useScene();
-
   useEffect(() => {
     if (equipementModalId) {
       onEquipementClick(equipementModalId);
-      setEquipementModalId(null); // reset pour le prochain clic
+      setEquipementModalId(null);
     }
   }, [equipementModalId, onEquipementClick, setEquipementModalId]);
-
   return null;
 }
 
@@ -176,20 +299,11 @@ function CameraUpdater({ piece }: { piece: PieceId3D }) {
 }
 
 // ── Scène ─────────────────────────────────────────────────────────────────────
-function RoomScene({
-  piece,
-  onEquipementClick,
-}: {
+function RoomScene({ piece, onEquipementClick }: {
   piece: PieceId3D;
   onEquipementClick: (id: string) => void;
 }) {
-  const cfg = ROOM_CONFIG[piece];
-  const cx = (cfg.xMin + cfg.xMax) / 2;
-  const cz = (cfg.zMin + cfg.zMax) / 2;
-  const w  = cfg.xMax - cfg.xMin;
-  const d  = cfg.zMax - cfg.zMin;
-
-  const points: Equipment[] = getEquipementsAvecPosition(piece);
+  const points = getEquipementsAvecPosition(piece);
 
   return (
     <>
@@ -197,21 +311,23 @@ function RoomScene({
       <EquipementBridge onEquipementClick={onEquipementClick} />
 
       <EclairagePrincipal modeJourNuit="jour" />
-      <Sky sunPosition={[100, 80, 50]} turbidity={4} rayleigh={0.5} />
+      <color attach="background" args={['#dbeafe']} />
       <Environment preset="apartment" />
 
-      <SolPiece xMin={cfg.xMin} xMax={cfg.xMax} zMin={cfg.zMin} zMax={cfg.zMax} />
-      <MurFond x={cx}       z={cfg.zMin} largeur={w} rotY={0}           />
-      <MurFond x={cfg.xMin} z={cz}       largeur={d} rotY={Math.PI / 2} />
+      {/* Sol limité à la pièce uniquement */}
+      <SolPiece piece={piece} />
 
-      {/* Pièce active */}
+      {/* Uniquement les murs du fond visibles depuis la caméra isométrique */}
+      <MursFond piece={piece} />
+
+      {/* Pièce active avec tout son mobilier */}
       {piece === 'sejour'      && <Sejour      lumiere={true} masquerPlafond={true} />}
       {piece === 'cuisine'     && <Cuisine     lumiere={true} masquerPlafond={true} />}
       {piece === 'chambre'     && <Chambre     lumiere={true} masquerPlafond={true} />}
       {piece === 'salleDeBain' && <SalleDeBain lumiere={true} masquerPlafond={true} />}
       {piece === 'couloir'     && <Couloir     lumiere={true} masquerPlafond={true} />}
 
-      {/* Points rouges cliquables — positions depuis equipements.json */}
+      {/* Points rouges cliquables */}
       {points.map((eq) => (
         <PointCliquable
           key={eq.id}

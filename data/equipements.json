@@ -851,7 +851,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Sécurité : hors périmètre locataire",
       "remarque": "Bailleur responsable. Ouvrir un Ordre de Service et mandater un prestataire agréé. Pas de refacturation au locataire.",
-      "typeRemarque": "bailleur"
+      "typeRemarque": "bailleur",
+      "position3D": [-0.3, 1.5, -4.83]
     },  
     {
       "id": "collectif-1",
