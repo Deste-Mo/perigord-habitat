@@ -25,7 +25,7 @@ import { Toast }                from "@/components/accounts/Toast";
 type ActiveSection = "profile" | "password" | null;
 
 export default function AccountsPage() {
-  const { user, profile, loading } = useAuthContext();
+  const { user, profile, loading, refreshProfile } = useAuthContext();
   const router = useRouter();
 
   const { toast, show: showToast } = useToast();
@@ -37,6 +37,7 @@ export default function AccountsPage() {
   // Hooks metier
   const accountForm = useAccountForm({
     user, profile,
+    refreshProfile,
     onSuccess: (msg) => { showToast(msg, "success"); setActiveSection(null); },
     onError:   (msg) => showToast(msg, "error"),
   });
@@ -61,16 +62,16 @@ export default function AccountsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* <HeaderApp /> */}
-      <div className="mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background">
+      <HeaderApp />
+      <div className="max-w-2xl mx-auto px-4 py-8">
 
         <AccountHeader user={user} profile={profile} />
 
@@ -124,7 +125,7 @@ export default function AccountsPage() {
 
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-8">
+        <p className="text-center text-xs text-muted-foreground mt-8">
           Membre depuis{" "}
           {user?.created_at
             ? new Date(user.created_at).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })

@@ -12,9 +12,10 @@ interface UseAccountFormOptions {
   profile: Profile | null;
   onSuccess: (message: string) => void;
   onError: (message: string) => void;
+  refreshProfile: () => Promise<void>;
 }
 
-export function useAccountForm({ user, profile, onSuccess, onError }: UseAccountFormOptions) {
+export function useAccountForm({ user, profile, onSuccess, onError, refreshProfile }: UseAccountFormOptions) {
   const [form, setForm] = useState<ProfileForm>({
     full_name: "",
     telephone: "",
@@ -44,6 +45,9 @@ export function useAccountForm({ user, profile, onSuccess, onError }: UseAccount
     setSaving(true);
     try {
       await accountsService.updateProfile(user.id, form);
+      // Recharge le profil en mémoire pour que le header et les autres
+      // composants reflètent immédiatement les nouvelles données
+      await refreshProfile();
       onSuccess("Profil mis à jour avec succès");
       return true;
     } catch (e: unknown) {

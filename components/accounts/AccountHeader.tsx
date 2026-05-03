@@ -29,23 +29,23 @@ export function AccountHeader({ user, profile }: AccountHeaderProps) {
     <div className="flex items-center gap-4 mb-8">
       <Link
         href="/"
-        className="p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-500"
+        className="p-2 rounded-xl hover:bg-muted transition-colors text-muted-foreground"
       >
         <ArrowLeft size={18} />
       </Link>
       <div className="flex items-center gap-4 flex-1">
-        <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white text-xl font-bold shadow-md">
+        <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-primary-foreground text-xl font-bold shadow-md">
           {initials}
         </div>
         <div>
-          <h1 className="text-lg font-black text-gray-900">{displayName}</h1>
+          <h1 className="text-lg font-black text-foreground">{displayName}</h1>
           <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-xs text-gray-500">{user?.email}</span>
+            <span className="text-xs text-muted-foreground">{user?.email}</span>
             <span
               className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                 isBailleur
-                  ? "bg-blue-100 text-blue-700"
-                  : "bg-amber-100 text-amber-700"
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                  : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
               }`}
             >
               {isBailleur ? "Bailleur" : "Locataire"}

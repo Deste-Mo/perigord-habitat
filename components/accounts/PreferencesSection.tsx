@@ -24,13 +24,13 @@ interface PreferencesSectionProps {
   onThemeChange: (theme: ThemeOption) => void;
 }
 
+const labelCls = "text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 block";
+
 export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }: PreferencesSectionProps) {
   return (
     <Section title="Langue & Région" icon={Globe}>
       <div className="px-5 py-4">
-        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
-          Langue de l&apos;interface
-        </label>
+        <label className={labelCls}>Langue de l&apos;interface</label>
         <div className="grid grid-cols-3 gap-2">
           {LANGS.map(({ code, label, flag }) => (
             <button
@@ -38,8 +38,8 @@ export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }:
               onClick={() => onLangChange(code)}
               className={`flex flex-col items-center gap-1 py-3 rounded-xl border text-sm font-medium transition-all ${
                 lang === code
-                  ? "border-blue-500 bg-blue-50 text-blue-700"
-                  : "border-gray-200 text-gray-600 hover:border-gray-300"
+                  ? "border-primary bg-accent text-primary"
+                  : "border-border text-foreground hover:border-primary/50 hover:bg-muted"
               }`}
             >
               <span className="text-xl">{flag}</span>
@@ -48,10 +48,8 @@ export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }:
           ))}
         </div>
       </div>
-      <div className="px-5 py-4 border-t border-gray-50">
-        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
-          Thème
-        </label>
+      <div className="px-5 py-4 border-t border-border">
+        <label className={labelCls}>Thème</label>
         <div className="grid grid-cols-3 gap-2">
           {THEMES.map(({ code, label, icon: Icon }) => (
             <button
@@ -59,8 +57,8 @@ export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }:
               onClick={() => onThemeChange(code)}
               className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border text-sm font-medium transition-all ${
                 theme === code
-                  ? "border-blue-500 bg-blue-50 text-blue-700"
-                  : "border-gray-200 text-gray-600 hover:border-gray-300"
+                  ? "border-primary bg-accent text-primary"
+                  : "border-border text-foreground hover:border-primary/50 hover:bg-muted"
               }`}
             >
               <Icon size={18} />
