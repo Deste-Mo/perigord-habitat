@@ -9,7 +9,7 @@ import { EquipmentCard } from "@/components/equipment/EquipmentCard";
 import { EquipmentFilters } from "@/components/equipment/EquipmentFilters";
 import { EquipmentModal } from "@/components/equipment/EquipmentModal";
 import { EquipmentEditModal } from "@/components/equipment/EquipmentEditModal";
-import { useEquipmentData } from "@/hooks/equipment/useEquipmentData";
+import { useEquipmentData } from "@/hooks/tableau_de_bord/useEquipmentData";
 import type { Equipment } from "@/types/equipment";
 
 export default function EquipmentPage() {

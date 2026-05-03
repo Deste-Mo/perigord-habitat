@@ -8,6 +8,7 @@ export interface Equipment {
   referenceLegale: string;
   remarque: string;
   typeRemarque: "locataire" | "bailleur" | "contrat";
+  position3D?: [number, number, number];
 }
 
 export type TypeRemarque = Equipment["typeRemarque"];

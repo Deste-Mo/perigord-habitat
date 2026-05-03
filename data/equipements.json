@@ -42,7 +42,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Grille de vétusté recommandée CNAB / USH",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [1.625, 0.01, 3.25]
     },
     {
       "id": "entree-5",
@@ -53,7 +54,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : peintures intérieures = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [0.89, 1.4, 3.25]
     },
     {
       "id": "entree-6",
@@ -64,7 +66,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : menu entretien électricité",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [1.625, 2.72, 3.25]
     },
     {
       "id": "entree-7",
@@ -86,7 +89,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [0.86, 1.4, 1.85]
     },
     {
       "id": "entree-9",
@@ -119,7 +123,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : débouchage = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.0, 0.94, -3.66]
     },
     {
       "id": "cuisine-2",
@@ -130,7 +135,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : joints et colliers = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.0, 0.94, -3.84]
     },
     {
       "id": "cuisine-3",
@@ -141,7 +147,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.15, 0.94, -3.84]
     },
     {
       "id": "cuisine-4",
@@ -152,7 +159,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : débouchage et nettoyage = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [4.0, 0.88, -3.66]
     },
     {
       "id": "cuisine-5",
@@ -163,7 +171,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : canalisations = bailleur si non accessibles",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.0, 0.4, -3.5]
     },
     {
       "id": "cuisine-6",
@@ -174,7 +183,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : nettoyage et remplacement des filtres = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [3.0, 1.62, -3.8]
     },
     {
       "id": "cuisine-7",
@@ -185,7 +195,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Rare en HLM – à préciser dans le bail",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [3.0, 0.945, -3.65]
     },
     {
       "id": "cuisine-8",
@@ -196,7 +207,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Rare en HLM",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [3.0, 0.45, -3.66]
     },
     {
       "id": "cuisine-9",
@@ -207,7 +219,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Rare en HLM",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [5.4, 0.95, -3.68]
     },
     {
       "id": "cuisine-10",
@@ -218,7 +231,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Rare en HLM",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.7, 0.45, -3.66]
     },
     {
       "id": "cuisine-11",
@@ -229,7 +243,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [3.65, 1.35, -3.86]
     },
     {
       "id": "cuisine-12",
@@ -240,7 +255,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Grille de vétusté",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [3.5, 0.01, -1.5]
     },
     {
       "id": "cuisine-13",
@@ -251,7 +267,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : nettoyage des grilles = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [2.0, 2.75, -3.8]
     },
     {
       "id": "cuisine-14",
@@ -262,7 +279,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [3.5, 0.65, -3.86]
     },
     {
       "id": "cuisine-15",
@@ -273,7 +291,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Sécurité gaz : hors périmètre locataire",
       "remarque": "Bailleur responsable. Ouvrir un Ordre de Service et mandater un prestataire agréé. Pas de refacturation au locataire.",
-      "typeRemarque": "bailleur"
+      "typeRemarque": "bailleur",
+      "position3D": [5.85, 1.4, -3.85]
     },
     {
       "id": "cuisine-16",
@@ -284,7 +303,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : entretien courant = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [2.2, 0.45, 0.5]
     },
     {
       "id": "sdb-1",
@@ -306,7 +326,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [3.3, 0.5, 4.2]
     },
     {
       "id": "sdb-3",
@@ -339,7 +360,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 + jurisprudence : anode = locataire si accessible",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [2.9, 1.55, 2.0]
     },
     {
       "id": "sdb-6",
@@ -350,7 +372,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.25, 0.55, 1.74]
     },
     {
       "id": "sdb-7",
@@ -361,7 +384,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.25, 0.98, 1.74]
     },
     {
       "id": "sdb-8",
@@ -394,7 +418,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Grille de vétusté",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [4.25, 0.01, 3.25]
     },
     {
       "id": "sdb-11",
@@ -405,7 +430,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Selon état des lieux",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [4.25, 1.55, 1.64]
     },
     {
       "id": "sdb-12",
@@ -427,7 +453,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [5.6, 1.2, 3.8]
     },
     {
       "id": "sdb-14",
@@ -438,7 +465,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : nettoyage des grilles = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [4.25, 2.72, 3.25]
     },
     {
       "id": "sdb-15",
@@ -449,7 +477,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [2.64, 1.2, 2.8]
     },
     {
       "id": "sdb-16",
@@ -460,7 +489,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : joints = locataire MAIS souvent pris sous contrat",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [3.3, 0.3, 4.2]
     },
     {
       "id": "sdb-17",
@@ -482,7 +512,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : remplacement cuvette = bailleur si fissure structurelle",
       "remarque": "Bailleur responsable. Ouvrir un Ordre de Service et mandater un prestataire agréé. Pas de refacturation au locataire.",
-      "typeRemarque": "bailleur"
+      "typeRemarque": "bailleur",
+      "position3D": [5.2, 0.22, 4.2]
     },
     {
       "id": "wc-2",
@@ -570,7 +601,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Grille de vétusté recommandée CNAB / USH",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-2.625, 0.01, 3.25]
     },
     {
       "id": "chambre-2",
@@ -581,7 +613,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : peintures intérieures = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-5.86, 1.4, 3.25]
     },
     {
       "id": "chambre-3",
@@ -592,7 +625,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : graissage charnières, remplacement vitres brisées = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-5.855, 1.4, 3.5]
     },
     {
       "id": "chambre-4",
@@ -603,7 +637,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : graissage = locataire ; mécanisme = souvent contrat",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-5.855, 1.4, 3.5]
     },
     {
       "id": "chambre-5",
@@ -625,7 +660,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Charges récupérables : art. 23 Loi 89 + Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-1.5, 0.5, 4.84]
     },
     {
       "id": "chambre-7",
@@ -636,7 +672,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-1.0, 0.35, 4.84]
     },
     {
       "id": "chambre-8",
@@ -647,7 +684,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : nettoyage des grilles = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-4.5, 2.75, 2.0]
     },
     {
       "id": "chambre-9",
@@ -658,7 +696,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-2.0, 1.2, 1.64]
     },
     {
       "id": "chambre-10",
@@ -680,7 +719,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : menu entretien menuiserie = locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-5.565, 1.1, 3.725]
     },
     {
       "id": "salon-1",
@@ -691,7 +731,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Grille de vétusté CNAB",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-2.5, 0.01, -1.5]
     },
     {
       "id": "salon-2",
@@ -702,7 +743,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-3.5, 1.8, -4.87]
     },
     {
       "id": "salon-3",
@@ -713,7 +755,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713 : graissage charnières locataire",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-5.87, 1.4, -1.5]
     },
     {
       "id": "salon-4",
@@ -724,7 +767,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-5.87, 1.4, -0.5]
     },
     {
       "id": "salon-5",
@@ -735,7 +779,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-5.87, 1.4, -2.5]
     },
     {
       "id": "salon-6",
@@ -746,7 +791,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-0.3, 1.2, -4.86]
     },
     {
       "id": "salon-7",
@@ -757,9 +803,10 @@
       "contratMaintenance": true,
       "referenceLegale": "Charges récupérables : art. 23 Loi 89 + Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [0.0, 0.38, -4.87]
     },
-    {
+        {
       "id": "salon-8",
       "piece": "Salon / Séjour",
       "nom": "Robinet thermostatique",
@@ -768,7 +815,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-0.5, 0.38, -4.87]
     },
     {
       "id": "salon-9",
@@ -779,7 +827,8 @@
       "contratMaintenance": true,
       "referenceLegale": "Décret 87-713 : nettoyage des grilles = locataire",
       "remarque": "Vérifier si un contrat collectif est en place. Si oui, la réparation est organisée par le bailleur mais refacturée au locataire via les charges → informer le locataire.",
-      "typeRemarque": "contrat"
+      "typeRemarque": "contrat",
+      "position3D": [-1.5, 2.55, 1.1]
     },
     {
       "id": "salon-10",
@@ -790,7 +839,8 @@
       "contratMaintenance": false,
       "referenceLegale": "Décret 87-713",
       "remarque": "Réparation à la charge du locataire. Lui rappeler son obligation d'entretien courant dès l'état des lieux d'entrée.",
-      "typeRemarque": "locataire"
+      "typeRemarque": "locataire",
+      "position3D": [-2.5, 2.72, -1.5]
     },
     {
       "id": "salon-11",
@@ -802,7 +852,7 @@
       "referenceLegale": "Sécurité : hors périmètre locataire",
       "remarque": "Bailleur responsable. Ouvrir un Ordre de Service et mandater un prestataire agréé. Pas de refacturation au locataire.",
       "typeRemarque": "bailleur"
-    },
+    },  
     {
       "id": "collectif-1",
       "piece": "Équipements collectifs / Parties communes",

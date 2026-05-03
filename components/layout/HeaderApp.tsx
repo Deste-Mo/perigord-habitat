@@ -46,6 +46,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
   const displayName = user?.user_metadata?.full_name ?? user?.email ?? null;
   const initials = getInitials(user?.user_metadata?.full_name, user?.email);
+  const role = (user?.user_metadata?.role ?? user?.app_metadata?.role) as string | undefined;
+  const isLocataire = role === "locataire";
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100 shadow-sm">
@@ -130,6 +132,13 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                       <UserCircle size={15} /> Mon profil
                     </Link>
                   </DropdownMenuItem>
+                  {!isLocataire && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                        <UserCircle size={15} /> Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={logout}
@@ -146,7 +155,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                 <Link href="/client/auth/login">Se connecter</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/client/auth/register">S'inscrire</Link>
+                <Link href="/client/auth/register">S&apos;inscrire</Link>
               </Button>
             </>
           )

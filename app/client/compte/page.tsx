@@ -29,7 +29,7 @@ const MENU_ITEMS = [
     description: "Gérer mes logements et leurs informations",
     icon: Building2,
     color: "bg-green-50 text-green-600",
-    href: "/client/compte/logements",
+    href: "/logements",
   },
   {
     id: "documents",
