@@ -31,7 +31,7 @@ const NAV_MAIN = [
 const MOBILE_NAV = [
   ...NAV_MAIN,
   { href: "/client/notifications", icon: Bell,       title: "Notifications" },
-  { href: "/client/compte",        icon: UserCircle, title: "Mon compte" },
+  { href: "/accounts",             icon: UserCircle, title: "Mon compte" },
 ];
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -128,7 +128,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/client/compte" className="flex items-center gap-2 cursor-pointer">
+                    <Link href="/accounts" className="flex items-center gap-2 cursor-pointer">
                       <UserCircle size={15} /> Mon profil
                     </Link>
                   </DropdownMenuItem>
