@@ -108,7 +108,7 @@ SELECT
         WHEN auth.uid() IS NULL THEN 
             '❌ ERREUR: Non connecté. Connectez-vous à l''application'
         WHEN (SELECT COUNT(*) FROM locataires WHERE user_id = auth.uid()) = 0 THEN 
-            '⚠️ ATTENTION: Aucun profil locataire. Allez sur /client/incidents pour créer votre profil'
+            '⚠️ ATTENTION: Aucun profil locataire. Allez sur /incident pour créer votre profil'
         ELSE 
             '✅ TOUT EST OK! Vous pouvez utiliser l''application'
     END as diagnostic;
@@ -123,7 +123,7 @@ SELECT
         WHEN auth.uid() IS NULL THEN 
             '1. Connectez-vous à l''application avec votre compte'
         WHEN (SELECT COUNT(*) FROM locataires WHERE user_id = auth.uid()) = 0 THEN 
-            '1. Allez sur /client/incidents et remplissez le formulaire d''initialisation'
+            '1. Allez sur /incident et remplissez le formulaire d''initialisation'
         ELSE 
             '✅ Aucune action requise. Tout est configuré!'
     END as action;

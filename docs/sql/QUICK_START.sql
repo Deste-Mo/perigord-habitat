@@ -74,5 +74,5 @@ WHERE l.user_id = auth.uid()
 GROUP BY l.nom, l.prenom, log.reference;
 
 -- ============================================
--- C'EST TOUT! Allez sur /client/incidents
+-- C'EST TOUT! Allez sur /incident
 -- ============================================

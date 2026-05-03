@@ -64,7 +64,7 @@ export default function Dashboard() {
       title: "Voir les incidents",
       description: "Incidents en cours",
       icon: AlertTriangle,
-      href: "/client/incidents",
+      href: "/incident",
       color: "orange" as const
     },
     {
@@ -157,7 +157,7 @@ export default function Dashboard() {
                   Suivez et gérez tous les incidents signalés par vos locataires en temps réel.
                 </p>
                 <a 
-                  href="/client/incidents" 
+                  href="/incident" 
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Voir les incidents

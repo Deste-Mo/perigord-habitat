@@ -5,7 +5,7 @@ import Image from "next/image";
 import {
   Home, Bot, Building2, BookOpen, HelpCircle,
   Phone, UserCircle, Menu, X, LogOut, Bell,
-  AlertTriangle, History, FileText,
+  AlertTriangle,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -20,34 +20,31 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAuth } from "@/hooks/useAuth";
 
+// Nav principale — sans Notifications (rendu séparément sur desktop avec badge)
 const NAV_MAIN = [
-  { href: "/",                     icon: Home,          title: "Accueil" },
-  { href: "/client/chat",          icon: Bot,           title: "Assistant" },
-  { href: "/maison",               icon: Building2,     title: "Logement" },
-  { href: "/client/tutos",         icon: BookOpen,      title: "Conseils" },
-  { href: "/client/qui-fait-quoi", icon: HelpCircle,    title: "Qui fait quoi ?" },
-  { href: "/client/contacts",      icon: Phone,         title: "Contacts" },
+  { href: "/",                     icon: Home,       title: "Accueil"         },
+  { href: "/client/chat",          icon: Bot,        title: "Assistant"       },
+  { href: "/maison",               icon: Building2,  title: "Logement"        },
+  { href: "/client/tutos",         icon: BookOpen,   title: "Conseils"        },
+  { href: "/client/qui-fait-quoi", icon: HelpCircle, title: "Qui fait quoi ?" },
+  { href: "/client/contacts",      icon: Phone,      title: "Contacts"        },
+];
+
+// Nav mobile = nav principale + Notifications (dans la section principale)
+const NAV_MOBILE_MAIN = [
+  ...NAV_MAIN,
+  { href: "/notification", icon: Bell, title: "Notifications" },
 ];
 
 // Items du compte — partagés entre dropdown desktop et menu mobile
 const ACCOUNT_ITEMS = [
-  { href: "/accounts",                 icon: UserCircle,    title: "Mon profil"              },
-  { href: "/client/incidents",         icon: AlertTriangle, title: "Mes incidents"           },
-  { href: "/client/compte/historique", icon: History,       title: "Historique"              },
-  { href: "/decouverte",               icon: Building2,     title: "Découvertes"             },
-  { href: "/client/compte/documents",  icon: FileText,      title: "Documents / Équipements" },
+  { href: "/accounts",         icon: UserCircle,    title: "Mon profil"    },
+  { href: "/incident", icon: AlertTriangle, title: "Mes incidents" },
+  { href: "/decouverte",       icon: Building2,     title: "Découvertes"   },
 ];
 
 // Dashboard uniquement bailleur — ajouté dynamiquement
 const DASHBOARD_ITEM = { href: "/dashboard", icon: UserCircle, title: "Dashboard" };
-
-// Mobile : nav principale + notifications + items compte
-const buildMobileNav = (isBailleur: boolean) => [
-  ...NAV_MAIN,
-  { href: "/notification", icon: Bell, title: "Notifications" },
-  ...ACCOUNT_ITEMS,
-  ...(isBailleur ? [DASHBOARD_ITEM] : []),
-];
 
 function getInitials(name?: string | null, email?: string | null) {
   if (name) return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
@@ -64,7 +61,6 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   const role = (user?.user_metadata?.role ?? user?.app_metadata?.role) as string | undefined;
   const isLocataire = role === "locataire";
   const isBailleur = !isLocataire;
-  const mobileNav = buildMobileNav(isBailleur);
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-card border-b border-border shadow-sm">
@@ -214,27 +210,89 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               </div>
             )}
 
-            <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
-              {(user ? mobileNav : [
-                { href: "/login",    icon: UserCircle, title: "Se connecter" },
-                { href: "/register", icon: UserCircle, title: "S'inscrire"   },
-              ]).map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-                return (
-                  <SheetClose asChild key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`flex items-center gap-3 py-3 border-b border-border transition-colors ${
-                        isActive ? "text-primary" : "text-foreground hover:text-primary"
-                      }`}
-                    >
-                      <Icon size={18} className="shrink-0" />
-                      <span className="text-base font-medium">{item.title}</span>
-                    </Link>
-                  </SheetClose>
-                );
-              })}
+            <nav className="flex flex-col flex-1 overflow-y-auto">
+              {/* Navigation principale */}
+              <div className="flex flex-col gap-0.5 mb-10">
+                {(user ? NAV_MOBILE_MAIN : [
+                  { href: "/login",    icon: UserCircle, title: "Se connecter" },
+                  { href: "/register", icon: UserCircle, title: "S'inscrire"   },
+                ]).map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                  const isNotif = item.href === "/notification";
+                  return (
+                    <SheetClose asChild key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-colors ${
+                          isActive
+                            ? "bg-primary/10 text-primary font-semibold"
+                            : "text-foreground hover:bg-muted hover:text-primary"
+                        }`}
+                      >
+                        {isNotif ? (
+                          <span className="relative shrink-0">
+                            <Icon size={18} />
+                            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500" />
+                          </span>
+                        ) : (
+                          <Icon size={18} className="shrink-0" />
+                        )}
+                        <span className="text-sm font-medium">{item.title}</span>
+                      </Link>
+                    </SheetClose>
+                  );
+                })}
+              </div>
+
+              {/* Section Mon compte */}
+              {user && (
+                <>
+                  <div className="border-t border-border pt-10 mb-10">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
+                      Mon compte
+                    </p>
+                    <div className="flex flex-col gap-0.5">
+                      {/* Items compte */}
+                      {ACCOUNT_ITEMS.map(({ href, icon: Icon, title }) => {
+                        const isActive = pathname === href || pathname.startsWith(href);
+                        return (
+                          <SheetClose asChild key={href}>
+                            <Link
+                              href={href}
+                              className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-colors ${
+                                isActive
+                                  ? "bg-primary/10 text-primary font-semibold"
+                                  : "text-foreground hover:bg-muted hover:text-primary"
+                              }`}
+                            >
+                              <Icon size={18} className="shrink-0" />
+                              <span className="text-sm font-medium">{title}</span>
+                            </Link>
+                          </SheetClose>
+                        );
+                      })}
+
+                      {/* Dashboard bailleur */}
+                      {isBailleur && (
+                        <SheetClose asChild>
+                          <Link
+                            href={DASHBOARD_ITEM.href}
+                            className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-colors ${
+                              pathname === DASHBOARD_ITEM.href
+                                ? "bg-primary/10 text-primary font-semibold"
+                                : "text-foreground hover:bg-muted hover:text-primary"
+                            }`}
+                          >
+                            <DASHBOARD_ITEM.icon size={18} className="shrink-0" />
+                            <span className="text-sm font-medium">{DASHBOARD_ITEM.title}</span>
+                          </Link>
+                        </SheetClose>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </nav>
 
             {user && (

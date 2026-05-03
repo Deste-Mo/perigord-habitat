@@ -429,7 +429,7 @@ export default function LogementsPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* ── HEADER ─────────────────────────────────────────────────────────── */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-4">
+      <div className="mx-auto px-4 sm:px-6 pt-6 pb-4">
         {/* Bouton retour */}
         <Link
           href="/client/compte"
@@ -455,7 +455,7 @@ export default function LogementsPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="mx-auto px-4 sm:px-6">
         {/* ── ONGLETS PIÈCES ─────────────────────────────────────────────── */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
           {PIECES.map((p) => (
@@ -477,7 +477,7 @@ export default function LogementsPage() {
         </div>
 
         {/* ── VUE 3D — Général = HousePreview3D, autres pièces = RoomPreview3D ── */}
-        <div className="rounded-2xl overflow-hidden mb-6" style={{ height: 420 }}>
+        <div className="rounded-2xl overflow-hidden mb-6" style={{ height: 600 }}>
           {activePiece.piece3D ? (
             <RoomPreview3D
               piece={activePiece.piece3D}
