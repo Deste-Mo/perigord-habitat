@@ -30,7 +30,7 @@ const NAV_MAIN = [
 
 const MOBILE_NAV = [
   ...NAV_MAIN,
-  { href: "/client/notifications", icon: Bell,       title: "Notifications" },
+  { href: "/notification", icon: Bell,       title: "Notifications" },
   { href: "/accounts",             icon: UserCircle, title: "Mon compte" },
 ];
 
@@ -88,10 +88,10 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
               {/* Notifications */}
               <Link
-                href="/client/notifications"
+                href="/notification"
                 title="Alertes"
                 className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
-                  pathname === "/client/notifications"
+                  pathname === "/notification"
                     ? "bg-primary/10 text-primary"
                     : "text-muted-foreground hover:text-primary hover:bg-primary/10"
                 }`}
@@ -152,10 +152,10 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/client/auth/login">Se connecter</Link>
+                <Link href="/login">Se connecter</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/client/auth/register">S&apos;inscrire</Link>
+                <Link href="/register">S&apos;inscrire</Link>
               </Button>
             </>
           )
@@ -197,8 +197,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
 
             <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
               {(user ? MOBILE_NAV : [
-                { href: "/client/auth/login",    title: "Se connecter" },
-                { href: "/client/auth/register", title: "S'inscrire" },
+                { href: "/login",    title: "Se connecter" },
+                { href: "/register", title: "S'inscrire" },
               ]).map((item) => {
                 const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
                 return (

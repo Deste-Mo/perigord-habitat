@@ -45,20 +45,20 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="h-screen bg-white flex flex-col overflow-hidden">
-        <HeaderApp onLogoClick={resetChat} />
-        <div className="flex-1 flex items-center justify-center">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      <HeaderApp onLogoClick={resetChat} />
+      <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
-            <span className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-gray-400">Chargement de vos discussions...</p>
+            <span className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-muted-foreground">Chargement de vos discussions...</p>
           </div>
         </div>
-      </div>
+    </div>
     );
   }
 
   return (
-    <div className="h-screen bg-white flex flex-col overflow-hidden">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       <HeaderApp onLogoClick={resetChat} />
 
       {isChatMode ? (
@@ -88,10 +88,10 @@ export default function HomePage() {
             ) : (
               <main className="flex-1 flex flex-col items-center justify-center px-4 pb-8">
                 <div className="text-center mb-10">
-                  <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-gray-900">
+                  <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-foreground">
                     Nouvelle discussion
                   </h1>
-                  <p className="text-gray-500 text-base sm:text-lg max-w-md mx-auto">
+                  <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">
                     Posez-moi n'importe quelle question sur vos incidents locatifs.
                   </p>
                 </div>
@@ -104,10 +104,10 @@ export default function HomePage() {
       ) : (
         <main className="flex-1 flex flex-col items-center justify-center px-4 pb-8">
           <div className="text-center mb-10">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-gray-900">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-foreground">
               Qui fait quoi ?
             </h1>
-            <p className="text-gray-500 text-base sm:text-lg max-w-md mx-auto">
+            <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">
               Posez-moi n'importe quelle question sur vos incidents locatifs.
             </p>
           </div>

@@ -14,13 +14,13 @@ import { useState }         from "react";
 import { AccountHeader }        from "@/components/accounts/AccountHeader";
 import { ProfileSection }       from "@/components/accounts/ProfileSection";
 import { SecuritySection }      from "@/components/accounts/SecuritySection";
-import { NotificationsSection } from "@/components/accounts/NotificationsSection";
 import { PreferencesSection }   from "@/components/accounts/PreferencesSection";
 import { PrivacySection }       from "@/components/accounts/PrivacySection";
 import { OrganisationSection }  from "@/components/accounts/OrganisationSection";
 import { HelpSection }          from "@/components/accounts/HelpSection";
 import { DangerSection }        from "@/components/accounts/DangerSection";
 import { Toast }                from "@/components/accounts/Toast";
+import { NotificationsSection } from "@/components/accounts/NotificationsSection";
 
 type ActiveSection = "profile" | "password" | null;
 

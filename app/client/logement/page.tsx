@@ -74,14 +74,14 @@ export default function LogementPage() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-background">
       <HeaderApp />
 
       {/* Contenu */}
       {view === "pannes" && currentZone ? (
         <div className="flex-1 overflow-auto p-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl font-bold text-foreground mb-4">
               Pannes courantes - {VIEWS[view].label}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -91,12 +91,12 @@ export default function LogementPage() {
                   <button
                     key={panne.id}
                     onClick={() => setSelectedPanne(panne)}
-                    className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all p-4 text-left"
+                    className="bg-card rounded-xl border border-border shadow-sm hover:shadow-md transition-all p-4 text-left"
                   >
                     <div className="flex items-start gap-3">
                       <span className="text-2xl">{config.emoji}</span>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 text-sm">{panne.nom}</h3>
+                        <h3 className="font-semibold text-foreground text-sm">{panne.nom}</h3>
                         <p className={`text-xs mt-1 font-medium ${config.color}`}>
                           {config.label}
                         </p>
@@ -109,7 +109,7 @@ export default function LogementPage() {
           </div>
         </div>
       ) : (
-        <div className="flex-1 relative bg-white">
+        <div className="flex-1 relative bg-card">
           <iframe
             key={view}
             src={VIEWS[view].url}
@@ -131,7 +131,7 @@ export default function LogementPage() {
                     console.log("Clic sur bouton home, view actuelle:", view);
                     setView("plan");
                   }}
-                  className="absolute bottom-4 right-4 h-12 w-12 rounded-full shadow-md hover:shadow-lg transition-all bg-white/80 backdrop-blur-sm hover:bg-white/90 text-gray-700 hover:text-gray-900 flex items-center justify-center pointer-events-auto border border-gray-200"
+                  className="absolute bottom-4 right-4 h-12 w-12 rounded-full shadow-md hover:shadow-lg transition-all bg-card/80 backdrop-blur-sm hover:bg-card/90 text-foreground flex items-center justify-center pointer-events-auto border border-border"
                   style={{ zIndex: 10000 }}
                 >
                   <Home size={20} />

@@ -24,12 +24,12 @@ const MENU_ITEMS = [
     href: "/client/compte/historique",
   },
   {
-    id: "logements",
-    title: "Mes logements",
+    id: "decouverte",
+    title: "Decouvertes",
     description: "Gérer mes logements et leurs informations",
     icon: Building2,
     color: "bg-green-50 text-green-600",
-    href: "/logements",
+    href: "/decouverte",
   },
   {
     id: "documents",
