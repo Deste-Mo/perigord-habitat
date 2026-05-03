@@ -83,72 +83,54 @@ const CONTACTS: Record<string, ContactSection> = {
 
 export default function ContactsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderApp />
-
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
         <div className="flex flex-col gap-6">
-          {/* En-tête */}
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Contacts utiles</h1>
-            <p className="text-gray-500 text-sm mt-2">
-              Tous les numéros importants pour votre logement
-            </p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Contacts utiles</h1>
+            <p className="text-muted-foreground text-sm mt-2">Tous les numéros importants pour votre logement</p>
           </div>
-
-          {/* Sections */}
           <div className="grid grid-cols-1 gap-6 mt-4">
             {Object.entries(CONTACTS).map(([key, section]) => {
               const Icon = section.icon;
               return (
-                <div key={key} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+                <div key={key} className="bg-card rounded-xl border border-border shadow-sm p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${section.color}`}>
                       <Icon size={20} />
                     </div>
-                    <h2 className="text-lg font-semibold text-gray-900">{section.title}</h2>
+                    <h2 className="text-lg font-semibold text-foreground">{section.title}</h2>
                   </div>
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {section.items.map((item, idx) => {
                       const ItemIcon = item.icon;
                       const content = (
                         <div className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                          item.link 
-                            ? "border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer" 
-                            : "border-gray-100 bg-gray-50"
-                        } ${item.urgent ? "border-red-200 bg-red-50" : ""}`}>
-                          <ItemIcon size={16} className={`mt-0.5 shrink-0 ${item.urgent ? "text-red-600" : "text-gray-400"}`} />
+                          item.link
+                            ? "border-border hover:border-border/80 hover:bg-muted cursor-pointer"
+                            : "border-border bg-muted"
+                        } ${item.urgent ? "border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900" : ""}`}>
+                          <ItemIcon size={16} className={`mt-0.5 shrink-0 ${item.urgent ? "text-red-600" : "text-muted-foreground"}`} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-medium text-gray-500">{item.label}</p>
-                            <p className={`text-sm font-semibold mt-0.5 ${item.urgent ? "text-red-700" : "text-gray-900"}`}>
+                            <p className="text-xs font-medium text-muted-foreground">{item.label}</p>
+                            <p className={`text-sm font-semibold mt-0.5 ${item.urgent ? "text-red-700 dark:text-red-400" : "text-foreground"}`}>
                               {item.value}
                             </p>
-                            {item.note && (
-                              <p className="text-xs text-gray-500 mt-1 italic">{item.note}</p>
-                            )}
+                            {item.note && <p className="text-xs text-muted-foreground mt-1 italic">{item.note}</p>}
                           </div>
                         </div>
                       );
-
-                      return item.link ? (
-                        <a key={idx} href={item.link}>
-                          {content}
-                        </a>
-                      ) : (
-                        <div key={idx}>{content}</div>
-                      );
+                      return item.link ? <a key={idx} href={item.link}>{content}</a> : <div key={idx}>{content}</div>;
                     })}
                   </div>
                 </div>
               );
             })}
           </div>
-
-          {/* Avertissement */}
-          <div className="bg-amber-50 border border-amber-100 rounded-xl p-4">
-            <p className="text-sm text-amber-800">
-              <span className="font-semibold">⚠️ Important :</span> En cas d'urgence vitale (incendie, fuite de gaz importante, électrocution), 
+          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900 rounded-xl p-4">
+            <p className="text-sm text-amber-800 dark:text-amber-300">
+              <span className="font-semibold">⚠️ Important :</span> En cas d'urgence vitale (incendie, fuite de gaz importante, électrocution),
               composez immédiatement le 18 (pompiers) ou le 15 (SAMU). N'attendez pas pour contacter votre bailleur.
             </p>
           </div>

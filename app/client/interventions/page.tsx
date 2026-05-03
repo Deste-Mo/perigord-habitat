@@ -20,18 +20,18 @@ export default function InterventionsPage() {
   const filtered = INTERVENTIONS.filter((i) => filtre === "tous" || i.statut === filtre);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderApp />
 
       <main className="flex-1 w-full px-4 sm:px-6 py-8">
         <div className="flex flex-col gap-6">
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
-              <Wrench size={24} className="text-indigo-600" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
+              <Wrench size={24} className="text-primary" />
               Interventions
             </h1>
-            <p className="text-gray-500 text-sm mt-0.5">Suivi de toutes les interventions sur votre logement.</p>
+            <p className="text-muted-foreground text-sm mt-0.5">Suivi de toutes les interventions sur votre logement.</p>
           </div>
 
           {/* Filtres */}
@@ -42,8 +42,8 @@ export default function InterventionsPage() {
                 onClick={() => setFiltre(value)}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                   filtre === value
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card text-foreground border-border hover:border-primary/30 hover:text-primary"
                 }`}
               >
                 {label}

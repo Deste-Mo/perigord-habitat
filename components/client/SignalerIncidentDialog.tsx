@@ -34,15 +34,15 @@ interface Props {
 function StepBar({ step }: { step: number }) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between text-xs text-gray-400">
-        <span className="font-medium text-indigo-600">
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <span className="font-medium text-primary">
           {step === 1 ? "Type d'incident" : step === 2 ? "Localisation" : "Confirmation"}
         </span>
         <span>Étape {step} sur {TOTAL_STEPS}</span>
       </div>
-      <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
+      <div className="h-1 bg-muted rounded-full overflow-hidden">
         <div
-          className="h-full bg-indigo-600 rounded-full transition-all duration-300"
+          className="h-full bg-primary rounded-full transition-all duration-300"
           style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
         />
       </div>
@@ -103,7 +103,7 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
         <DialogHeader>
           <div className="flex items-center gap-2 mb-1">
             {step > 1 && (
-              <button onClick={() => setStep(step - 1)} className="text-gray-400 hover:text-gray-700 transition-colors">
+              <button onClick={() => setStep(step - 1)} className="text-muted-foreground hover:text-foreground transition-colors">
                 <ArrowLeft size={18} />
               </button>
             )}
@@ -116,8 +116,8 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
         {step === 1 && (
           <div className="flex flex-col gap-5 pt-2">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Quel est le type de sinistre ?</h2>
-              <p className="text-sm text-gray-500 mt-1 leading-relaxed">
+              <h2 className="text-lg font-bold text-foreground">Quel est le type de sinistre ?</h2>
+              <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
                 Sélectionnez la catégorie qui correspond le mieux à votre situation pour nous aider à traiter votre demande rapidement.
               </p>
             </div>
@@ -131,16 +131,16 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
                   onClick={() => setTypeSinistre(value)}
                   className={`flex items-start justify-between gap-3 p-4 rounded-xl border text-left transition-all ${
                     typeSinistre === value
-                      ? "border-indigo-500 bg-indigo-50"
-                      : "border-gray-200 bg-white hover:border-indigo-200"
+                      ? "border-primary bg-accent"
+                      : "border-border bg-card hover:border-primary/30"
                   }`}
                 >
                   <div>
-                    <p className="font-semibold text-sm text-gray-900">{label}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{desc}</p>
+                    <p className="font-semibold text-sm text-foreground">{label}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{desc}</p>
                   </div>
                   <div className={`mt-0.5 w-5 h-5 rounded-full border-2 shrink-0 flex items-center justify-center transition-colors ${
-                    typeSinistre === value ? "border-indigo-600 bg-indigo-600" : "border-gray-300"
+                    typeSinistre === value ? "border-primary bg-primary" : "border-border"
                   }`}>
                     {typeSinistre === value && <div className="w-2 h-2 rounded-full bg-white" />}
                   </div>
@@ -166,11 +166,11 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-xl py-6 hover:border-indigo-300 hover:bg-indigo-50/50 transition-colors"
+                className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-border rounded-xl py-6 hover:border-primary/50 hover:bg-accent/50 transition-colors"
               >
-                <Upload size={24} className="text-gray-400" />
-                <span className="text-sm text-gray-500">Cliquez pour ajouter des fichiers</span>
-                <span className="text-xs text-gray-400">PNG, JPG ou MP4 · Max 50MB</span>
+                <Upload size={24} className="text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Cliquez pour ajouter des fichiers</span>
+                <span className="text-xs text-muted-foreground">PNG, JPG ou MP4 · Max 50MB</span>
               </button>
               <input
                 ref={fileRef}
@@ -183,7 +183,7 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
               {fichiers.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-1">
                   {fichiers.map((f, i) => (
-                    <span key={i} className="text-xs bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">
+                    <span key={i} className="text-xs bg-accent text-primary px-2.5 py-1 rounded-full">
                       {f.name}
                     </span>
                   ))}
@@ -215,8 +215,8 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
         {step === 2 && (
           <div className="flex flex-col gap-5 pt-2">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Où se situe le problème ?</h2>
-              <p className="text-sm text-gray-500 mt-1">Précisez la pièce concernée et l'urgence de la situation.</p>
+              <h2 className="text-lg font-bold text-foreground">Où se situe le problème ?</h2>
+              <p className="text-sm text-muted-foreground mt-1">Précisez la pièce concernée et l'urgence de la situation.</p>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -239,8 +239,8 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
                     onClick={() => setPiece(p)}
                     className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                       piece === p
-                        ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                        : "border-gray-200 text-gray-600 hover:border-indigo-200"
+                        ? "border-primary bg-accent text-primary"
+                        : "border-border text-foreground hover:border-primary/30"
                     }`}
                   >
                     {p}
@@ -254,13 +254,13 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
               <div className="grid grid-cols-2 gap-2">
                 {PRIORITES.map(({ value, label }) => {
                   const colors: Record<string, string> = {
-                    basse: "border-gray-300 text-gray-600",
+                    basse: "border-border text-muted-foreground",
                     normale: "border-yellow-400 text-yellow-700",
                     haute: "border-orange-400 text-orange-700",
                     urgente: "border-red-500 text-red-700",
                   };
                   const active: Record<string, string> = {
-                    basse: "bg-gray-50 border-gray-400",
+                    basse: "bg-muted border-border",
                     normale: "bg-yellow-50 border-yellow-500",
                     haute: "bg-orange-50 border-orange-500",
                     urgente: "bg-red-50 border-red-600",
@@ -271,7 +271,7 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
                       type="button"
                       onClick={() => setPriorite(value)}
                       className={`py-2.5 px-3 rounded-xl border-2 text-sm font-semibold transition-all ${
-                        priorite === value ? active[value] : "border-gray-200 text-gray-500"
+                        priorite === value ? active[value] : "border-border text-muted-foreground"
                       } ${colors[value]}`}
                     >
                       {label}
@@ -291,11 +291,10 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
         {step === 3 && (
           <div className="flex flex-col gap-5 pt-2">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Récapitulatif</h2>
-              <p className="text-sm text-gray-500 mt-1">Vérifiez les informations avant d'envoyer votre signalement.</p>
+              <h2 className="text-lg font-bold text-foreground">Récapitulatif</h2>
+              <p className="text-sm text-muted-foreground mt-1">Vérifiez les informations avant d'envoyer votre signalement.</p>
             </div>
-
-            <div className="flex flex-col gap-3 bg-gray-50 rounded-xl p-4 text-sm">
+            <div className="flex flex-col gap-3 bg-muted rounded-xl p-4 text-sm">
               <Row label="Type" value={TYPES_SINISTRE.find(t => t.value === typeSinistre)?.label ?? ""} />
               <Row label="Titre" value={titre || `${TYPES_SINISTRE.find(t => t.value === typeSinistre)?.label} — ${piece}`} />
               <Row label="Pièce" value={piece} />
@@ -313,7 +312,7 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
               </p>
             </div>
 
-            <Button onClick={handleSubmit} className="gap-2 w-full bg-indigo-600 hover:bg-indigo-700">
+            <Button onClick={handleSubmit} className="gap-2 w-full">
               <Check size={16} /> Envoyer le signalement
             </Button>
           </div>
@@ -326,8 +325,8 @@ export function SignalerIncidentDialog({ onSubmit, children }: Props) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2">
-      <span className="text-gray-400 w-24 shrink-0">{label}</span>
-      <span className="text-gray-900 font-medium">{value}</span>
+      <span className="text-muted-foreground w-24 shrink-0">{label}</span>
+      <span className="text-foreground font-medium">{value}</span>
     </div>
   );
 }

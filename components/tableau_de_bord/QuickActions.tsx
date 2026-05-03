@@ -20,8 +20,8 @@ const colorClasses = {
 
 export function QuickActions({ actions }: { actions: QuickAction[] }) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg">
-      <h2 className="text-2xl font-black text-gray-900 mb-6">Actions rapides</h2>
+    <div className="bg-card rounded-2xl p-6 shadow-lg">
+      <h2 className="text-2xl font-black text-foreground mb-6">Actions rapides</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {actions.map((action, index) => {
           const Icon = action.icon;

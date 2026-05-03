@@ -48,39 +48,30 @@ export default function ComptePage() {
   const email = user?.email ?? "";
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderApp />
-
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8">
         <div className="flex flex-col gap-6">
-          {/* Profil utilisateur */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+          <div className="bg-card rounded-xl border border-border shadow-sm p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-accent text-primary flex items-center justify-center">
                   <User size={28} />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">{displayName}</h1>
-                  <p className="text-sm text-gray-500 flex items-center gap-1.5 mt-1">
+                  <h1 className="text-xl font-bold text-foreground">{displayName}</h1>
+                  <p className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
                     <Mail size={14} />
                     {email}
                   </p>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={logout}
-                className="gap-2 text-red-600 border-red-200 hover:bg-red-50"
-              >
+              <Button variant="outline" size="sm" onClick={logout} className="gap-2 text-destructive border-destructive/30 hover:bg-destructive/10">
                 <LogOut size={16} />
                 Déconnexion
               </Button>
             </div>
           </div>
-
-          {/* Menu */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {MENU_ITEMS.map((item) => {
               const Icon = item.icon;
@@ -88,18 +79,17 @@ export default function ComptePage() {
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all p-5 flex flex-col gap-3 group"
+                  className="bg-card rounded-xl border border-border shadow-sm hover:shadow-md transition-all p-5 flex flex-col gap-3 group"
                 >
                   <div className="flex items-start justify-between">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${item.color}`}>
                       <Icon size={24} />
                     </div>
-                    <ChevronRight size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+                    <ChevronRight size={20} className="text-muted-foreground group-hover:text-foreground transition-colors" />
                   </div>
-
                   <div className="flex flex-col gap-1">
-                    <h2 className="font-semibold text-gray-900">{item.title}</h2>
-                    <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
+                    <h2 className="font-semibold text-foreground">{item.title}</h2>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                   </div>
                 </Link>
               );

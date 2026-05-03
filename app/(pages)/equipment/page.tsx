@@ -57,7 +57,7 @@ export default function EquipmentPage() {
   if (!isAuthorized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -89,8 +89,8 @@ export default function EquipmentPage() {
 
         {filteredEquipments.length === 0 && (
           <div className="text-center py-16">
-            <Package className="mx-auto text-gray-300 mb-4" size={52} />
-            <p className="text-gray-500 font-medium">Aucun équipement trouvé</p>
+            <Package className="mx-auto text-muted-foreground mb-4" size={52} />
+            <p className="text-muted-foreground font-medium">Aucun équipement trouvé</p>
           </div>
         )}
 

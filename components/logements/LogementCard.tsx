@@ -41,14 +41,10 @@ export function LogementCard({ logement, onDetails, onEdit }: LogementCardProps)
   const statut = STATUT_CONFIG[logement.statut];
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
-
-      {/* ── Body ─────────────────────────────────────────────────────────── */}
+    <div className="bg-card rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
       <div className="flex flex-col flex-1 p-6">
-
-        {/* Header */}
         <div className="flex items-start justify-between mb-4">
-          <div className="w-14 h-14 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+          <div className="w-14 h-14 rounded-xl bg-accent text-primary flex items-center justify-center shrink-0">
             {TYPE_ICON[logement.type]}
           </div>
           <div className="flex flex-col items-end gap-1.5">
@@ -61,52 +57,44 @@ export function LogementCard({ logement, onDetails, onEdit }: LogementCardProps)
             </span>
           </div>
         </div>
-
-        {/* Nom + adresse */}
-        <h3 className="text-xl font-black text-gray-900 mb-1 leading-tight">{logement.nom}</h3>
-        <p className="text-sm text-gray-500 mb-4">{logement.adresse}, {logement.codePostal} {logement.ville}</p>
-
-        {/* Infos */}
+        <h3 className="text-xl font-black text-foreground mb-1 leading-tight">{logement.nom}</h3>
+        <p className="text-sm text-muted-foreground mb-4">{logement.adresse}, {logement.codePostal} {logement.ville}</p>
         <div className="space-y-2 flex-1">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500 flex items-center gap-1.5"><Ruler size={13} /> Surface</span>
-            <span className="font-semibold text-gray-900">{logement.surface} m²</span>
+            <span className="text-muted-foreground flex items-center gap-1.5"><Ruler size={13} /> Surface</span>
+            <span className="font-semibold text-foreground">{logement.surface} m²</span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500 flex items-center gap-1.5"><BedDouble size={13} /> Pièces</span>
-            <span className="font-semibold text-gray-900">{logement.nbPieces} pièce{logement.nbPieces > 1 ? "s" : ""}</span>
+            <span className="text-muted-foreground flex items-center gap-1.5"><BedDouble size={13} /> Pièces</span>
+            <span className="font-semibold text-foreground">{logement.nbPieces} pièce{logement.nbPieces > 1 ? "s" : ""}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Type</span>
-            <span className="font-semibold text-gray-900">{TYPE_LABEL[logement.type]}</span>
+            <span className="text-muted-foreground">Type</span>
+            <span className="font-semibold text-foreground">{TYPE_LABEL[logement.type]}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Loyer CC</span>
-            <span className="font-bold text-indigo-600">{logement.loyerCC.toLocaleString("fr-FR")} €/mois</span>
+            <span className="text-muted-foreground">Loyer CC</span>
+            <span className="font-bold text-primary">{logement.loyerCC.toLocaleString("fr-FR")} €/mois</span>
           </div>
-
-          {/* Locataire */}
           {logement.locataire ? (
-            <div className="flex items-center gap-2 text-xs bg-blue-50 text-blue-700 px-3 py-2 rounded-lg mt-1">
+            <div className="flex items-center gap-2 text-xs bg-accent text-primary px-3 py-2 rounded-lg mt-1">
               <User size={13} />
               <span className="font-medium">{logement.locataire}</span>
             </div>
           ) : (
-            <div className="flex items-center gap-2 text-xs bg-gray-50 text-gray-400 px-3 py-2 rounded-lg mt-1">
+            <div className="flex items-center gap-2 text-xs bg-muted text-muted-foreground px-3 py-2 rounded-lg mt-1">
               <User size={13} />
               <span className="font-medium">Aucun locataire</span>
             </div>
           )}
         </div>
       </div>
-
-      {/* ── Footer boutons ────────────────────────────────────────────────── */}
       <div className="px-6 pb-6 pt-0 grid grid-cols-2 gap-3">
         <button
           onClick={() => onDetails(logement)}
           className="flex items-center justify-center gap-2 py-2.5 rounded-xl
-            bg-gray-100 hover:bg-gray-200 active:bg-gray-300
-            text-gray-800 font-semibold text-sm
+            bg-muted hover:bg-muted/80 active:bg-muted/60
+            text-foreground font-semibold text-sm
             transition-all duration-150 hover:scale-[1.02] active:scale-95"
         >
           <Info size={15} />
@@ -115,15 +103,14 @@ export function LogementCard({ logement, onDetails, onEdit }: LogementCardProps)
         <button
           onClick={() => onEdit(logement)}
           className="flex items-center justify-center gap-2 py-2.5 rounded-xl
-            bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700
-            text-white font-semibold text-sm
+            bg-primary hover:bg-primary/90 active:bg-primary/80
+            text-primary-foreground font-semibold text-sm
             transition-all duration-150 hover:scale-[1.02] active:scale-95"
         >
           <Pencil size={15} />
           Modifier
         </button>
       </div>
-
     </div>
   );
 }

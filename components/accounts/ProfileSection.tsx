@@ -85,7 +85,7 @@ export function ProfileSection({
             </button>
             <button
               onClick={onCancel}
-              className="px-4 py-2.5 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-muted transition-colors"
+              className="px-4 py-2.5 rounded-xl border border-border text-sm font-medium text-foreground hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors"
             >
               <X size={14} />
             </button>

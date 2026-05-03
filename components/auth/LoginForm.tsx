@@ -24,7 +24,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-2">
       {error && (
-        <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-md">{error}</p>
+        <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">{error}</p>
       )}
 
       <div className="flex flex-col gap-1.5">
@@ -42,7 +42,7 @@ export function LoginForm() {
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Mot de passe</Label>
-          <Link href="#" className="text-xs text-indigo-600 hover:underline">
+          <Link href="#" className="text-xs text-primary hover:underline">
             Mot de passe oublié ?
           </Link>
         </div>
@@ -59,7 +59,7 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -72,15 +72,15 @@ export function LoginForm() {
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="text-xs text-gray-400">ou</span>
+        <span className="text-xs text-muted-foreground">ou</span>
         <Separator className="flex-1" />
       </div>
 
       {/* <GoogleButton label="Continuer avec Google" onClick={loginWithGoogle} disabled={pending} /> */}
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-muted-foreground">
         Pas encore de compte ?{" "}
-        <Link href="/client/auth/register" className="text-indigo-600 font-medium hover:underline">
+        <Link href="/client/auth/register" className="text-primary font-medium hover:underline">
           S'inscrire
         </Link>
       </p>

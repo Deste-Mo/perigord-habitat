@@ -39,7 +39,7 @@ export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }:
               className={`flex flex-col items-center gap-1 py-3 rounded-xl border text-sm font-medium transition-all ${
                 lang === code
                   ? "border-primary bg-accent text-primary"
-                  : "border-border text-foreground hover:border-primary/50 hover:bg-muted"
+                  : "border-border text-foreground hover:border-primary/50 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
               }`}
             >
               <span className="text-xl">{flag}</span>
@@ -58,7 +58,7 @@ export function PreferencesSection({ lang, theme, onLangChange, onThemeChange }:
               className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border text-sm font-medium transition-all ${
                 theme === code
                   ? "border-primary bg-accent text-primary"
-                  : "border-border text-foreground hover:border-primary/50 hover:bg-muted"
+                  : "border-border text-foreground hover:border-primary/50 hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
               }`}
             >
               <Icon size={18} />

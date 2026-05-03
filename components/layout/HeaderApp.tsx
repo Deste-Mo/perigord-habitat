@@ -50,12 +50,12 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
   const isLocataire = role === "locataire";
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-white border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 bg-card border-b border-border shadow-sm">
 
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 shrink-0" onClick={onLogoClick}>
         <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
-        <span className="font-semibold text-base sm:text-lg tracking-tight text-gray-900 hidden sm:block">
+        <span className="font-semibold text-base sm:text-lg tracking-tight text-foreground hidden sm:block">
           Qui fait quoi ?
         </span>
       </Link>
@@ -75,7 +75,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                     className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                       isActive
                         ? "bg-primary/10 text-primary"
-                        : "text-gray-500 hover:text-primary hover:bg-primary/10"
+                        : "text-muted-foreground hover:text-primary hover:bg-primary/10"
                     }`}
                   >
                     <Icon size={18} />
@@ -93,7 +93,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                 className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                   pathname === "/client/notifications"
                     ? "bg-primary/10 text-primary"
-                    : "text-gray-500 hover:text-primary hover:bg-primary/10"
+                    : "text-muted-foreground hover:text-primary hover:bg-primary/10"
                 }`}
               >
                 <span className="relative block">
@@ -108,7 +108,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
               {/* Mon compte dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-gray-500 hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none">
+                  <button className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none">
                     <Avatar className="h-6 w-6">
                       <AvatarFallback className="bg-primary/10 text-primary text-[9px] font-semibold">
                         {initials}
@@ -121,9 +121,9 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
                   <div className="px-3 py-2">
-                    <p className="text-sm font-medium text-gray-900 truncate">{displayName}</p>
+                    <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
                     {user.user_metadata?.full_name && (
-                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                     )}
                   </div>
                   <DropdownMenuSeparator />
@@ -174,7 +174,7 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             <div className="flex items-center justify-between mb-6">
               <Link href="/" className="flex items-center gap-2" onClick={onLogoClick}>
                 <Image src="/logo-default.png" alt="Logo" width={32} height={32} className="rounded" />
-                <span className="font-semibold text-lg text-gray-900">Qui fait quoi ?</span>
+                <span className="font-semibold text-lg text-foreground">Qui fait quoi ?</span>
               </Link>
               <SheetClose asChild>
                 <Button variant="ghost" size="icon"><X size={20} /></Button>
@@ -182,14 +182,14 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
             </div>
 
             {user && (
-              <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
+              <div className="flex items-center gap-3 mb-6 pb-6 border-b border-border">
                 <Avatar className="h-10 w-10">
                   <AvatarFallback className="bg-primary/10 text-primary font-semibold">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{displayName}</p>
+                  <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
                   {user.user_metadata?.full_name && (
-                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                   )}
                 </div>
               </div>
@@ -205,8 +205,8 @@ export function HeaderApp({ onLogoClick }: { onLogoClick?: () => void }) {
                   <SheetClose asChild key={item.href}>
                     <Link
                       href={item.href}
-                      className={`text-base font-medium py-3 border-b border-gray-100 transition-colors ${
-                        isActive ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
+                      className={`text-base font-medium py-3 border-b border-border transition-colors ${
+                        isActive ? "text-primary" : "text-foreground hover:text-primary"
                       }`}
                     >
                       {item.title}

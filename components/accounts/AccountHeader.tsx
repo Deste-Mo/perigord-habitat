@@ -29,7 +29,7 @@ export function AccountHeader({ user, profile }: AccountHeaderProps) {
     <div className="flex items-center gap-4 mb-8">
       <Link
         href="/"
-        className="p-2 rounded-xl hover:bg-muted transition-colors text-muted-foreground"
+        className="p-2 rounded-xl hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors text-muted-foreground"
       >
         <ArrowLeft size={18} />
       </Link>

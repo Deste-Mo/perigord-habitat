@@ -39,19 +39,19 @@ export function EquipmentFilters({
   const isFiltered = selectedPiece !== "all";
 
   return (
-    <div className="sticky top-0 z-30 bg-gray-50 pb-6 -mt-8 pt-8 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div className="bg-white rounded-2xl p-4 shadow-lg">
+    <div className="sticky top-0 z-30 bg-background pb-6 -mt-8 pt-8 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      <div className="bg-card rounded-2xl p-4 shadow-lg border border-border">
         <div className="flex gap-3 items-center">
 
           {/* Recherche */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
             <input
               type="text"
               placeholder="Rechercher un équipement..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-600 focus:outline-none transition-colors"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
             />
           </div>
 
@@ -61,8 +61,8 @@ export function EquipmentFilters({
               onClick={() => setFilterOpen((v) => !v)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold transition-all whitespace-nowrap ${
                 isFiltered
-                  ? "border-indigo-600 bg-indigo-600 text-white shadow-md"
-                  : "border-gray-200 bg-white text-gray-700 hover:border-indigo-400 hover:text-indigo-600"
+                  ? "border-primary bg-primary text-primary-foreground shadow-md"
+                  : "border-border bg-card text-foreground hover:border-primary/50 hover:text-primary"
               }`}
             >
               <SlidersHorizontal size={18} />
@@ -82,13 +82,13 @@ export function EquipmentFilters({
 
             {/* Dropdown */}
             {filterOpen && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-                  <span className="font-bold text-gray-900 text-sm">Filtrer par pièce</span>
+              <div className="absolute right-0 top-full mt-2 w-64 bg-card rounded-2xl shadow-2xl border border-border z-50 overflow-hidden">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                  <span className="font-bold text-foreground text-sm">Filtrer par pièce</span>
                   {isFiltered && (
                     <button
                       onClick={() => { onPieceChange("all"); setFilterOpen(false); }}
-                      className="flex items-center gap-1 text-xs text-indigo-600 font-semibold hover:text-indigo-800"
+                      className="flex items-center gap-1 text-xs text-primary font-semibold hover:text-primary/80"
                     >
                       <X size={12} />
                       Réinitialiser
@@ -100,11 +100,11 @@ export function EquipmentFilters({
                   <button
                     onClick={() => { onPieceChange("all"); setFilterOpen(false); }}
                     className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors ${
-                      !isFiltered ? "bg-indigo-50 text-indigo-700" : "text-gray-700 hover:bg-gray-50"
+                      !isFiltered ? "bg-accent text-primary" : "text-foreground hover:bg-muted"
                     }`}
                   >
                     <span>Toutes les pièces</span>
-                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-semibold">
+                    <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-full font-semibold">
                       {equipments.length}
                     </span>
                   </button>
@@ -114,12 +114,12 @@ export function EquipmentFilters({
                       key={piece}
                       onClick={() => { onPieceChange(piece); setFilterOpen(false); }}
                       className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors ${
-                        selectedPiece === piece ? "bg-indigo-50 text-indigo-700" : "text-gray-700 hover:bg-gray-50"
+                        selectedPiece === piece ? "bg-accent text-primary" : "text-foreground hover:bg-muted"
                       }`}
                     >
                       <span>{piece}</span>
                       <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                        selectedPiece === piece ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-600"
+                        selectedPiece === piece ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                       }`}>
                         {equipments.filter((e) => e.piece === piece).length}
                       </span>

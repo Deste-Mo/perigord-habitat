@@ -158,30 +158,30 @@ function EquipementModal({ eq, onClose }: { eq: Equipment; onClose: () => void }
   const Icon = cfg.icon;
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-3xl shadow-2xl flex flex-col max-h-[90vh]" onClick={e => e.stopPropagation()}>
-        <div className="flex justify-center pt-3 pb-1 sm:hidden"><div className="w-10 h-1 rounded-full bg-gray-200" /></div>
+      <div className="bg-card w-full sm:max-w-lg sm:rounded-2xl rounded-t-3xl shadow-2xl flex flex-col max-h-[90vh]" onClick={e => e.stopPropagation()}>
+        <div className="flex justify-center pt-3 pb-1 sm:hidden"><div className="w-10 h-1 rounded-full bg-border" /></div>
         <div className={`px-6 py-5 ${cfg.bg} border-b ${cfg.border} flex items-start gap-4`}>
           <div className="text-4xl">{emoji(eq.nom)}</div>
           <div className="flex-1 min-w-0">
-            <h2 className="text-lg font-black text-gray-900 leading-tight">{eq.nom}</h2>
-            <p className="text-sm text-gray-500 mt-0.5">{eq.piece}</p>
+            <h2 className="text-lg font-black text-foreground leading-tight">{eq.nom}</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">{eq.piece}</p>
             <div className={`inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-full text-xs font-bold border ${cfg.badge}`}>
               <Icon size={11} />{cfg.label}{eq.contratMaintenance && <span className="ml-1 opacity-70">· Contrat</span>}
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-gray-400 hover:bg-white/60"><X size={18} /></button>
+          <button onClick={onClose} className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/60"><X size={18} /></button>
         </div>
         <div className="overflow-y-auto flex-1 px-6 py-5 space-y-4">
           <div className={`rounded-xl p-4 border ${cfg.bg} ${cfg.border}`}>
             <p className={`text-sm leading-relaxed font-medium ${cfg.text}`}>{eq.remarque}</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-            <div className="flex items-center gap-2 mb-2"><Scale size={13} className="text-gray-400" /><p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Référence légale</p></div>
-            <p className="text-sm text-gray-700 leading-relaxed">{eq.referenceLegale}</p>
+          <div className="bg-muted rounded-xl p-4 border border-border">
+            <div className="flex items-center gap-2 mb-2"><Scale size={13} className="text-muted-foreground" /><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Référence légale</p></div>
+            <p className="text-sm text-foreground leading-relaxed">{eq.referenceLegale}</p>
           </div>
         </div>
-        <div className="px-6 py-4 border-t border-gray-100">
-          <button onClick={onClose} className="w-full py-3 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm transition-colors">Fermer</button>
+        <div className="px-6 py-4 border-t border-border">
+          <button onClick={onClose} className="w-full py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-background font-semibold text-sm transition-colors">Fermer</button>
         </div>
       </div>
     </div>
@@ -233,7 +233,7 @@ export default function LogementsPage() {
   const isSearching = search.trim().length > 0;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <HeaderApp />
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
@@ -279,13 +279,13 @@ export default function LogementsPage() {
         {isSearching ? (
           <div className="py-8">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm font-semibold text-gray-700">
+              <p className="text-sm font-semibold text-foreground">
                 Recherche pour l&apos;équipement &quot;{search}&quot; — {searchResults.length} résultat{searchResults.length !== 1 ? "s" : ""}
               </p>
-              <button onClick={() => setSearch("")} className="text-xs text-blue-600 hover:underline">Effacer</button>
+              <button onClick={() => setSearch("")} className="text-xs text-primary hover:underline">Effacer</button>
             </div>
             {searchResults.length === 0 ? (
-              <p className="text-gray-400 text-sm text-center py-12">Aucun équipement ne correspond à votre recherche.</p>
+              <p className="text-muted-foreground text-sm text-center py-12">Aucun équipement ne correspond à votre recherche.</p>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {searchResults.map(eq => <EqCard key={eq.id} eq={eq} onClick={setSelectedEq} />)}
@@ -296,7 +296,7 @@ export default function LogementsPage() {
           <>
             {/* ── ONGLETS PIÈCES ── */}
             <div className="py-8">
-              <h2 className="text-center text-base font-bold text-gray-800 mb-4">Choisissez la pièce concernée</h2>
+              <h2 className="text-center text-base font-bold text-foreground mb-4">Choisissez la pièce concernée</h2>
               <div className="flex gap-2 justify-center flex-wrap">
                 {PIECES.map(p => (
                   <button
@@ -305,7 +305,7 @@ export default function LogementsPage() {
                     className={`px-5 py-2 rounded-full text-sm font-semibold border transition-all ${
                       activePiece.id === p.id
                         ? "bg-[#2563eb] text-white border-[#2563eb] shadow"
-                        : "bg-white text-gray-700 border-gray-300 hover:border-blue-400 hover:text-blue-600"
+                        : "bg-card text-foreground border-border hover:border-primary/50 hover:text-primary"
                     }`}
                   >
                     {p.label}
@@ -328,13 +328,13 @@ export default function LogementsPage() {
               {!activePiece.piece3D && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                   <span className="text-8xl opacity-30">🏠</span>
-                  <p className="text-gray-400 text-sm font-medium">{activePiece.label}</p>
+                  <p className="text-muted-foreground text-sm font-medium">{activePiece.label}</p>
                 </div>
               )}
             </div>
 
             {/* Légende responsable */}
-            <div className="flex items-center gap-1 mb-2 text-xs text-gray-600">
+            <div className="flex items-center gap-1 mb-2 text-xs text-foreground">
               <span className="font-semibold mr-1">Responsable de l&apos;entretien</span>
               <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 font-semibold border border-yellow-200">
                 <span className="w-2 h-2 rounded-full bg-yellow-400 inline-block" /> Locataire
@@ -346,12 +346,12 @@ export default function LogementsPage() {
 
             {/* ── SECTION ÉQUIPEMENTS ── */}
             <div className="py-6">
-              <h2 className="text-xl font-black text-gray-900 mb-1">Équipements</h2>
-              <p className="text-xs text-gray-500 mb-5 italic">
+              <h2 className="text-xl font-black text-foreground mb-1">Équipements</h2>
+              <p className="text-xs text-muted-foreground mb-5 italic">
                 *Les équipements qui ont subi une dégradation sont à la charge des locataires.
               </p>
               {eqDePiece.length === 0 ? (
-                <p className="text-gray-400 text-sm text-center py-8">Aucun équipement pour cette pièce.</p>
+                <p className="text-muted-foreground text-sm text-center py-8">Aucun équipement pour cette pièce.</p>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {eqDePiece.map(eq => (
@@ -398,25 +398,23 @@ export default function LogementsPage() {
 
             {/* ── FAQ ── */}
             <section className="pb-12">
-              <h2 className="text-xl font-black text-gray-900 mb-6 text-center">Questions fréquentes sur les travaux et entretiens</h2>
+              <h2 className="text-xl font-black text-foreground mb-6 text-center">Questions fréquentes sur les travaux et entretiens</h2>
               <div className="grid md:grid-cols-2 gap-8 items-start">
-                {/* Photo */}
-                <div className="hidden md:flex items-center justify-center bg-gray-100 rounded-2xl h-64 text-6xl">
+                <div className="hidden md:flex items-center justify-center bg-muted rounded-2xl h-64 text-6xl">
                   🏘️
                 </div>
-                {/* Accordéon */}
                 <div className="space-y-2">
                   {FAQ.map((item, i) => (
-                    <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
+                    <div key={i} className="border border-border rounded-xl overflow-hidden">
                       <button
                         onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                        className="w-full flex items-center justify-between px-4 py-3.5 text-left text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                        className="w-full flex items-center justify-between px-4 py-3.5 text-left text-sm font-semibold text-foreground hover:bg-muted transition-colors"
                       >
                         <span>{item.q}</span>
-                        {openFaq === i ? <ChevronUp size={16} className="text-gray-400 shrink-0" /> : <ChevronDown size={16} className="text-gray-400 shrink-0" />}
+                        {openFaq === i ? <ChevronUp size={16} className="text-muted-foreground shrink-0" /> : <ChevronDown size={16} className="text-muted-foreground shrink-0" />}
                       </button>
                       {openFaq === i && (
-                        <div className="px-4 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        <div className="px-4 pb-4 text-sm text-muted-foreground leading-relaxed border-t border-border pt-3">
                           {item.a}
                         </div>
                       )}
@@ -460,13 +458,12 @@ function EqCard({ eq, onClick, highlighted = false }: {
       onClick={() => onClick(eq)}
       className={`group rounded-xl border hover:shadow-md transition-all overflow-hidden text-left flex flex-col ${
         highlighted
-          ? 'border-blue-500 shadow-lg shadow-blue-100 bg-blue-50 scale-105'
-          : 'bg-white border-gray-200 hover:border-blue-300'
+          ? 'border-primary shadow-lg shadow-primary/10 bg-accent scale-105'
+          : 'bg-card border-border hover:border-primary/50'
       }`}
     >
-      {/* Illustration 3D ou emoji fallback */}
       <div className={`h-24 relative overflow-hidden transition-colors ${
-        highlighted ? 'bg-blue-100' : 'bg-gray-50 group-hover:bg-blue-50'
+        highlighted ? 'bg-accent' : 'bg-muted group-hover:bg-accent'
       }`}>
         {has3D ? (
           <EquipmentMiniature3D
@@ -480,9 +477,8 @@ function EqCard({ eq, onClick, highlighted = false }: {
           </div>
         )}
       </div>
-      {/* Nom + badge */}
       <div className="p-2.5 flex flex-col flex-1">
-        <p className="text-xs font-bold text-gray-900 leading-tight line-clamp-2 mb-auto">{eq.nom}</p>
+        <p className="text-xs font-bold text-foreground leading-tight line-clamp-2 mb-auto">{eq.nom}</p>
         <div className={`mt-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold border self-start ${cfg.badge}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
           {cfg.label}

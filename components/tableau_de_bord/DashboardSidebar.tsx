@@ -24,14 +24,14 @@ export function DashboardSidebar() {
   return (
     <>
       {/* Sidebar Desktop */}
-      <aside className="hidden lg:flex flex-col bg-white border-r border-gray-200 w-64">
+      <aside className="hidden lg:flex flex-col bg-card border-r border-border w-64">
         {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-border">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0">
               <Image src="/logo-default.png" alt="Logo" width={24} height={24} className="rounded" />
             </div>
-            <span className="font-bold text-lg text-gray-900">Qui fait quoi ?</span>
+            <span className="font-bold text-lg text-foreground">Qui fait quoi ?</span>
           </Link>
         </div>
 
@@ -47,8 +47,8 @@ export function DashboardSidebar() {
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-lg'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    ? 'bg-primary text-primary-foreground shadow-lg'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
               >
                 <Icon size={20} className="shrink-0" />
@@ -59,10 +59,10 @@ export function DashboardSidebar() {
         </nav>
 
         {/* Retour à l'accueil */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-border">
           <Link
             href="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-200"
           >
             <Home size={20} className="shrink-0" />
             <span className="font-medium">Retour à l&apos;accueil</span>

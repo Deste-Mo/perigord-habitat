@@ -15,7 +15,7 @@ export function Row({ label, value, onClick, danger = false, children }: RowProp
     <div
       onClick={onClick}
       className={`flex items-center justify-between px-5 py-3.5 ${
-        onClick ? "cursor-pointer hover:bg-muted transition-colors" : ""
+        onClick ? "cursor-pointer hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors" : ""
       }`}
     >
       <span className={`text-sm font-medium ${danger ? "text-destructive" : "text-foreground"}`}>
