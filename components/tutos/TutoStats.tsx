@@ -22,14 +22,14 @@ export function TutoStats({ total, tutoriels, ecogestes, prevention }: TutoStats
         return (
           <div
             key={stat.label}
-            className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-3 hover:shadow-md transition-shadow"
+            className="bg-card rounded-xl border border-border p-4 flex items-center gap-3 hover:shadow-md transition-shadow"
           >
             <div className={`w-10 h-10 rounded-lg ${stat.bg} flex items-center justify-center`}>
               <Icon className={`w-5 h-5 ${stat.color}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-              <p className="text-xs text-gray-500">{stat.label}</p>
+              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+              <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>
           </div>
         );

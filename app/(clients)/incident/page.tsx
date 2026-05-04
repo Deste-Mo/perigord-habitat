@@ -34,10 +34,10 @@ export default function IncidentsPage() {
 
   if (loadingUser || loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col">
         <HeaderApp />
         <main className="flex-1 flex items-center justify-center">
-          <Loader2 className="animate-spin text-indigo-600" size={32} />
+          <Loader2 className="animate-spin text-primary" size={32} />
         </main>
       </div>
     );
@@ -45,7 +45,7 @@ export default function IncidentsPage() {
 
   if (!locataire) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col">
         <HeaderApp />
         <main className="flex-1 w-full px-4 sm:px-6 py-8">
           <InitializeUserData />
@@ -56,17 +56,17 @@ export default function IncidentsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col">
         <HeaderApp />
         <main className="flex-1 flex items-center justify-center">
-          <p className="text-red-600">Erreur: {error}</p>
+          <p className="text-destructive">Erreur: {error}</p>
         </main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderApp />
 
       <main className="flex-1 w-full px-4 sm:px-6 py-8">
@@ -75,11 +75,11 @@ export default function IncidentsPage() {
           {/* En-tête */}
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
                 <AlertTriangle size={24} className="text-orange-500" />
                 Incidents
               </h1>
-              <p className="text-gray-500 text-sm mt-0.5">
+              <p className="text-muted-foreground text-sm mt-0.5">
                 {incidents.filter((i) => i.statut === "nouveau").length} nouveau{incidents.filter((i) => i.statut === "nouveau").length > 1 ? "x" : ""} · {incidents.length} au total
               </p>
             </div>
@@ -94,8 +94,8 @@ export default function IncidentsPage() {
                 onClick={() => setFiltre(value)}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                   filtre === value
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card text-foreground border-border hover:border-primary/30 hover:text-primary"
                 }`}
               >
                 {label}
@@ -106,7 +106,7 @@ export default function IncidentsPage() {
           {/* Liste */}
           <div className="flex flex-col gap-3">
             {filtered.length === 0 ? (
-              <p className="text-center text-gray-400 py-16">Aucun incident dans cette catégorie.</p>
+              <p className="text-center text-muted-foreground py-16">Aucun incident dans cette catégorie.</p>
             ) : (
               filtered.map((incident) => (
                 <IncidentCard key={incident.id} incident={incident} />

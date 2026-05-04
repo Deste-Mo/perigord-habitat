@@ -41,20 +41,18 @@ const SECTIONS = [
 
 export default function QuiFaitQuoiPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <HeaderApp />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8">
         <div className="flex flex-col gap-6">
-          {/* En-tête */}
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Qui fait quoi ?</h1>
-            <p className="text-gray-500 text-sm mt-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Qui fait quoi ?</h1>
+            <p className="text-muted-foreground text-sm mt-2">
               Simplifiez les règles juridiques entre locataire et propriétaire
             </p>
           </div>
 
-          {/* Grille des sections */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             {SECTIONS.map((section) => {
               const Icon = section.icon;
@@ -62,28 +60,26 @@ export default function QuiFaitQuoiPage() {
                 <Link
                   key={section.id}
                   href={section.href}
-                  className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all p-6 flex flex-col gap-4 group"
+                  className="bg-card rounded-xl border border-border shadow-sm hover:shadow-md transition-all p-6 flex flex-col gap-4 group"
                 >
                   <div className="flex items-start justify-between">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${section.color}`}>
                       <Icon size={24} />
                     </div>
-                    <ChevronRight size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+                    <ChevronRight size={20} className="text-muted-foreground group-hover:text-foreground transition-colors" />
                   </div>
-
                   <div className="flex flex-col gap-2">
-                    <h2 className="font-semibold text-gray-900 text-lg">{section.title}</h2>
-                    <p className="text-sm text-gray-500 leading-relaxed">{section.description}</p>
+                    <h2 className="font-semibold text-foreground text-lg">{section.title}</h2>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{section.description}</p>
                   </div>
                 </Link>
               );
             })}
           </div>
 
-          {/* Info complémentaire */}
-          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mt-4">
-            <p className="text-sm text-blue-800">
-              <span className="font-semibold">💡 Bon à savoir :</span> Ces informations sont basées sur la législation française en vigueur. 
+          <div className="bg-accent border border-primary/20 rounded-xl p-4 mt-4">
+            <p className="text-sm text-foreground">
+              <span className="font-semibold">💡 Bon à savoir :</span> Ces informations sont basées sur la législation française en vigueur.
               En cas de doute, n'hésitez pas à consulter votre bailleur ou un professionnel du droit.
             </p>
           </div>

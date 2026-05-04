@@ -32,27 +32,24 @@ export function NotificationItem({ notification: n, onRead }: Props) {
       onClick={() => onRead(n.id)}
       className={`w-full text-left flex items-start gap-4 px-4 py-4 rounded-xl border transition-all ${
         n.read
-          ? "bg-white border-gray-100 opacity-70"
-          : "bg-white border-indigo-100 shadow-sm"
+          ? "bg-card border-border opacity-70"
+          : "bg-card border-primary/20 shadow-sm"
       } hover:shadow-md`}
     >
-      {/* Icône */}
       <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${cfg.bg}`}>
         <Icon size={18} className={cfg.color} />
       </div>
-
-      {/* Contenu */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <p className={`text-sm font-semibold leading-snug ${n.read ? "text-gray-600" : "text-gray-900"}`}>
+          <p className={`text-sm font-semibold leading-snug ${n.read ? "text-muted-foreground" : "text-foreground"}`}>
             {n.title}
           </p>
           <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-xs text-gray-400">{timeAgo(n.date)}</span>
-            {!n.read && <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />}
+            <span className="text-xs text-muted-foreground">{timeAgo(n.date)}</span>
+            {!n.read && <span className="w-2 h-2 rounded-full bg-primary shrink-0" />}
           </div>
         </div>
-        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed line-clamp-2">{n.message}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed line-clamp-2">{n.message}</p>
         <span className={`inline-block mt-1.5 text-xs px-2 py-0.5 rounded-full font-medium ${cfg.bg} ${cfg.color}`}>
           {cfg.label}
         </span>

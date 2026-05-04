@@ -1,1 +1,3 @@
-que devrai je mettre comme commit avec ce qui est recement
+que devrai je mettre comme commit avec ce qui est recement en 5 mots et en anglais
+
+- je me demande si tous fonctionnel le fait dont ce qu'on trouve dans le page de accounts.... il faut verifie l'ensmeble de projet pour voir comment devrions nous faire pour la dynamisatin de tous fonctionnlité dans ce page accounts 

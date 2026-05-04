@@ -38,18 +38,18 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
   if (registered) {
     return (
       <div className="flex flex-col items-center gap-4 py-6 text-center">
-        <div className="bg-indigo-50 p-4 rounded-full">
-          <MailCheck size={36} className="text-indigo-600" />
+        <div className="bg-accent p-4 rounded-full">
+          <MailCheck size={36} className="text-primary" />
         </div>
         <div>
-          <p className="font-semibold text-gray-900 text-lg">Vérifiez votre boîte mail</p>
-          <p className="text-sm text-gray-500 mt-1 max-w-xs">
+          <p className="font-semibold text-foreground text-lg">Vérifiez votre boîte mail</p>
+          <p className="text-sm text-muted-foreground mt-1 max-w-xs">
             Un e-mail de confirmation a été envoyé à{" "}
-            <span className="font-medium text-gray-700">{email}</span>.
+            <span className="font-medium text-foreground">{email}</span>.
             Cliquez sur le lien pour activer votre compte.
           </p>
         </div>
-        <Link href="/login" className="text-xs text-indigo-600 hover:underline font-medium">
+        <Link href="/login" className="text-xs text-primary hover:underline font-medium">
           Retour à la connexion
         </Link>
       </div>
@@ -59,7 +59,7 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-2">
       {(error || confirmError) && (
-        <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-md">
+        <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">
           {confirmError ?? error}
         </p>
       )}
@@ -105,7 +105,7 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             tabIndex={-1}
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -133,15 +133,15 @@ export function RegisterForm({ role, onChangeRole }: RegisterFormProps) {
         <button
           type="button"
           onClick={onChangeRole}
-          className="text-center text-sm text-gray-500 hover:text-gray-700"
+          className="text-center text-sm text-muted-foreground hover:text-foreground"
         >
           ← Changer de profil
         </button>
       )}
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-muted-foreground">
         Déjà un compte ?{" "}
-        <Link href="/login" className="text-indigo-600 font-medium hover:underline">
+        <Link href="/login" className="text-primary font-medium hover:underline">
           Se connecter
         </Link>
       </p>

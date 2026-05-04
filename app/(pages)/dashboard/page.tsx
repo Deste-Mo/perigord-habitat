@@ -64,7 +64,7 @@ export default function Dashboard() {
       title: "Voir les incidents",
       description: "Incidents en cours",
       icon: AlertTriangle,
-      href: "/client/incidents",
+      href: "/incident",
       color: "orange" as const
     },
     {
@@ -79,7 +79,7 @@ export default function Dashboard() {
   if (!isAuthorized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -122,19 +122,19 @@ export default function Dashboard() {
         {/* Section informative */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* Gestion des équipements */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
+          <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
                 <Package className="text-blue-600" size={28} />
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-black text-gray-900 mb-2">Équipements</h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                <h3 className="text-xl font-black text-foreground mb-2">Équipements</h3>
+                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                   Gérez tous les équipements de vos logements : ajout, modification, suivi de maintenance.
                 </p>
                 <a 
                   href="/equipment" 
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Gérer les équipements
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,18 +146,18 @@ export default function Dashboard() {
           </div>
 
           {/* Incidents */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
+          <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
                 <AlertTriangle className="text-orange-600" size={28} />
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-black text-gray-900 mb-2">Incidents</h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                <h3 className="text-xl font-black text-foreground mb-2">Incidents</h3>
+                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                   Suivez et gérez tous les incidents signalés par vos locataires en temps réel.
                 </p>
                 <a 
-                  href="/client/incidents" 
+                  href="/incident" 
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Voir les incidents

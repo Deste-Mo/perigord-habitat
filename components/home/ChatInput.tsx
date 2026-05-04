@@ -53,7 +53,7 @@ export function ChatInput({
   return (
     <div className="w-full max-w-2xl">
       <div
-        className="relative bg-white border-2 border-gray-200 rounded-2xl shadow-lg focus-within:border-indigo-500 transition-colors"
+        className="relative bg-card border-2 border-border rounded-2xl shadow-lg focus-within:border-primary transition-colors"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
@@ -72,7 +72,7 @@ export function ChatInput({
           onKeyDown={onKeyDown}
           placeholder={listening ? "Parlez maintenant..." : "Décrivez votre problème..."}
           rows={3}
-          className="w-full bg-transparent resize-none px-5 pt-4 pb-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none"
+          className="w-full bg-transparent resize-none px-5 pt-4 pb-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
 
         <div className="flex items-center justify-between px-3 pb-3 pt-1">
@@ -87,7 +87,7 @@ export function ChatInput({
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-400 hover:text-gray-600 w-8 h-8"
+              className="text-muted-foreground hover:text-foreground w-8 h-8"
               onClick={() => fileInputRef.current?.click()}
               title="Joindre des fichiers"
             >
@@ -101,8 +101,8 @@ export function ChatInput({
               title={listening ? "Arrêter l'écoute" : "Dicter un message"}
               className={`w-8 h-8 transition-colors ${
                 listening
-                  ? "text-red-500 hover:text-red-600 bg-red-50"
-                  : "text-gray-400 hover:text-gray-600"
+                  ? "text-red-500 hover:text-red-600 bg-red-50 dark:bg-red-950/20"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}

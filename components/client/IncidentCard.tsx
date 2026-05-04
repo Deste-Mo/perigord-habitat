@@ -14,12 +14,12 @@ export function IncidentCard({ incident, onClick }: Props) {
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3 ${
+      className={`bg-card rounded-2xl border border-border shadow-sm p-5 flex flex-col gap-3 ${
         onClick ? "cursor-pointer hover:shadow-md transition-shadow" : ""
       }`}
     >
       <div className="flex items-start justify-between gap-3 flex-wrap">
-        <h2 className="font-semibold text-gray-900">{incident.titre}</h2>
+        <h2 className="font-semibold text-foreground">{incident.titre}</h2>
         <div className="flex items-center gap-2 shrink-0">
           <span className={`text-xs font-semibold ${priorite.color}`}>
             ● {priorite.label}
@@ -29,12 +29,12 @@ export function IncidentCard({ incident, onClick }: Props) {
           </span>
         </div>
       </div>
-      <p className="text-sm text-gray-500 leading-relaxed">{incident.description}</p>
+      <p className="text-sm text-muted-foreground leading-relaxed">{incident.description}</p>
       <div className="flex flex-wrap gap-4">
-        <span className="flex items-center gap-1.5 text-xs text-gray-400">
+        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <MapPin size={13} /> {incident.piece}
         </span>
-        <span className="flex items-center gap-1.5 text-xs text-gray-400">
+        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Calendar size={13} /> {new Date(incident.date_creation).toLocaleDateString("fr-FR")}
         </span>
       </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Equipment } from "@/types/equipment";
 import equipementsData from "@/data/equipements.json";
+import { equipementsService } from "@/services/equipements.service";
 
 export function useEquipmentData() {
   const [equipments, setEquipments] = useState<Equipment[]>(
@@ -35,17 +36,7 @@ export function useEquipmentData() {
     );
 
     try {
-      const res = await fetch("/api/equipements", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error ?? "Erreur serveur");
-      }
-
+      await equipementsService.update(updated);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Erreur inconnue";
@@ -53,7 +44,11 @@ export function useEquipmentData() {
 
       // Rollback — on remet l'ancienne valeur
       setEquipments((prev) =>
-        prev.map((eq) => (eq.id === updated.id ? (equipementsData.equipements as Equipment[]).find((e) => e.id === eq.id) ?? eq : eq))
+        prev.map((eq) =>
+          eq.id === updated.id
+            ? (equipementsData.equipements as Equipment[]).find((e) => e.id === eq.id) ?? eq
+            : eq
+        )
       );
 
       return false;
