@@ -5,6 +5,7 @@ import { OrbitControls, Sky, Stars, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { StructureMaison } from './structure/StructureMaison';
 import { Garage } from './structure/Garage';
+import { Immeuble } from './structure/Immeuble';
 import { SolInterieur } from './structure/SolInterieur';
 import { Sejour } from './pieces/Sejour';
 import { Cuisine } from './pieces/Cuisine';
@@ -179,6 +180,11 @@ export function SceneMaison() {
       {/* ── Garage accolé à droite de la maison (visible uniquement en vue extérieure) ── */}
       {!pieceOuverte && (
         <Garage filDefer={filDefer} />
+      )}
+      
+      {/* ── Immeuble à gauche (visible uniquement en vue extérieure) ── */}
+      {!pieceOuverte && (
+        <Immeuble filDefer={filDefer} />
       )}
       
       {/* En mode visite, afficher toutes les pièces pour permettre le passage entre elles */}

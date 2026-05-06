@@ -51,6 +51,37 @@ export function Terrain() {
 
       {/* ── Pelouse — même texture gazon que SolInterieur ──────────────── */}
       <SolInterieur exterieur={true} />
+      
+      {/* ── Trottoir devant l'immeuble (côté façade principale) ─────── */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-20,0.01,-12]} receiveShadow>
+        <planeGeometry args={[14,2]} />
+        <meshStandardMaterial color="#4a4a4a" roughness={0.9} />
+      </mesh>
+      
+      {/* ── Zone de parking continue (6 places) ────────────────────────── */}
+      {/* Surface complète du parking */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.011, -12]} receiveShadow>
+        <planeGeometry args={[15, 4.8]} />
+        <meshStandardMaterial color="#3a3a3a" roughness={0.85} />
+      </mesh>
+      
+      {/* Lignes blanches de séparation entre les places (5 lignes pour 6 places) */}
+      {[-26, -23.5, -21, -18.5, -16].map((x, i) => (
+        <mesh key={i} rotation={[-Math.PI/2,0,0]} position={[x, 0.012, -12]} receiveShadow>
+          <planeGeometry args={[0.1, 4.8]} />
+          <meshStandardMaterial color="#ffffff" roughness={0.8} />
+        </mesh>
+      ))}
+      
+      {/* Lignes blanches avant et arrière du parking */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.012, -14.4]} receiveShadow>
+        <planeGeometry args={[15, 0.1]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.8} />
+      </mesh>
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.012, -9.6]} receiveShadow>
+        <planeGeometry args={[15, 0.1]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.8} />
+      </mesh>
 
       {/* ── Dalle maison ───────────────────────────────────────────────── */}
       <mesh position={[0,-0.06,0]} receiveShadow>

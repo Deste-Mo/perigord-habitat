@@ -1,0 +1,233 @@
+Bonjout 
+Vous aviez oublié des choses. 
+Le résumé de ce que j attends comme convenu ensemble ; 
+
+CAHIER DES CHARGES COMPLET Plateforme nationale QUI FAIT QUOI 
+
+1. Objectif du projet 
+Créer une plateforme numérique appelée :
+QUI FAIT QUOI
+destinée à tous les bailleurs de France.
+
+L’outil permet aux locataires de comprendre rapidement :
+qui doit intervenir qui paie pourquoi comment diagnostiquer comment dépanner 
+lorsqu’un problème apparaît dans leur logement.
+
+2. Contexte 
+Aujourd’hui les bailleurs utilisent principalement :
+PDF “qui fait quoi” guides locataires livret d’accueil. 
+
+Ces documents :
+sont difficiles à comprendre ne permettent pas de diagnostiquer une panne génèrent énormément d’appels. 
+
+La plateforme vise à :
+✔ réduire les appels
+✔ améliorer la qualification des incidents
+✔ rendre les locataires autonomes
+✔ réduire les déplacements techniques
+
+3. Base juridique 
+Le système repose sur les textes suivants :
+Loi du 6 juillet 1989 Décret réparations locatives 1987 Décret charges récupérables 1987 
+
+Principe général :
+Situation Responsable entretien courant locataire grosse réparation bailleur contrat d’entretien prestataire 
+
+4. Vision produit 
+Le locataire décrit son problème :
+texte photo vidéo vocal 
+
+Le système :
+1️⃣ analyse
+2️⃣ identifie la panne
+3️⃣ explique la responsabilité
+4️⃣ propose une solution
+
+5. Parcours utilisateur locataire Étape 1 : décrire le problème 
+Le locataire peut utiliser :
+méthode description texte ex : robinet fuit recherche mot clé vocal dicter photo image vidéo vidéo 
+L’IA analyse les données.
+
+6. Schéma interactif du logement 
+Le site doit comporter un schéma central interactif.
+Fonctions :
+zoom tactile déplacement clic sur pièce clic sur équipement 
+
+Exemples :
+cuisine séjour salle de bain extérieur 7. Résultat affiché 
+
+Chaque panne affiche une fiche.
+Qui doit intervenir ? 
+Code couleur :
+
+🟠 Locataire
+🔴 Bailleur
+🔵 Contrat d’entretien
+⚪ À vérifier
+
+Qui paie ? locataire bailleur bailleur récupérable via charges Pourquoi ? 
+Référence juridique simple.
+Comment diagnostiquer ? 
+Check-list simple.
+
+8. Diagnostic IA 
+L’IA doit pouvoir :
+analyser texte transcrire vocal analyser photo analyser vidéo détecter équipement 
+
+9. Auto dépannage 
+Pour les pannes simples :
+le locataire reçoit :
+étapes simples vidéos conseils 
+
+10. Escalade 
+Si le problème persiste :
+bouton
+Envoyer au bailleur
+
+11. Contenu par pièce 
+Le PDF du développeur inclut déjà des exemples.
+Séjour papier peint abîmé prise électrique volet thermostat Cuisine évier bouché robinet radiateur interphone Salle de bain chasse d’eau joint ventilation chauffe-eau Extérieur balcon cave garage portail 
+
+12. Équipements sous contrat 
+Certains équipements sont sous contrat :
+chaudières VMC chauffe-eau ascenseurs inserts fosse septique 
+
+13. Cas particuliers 
+Le site affiche un bandeau.
+Cas :
+vétusté sinistre vandalisme mauvaise utilisation parties communes 14. Plateforme bailleur 
+Chaque bailleur possède un espace admin.
+
+Fonctions :
+modifier règles ajouter prestataires modifier scripts statistiques 15. Multi-bailleurs SaaS 
+
+Architecture :
+une plateforme
+plusieurs bailleurs.
+
+Chaque bailleur possède :
+son espace ses règles ses prestataires 16. Marque blanche 
+
+Chaque bailleur peut :
+mettre son logo ses couleurs son domaine 17. Widget intégrable 
+
+Le système doit pouvoir être intégré dans un site bailleur.
+Exemple :
+<script src="https://module.quifaitquoi.com/widget.js" data-bailleur="ID"> </script> 18. Historique locataire 
+
+Chaque locataire voit :
+incidents photos statut réponses IA 
+
+19. Historique logement 
+Chaque logement garde :
+incidents équipements réparations 20. Base de données pannes 
+
+Minimum :
+250 pannes.
+
+Catégories :
+chauffage plomberie électricité fenêtres serrurerie ventilation humidité
+
+ 21. API 
+La plateforme doit exposer une API.
+Pour :
+CRM bailleurs ticketing applications mobiles 
+
+22. Ticketing 
+Un ticket doit contenir :
+locataire logement panne média diagnostic IA 
+
+23. Notifications 
+Notifications possibles :
+email SMS application 24. Gestion médias 
+
+Le locataire peut envoyer :
+photo vidéo audio 
+
+25. Sécurité fichiers 
+Les fichiers doivent être :
+scannés antivirus limités en taille stockés sécurisés 26. RGPD 
+Principes :
+minimisation sécurité durée limitée droit d’accès 27. Sécurité informatique 
+Obligatoire :
+HTTPS chiffrement MFA admin protection XSS protection SQL injection 
+
+28. Sauvegardes 
+Sauvegarde :
+quotidienne redondante 
+
+29. Disponibilité 
+Objectif :
+
+99,9 % uptime.
+
+30. Performance 
+
+Recherche :
+
+moins de 1 seconde.
+
+31. Accessibilité 
+
+Conformité :
+
+RGAA niveau AA.
+
+32. SEO 
+
+Prévoir :
+
+pages indexables blog FAQ 
+
+33. Livrables développeur 
+
+Le développeur doit fournir :
+
+maquettes UX architecture technique base de données code source documentation 34. Planning 
+
+Le développeur doit fournir :
+
+planning coût roadmap
+
+ 35.CHECKLIST FINALE DÉVELOPPEUR UX 
+
+☐ mobile-first
+☐ schéma interactif
+☐ zoom tactile
+
+IA 
+
+☐ analyse texte
+☐ analyse vocal
+☐ analyse image
+
+SaaS 
+
+☐ multi-tenant
+☐ marque blanche
+☐ widget intégrable
+
+sécurité 
+
+☐ HTTPS
+☐ chiffrement
+☐ MFA
+
+RGPD 
+
+☐ export données
+☐ suppression
+
+performance 
+
+☐ recherche < 1 s
+☐ IA < 5 s
+
+Conclusion 
+
+Une fois ce cahier des charges appliqué :
+la plateforme peut devenir la référence nationale pour les bailleurs sociaux.
+
+Objectif :
+300 bailleurs millions de locataires 
+40 à 60 % de pannes résolues sans technicien
