@@ -246,6 +246,25 @@ function PointCliquable({
   equipementId: string;
   onClic: (id: string) => void;
 }) {
+  // Utiliser la couleur primaire du thème
+  const primaryColor = typeof window !== 'undefined' 
+    ? getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '221.2 83.2% 53.3%'
+    : '221.2 83.2% 53.3%';
+  
+  // Convertir HSL en hex pour Three.js
+  const hslToHex = (hsl: string) => {
+    const [h, s, l] = hsl.split(' ').map(v => parseFloat(v));
+    const a = (s / 100) * Math.min(l / 100, 1 - l / 100);
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12;
+      const color = (l / 100) - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+  };
+  
+  const color = hslToHex(primaryColor);
+  
   return (
     <Billboard position={position} follow={true} renderOrder={999}>
       <group
@@ -255,11 +274,11 @@ function PointCliquable({
       >
         <mesh renderOrder={999}>
           <circleGeometry args={[0.18, 16]} />
-          <meshBasicMaterial color="#2563eb" transparent opacity={0.25} side={THREE.DoubleSide} depthTest={false} />
+          <meshBasicMaterial color={color} transparent opacity={0.25} side={THREE.DoubleSide} depthTest={false} />
         </mesh>
         <mesh position={[0, 0, 0.001]} renderOrder={1000}>
           <circleGeometry args={[0.09, 16]} />
-          <meshBasicMaterial color="#2563eb" side={THREE.DoubleSide} depthTest={false} />
+          <meshBasicMaterial color={color} side={THREE.DoubleSide} depthTest={false} />
         </mesh>
         <mesh position={[0, 0, 0.002]} renderOrder={1001}>
           <planeGeometry args={[0.1, 0.02]} />
@@ -311,7 +330,7 @@ function RoomScene({ piece, onEquipementClick }: {
       <EquipementBridge onEquipementClick={onEquipementClick} />
 
       <EclairagePrincipal modeJourNuit="jour" />
-      <color attach="background" args={['#dbeafe']} />
+      <color attach="background" args={['hsl(var(--background))']} />
       <Environment preset="apartment" />
 
       {/* Sol limité à la pièce uniquement */}

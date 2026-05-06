@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import equipementsData from "@/data/equipements.json";
 import type { Equipment } from "@/types/equipment";
+import { getEquipmentImage } from "@/utils/equipmentImages";
 
 // ── Chargement dynamique (SSR désactivé pour WebGL) ──────────────────────────
 const RoomPreview3D = dynamic(
@@ -161,59 +162,9 @@ const RESP_CFG = {
   },
 } as const;
 
-// ── Image Unsplash par équipement ─────────────────────────────────────────────
-function getImageUrl(nom: string): string {
-  const n = nom.toLowerCase();
-  if (n.includes("porte") || n.includes("serrure"))
-    return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80";
-  if (n.includes("fenêtre") || n.includes("vitre") || n.includes("volet") || n.includes("store"))
-    return "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80";
-  if (n.includes("radiateur") || n.includes("thermostat") || n.includes("chauffage"))
-    return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80";
-  if (n.includes("robinet") || n.includes("mitigeur") || n.includes("douchette"))
-    return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80";
-  if (n.includes("évier") || n.includes("evier"))
-    return "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80";
-  if (n.includes("lavabo") || n.includes("vasque"))
-    return "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80";
-  if (n.includes("wc") || n.includes("toilette") || n.includes("cuvette") || n.includes("chasse"))
-    return "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80";
-  if (n.includes("douche") || n.includes("receveur") || n.includes("paroi"))
-    return "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80";
-  if (n.includes("baignoire"))
-    return "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80";
-  if (n.includes("chauffe-eau") || n.includes("cumulus") || n.includes("ballon"))
-    return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80";
-  if (n.includes("réfrigérateur") || n.includes("congélateur"))
-    return "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80";
-  if (n.includes("four") || n.includes("plaque") || n.includes("cuisson") || n.includes("cuisinière"))
-    return "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80";
-  if (n.includes("hotte"))
-    return "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80";
-  if (n.includes("lave-vaisselle"))
-    return "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80";
-  if (n.includes("lave-linge") || n.includes("machine à laver"))
-    return "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80";
-  if (n.includes("luminaire") || n.includes("plafonnier") || n.includes("ampoule"))
-    return "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=400&q=80";
-  if (n.includes("prise") || n.includes("interrupteur") || n.includes("tableau"))
-    return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80";
-  if (n.includes("vmc") || n.includes("ventilation") || n.includes("grille"))
-    return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80";
-  if (n.includes("sol") || n.includes("parquet") || n.includes("carrelage"))
-    return "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80";
-  if (n.includes("mur") || n.includes("peinture") || n.includes("enduit"))
-    return "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80";
-  if (n.includes("interphone") || n.includes("sonnette"))
-    return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80";
-  if (n.includes("sèche-serviettes") || n.includes("seche"))
-    return "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80";
-  if (n.includes("miroir"))
-    return "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80";
-  if (n.includes("placard") || n.includes("armoire"))
-    return "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80";
-  return "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80";
-}
+// Note: La fonction getImageUrl a été remplacée par getEquipmentImage() 
+// importée depuis @/utils/equipmentImages
+// Cette nouvelle fonction utilise des images locales avec fallback vers Unsplash
 
 // ── EqCard ────────────────────────────────────────────────────────────────────
 function EqCard({
@@ -242,7 +193,7 @@ function EqCard({
       <div className="h-28 relative overflow-hidden bg-muted">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={getImageUrl(eq.nom)}
+          src={getEquipmentImage(eq.nom)}
           alt={eq.nom}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -289,12 +240,10 @@ function EquipementModal({
           <div className="w-10 h-1 rounded-full bg-border" />
         </div>
         {/* Header */}
-        <div
-          className={`px-6 py-5 ${cfg.bg} border-b ${cfg.border} flex items-start gap-4`}
-        >
+        <div className="px-6 py-5 border-b border-border flex items-start gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={getImageUrl(eq.nom)}
+            src={getEquipmentImage(eq.nom)}
             alt={eq.nom}
             className="w-14 h-14 rounded-xl object-cover shrink-0"
           />
@@ -315,7 +264,7 @@ function EquipementModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+            className="p-1.5 rounded-lg text-muted-foreground hover:bg-accent transition-colors"
           >
             <X size={18} />
           </button>
@@ -327,7 +276,7 @@ function EquipementModal({
               {eq.remarque}
             </p>
           </div>
-          <div className="bg-muted rounded-xl p-4 border border-border">
+          <div className="rounded-xl p-4 border border-border">
             <div className="flex items-center gap-2 mb-2">
               <Scale size={13} className="text-muted-foreground" />
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -343,7 +292,7 @@ function EquipementModal({
         <div className="px-6 py-4 border-t border-border">
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-xl bg-foreground hover:opacity-90 text-background font-semibold text-sm transition-opacity"
+            className="w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm transition-colors"
           >
             Fermer
           </button>
@@ -530,7 +479,7 @@ export default function LogementsPage() {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={getImageUrl(eq.nom)}
+                      src={getEquipmentImage(eq.nom)}
                       alt=""
                       className="w-8 h-8 rounded-lg object-cover shrink-0"
                     />
@@ -622,8 +571,8 @@ export default function LogementsPage() {
         )}
 
         {/* ── SECTION CONSEILS ───────────────────────────────────────────── */}
-        <section className="bg-[#2563eb] rounded-2xl p-6 sm:p-8 mb-8 text-white">
-          <h2 className="text-xl font-black mb-5">
+        <section className="bg-primary/10 border border-primary/20 rounded-2xl p-6 sm:p-8 mb-8">
+          <h2 className="text-xl font-black mb-5 text-foreground">
             Quelques informations pour vous faciliter la vie !
           </h2>
           {/* Onglets pièces conseils */}
@@ -634,8 +583,8 @@ export default function LogementsPage() {
                 onClick={() => setConseilPiece(p.id === "general" ? "general" : p.id)}
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
                   conseilPiece === (p.id === "general" ? "general" : p.id)
-                    ? "bg-white text-blue-700"
-                    : "bg-white/20 text-white hover:bg-white/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-card text-foreground hover:bg-accent border border-border"
                 }`}
               >
                 {p.label}
@@ -645,8 +594,8 @@ export default function LogementsPage() {
           {/* Liste de conseils */}
           <ul className="space-y-2">
             {(CONSEILS[conseilPiece] ?? CONSEILS["general"]).map((c, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-blue-100">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-300 shrink-0" />
+              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                 {c}
               </li>
             ))}
@@ -662,11 +611,11 @@ export default function LogementsPage() {
             {FAQ.map((item, i) => (
               <div
                 key={i}
-                className="border border-border rounded-xl overflow-hidden"
+                className="bg-card border border-border rounded-xl overflow-hidden"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-4 py-3.5 text-left text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+                  className="w-full flex items-center justify-between px-4 py-3.5 text-left text-sm font-semibold text-foreground hover:bg-accent transition-colors"
                 >
                   <span>{item.q}</span>
                   {openFaq === i ? (
