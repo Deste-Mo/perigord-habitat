@@ -4,7 +4,6 @@ import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
 import { SignalerIncidentDialog } from "@/components/client/SignalerIncidentDialog";
 import { IncidentCard } from "@/components/client/IncidentCard";
-import { InitializeUserData } from "@/components/client/InitializeUserData";
 import { useIncidents } from "@/hooks/useIncidents";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { FILTRES_STATUT } from "@/config/incident.config";
@@ -38,17 +37,6 @@ export default function IncidentsPage() {
         <HeaderApp />
         <main className="flex-1 flex items-center justify-center">
           <Loader2 className="animate-spin text-primary" size={32} />
-        </main>
-      </div>
-    );
-  }
-
-  if (!locataire) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <HeaderApp />
-        <main className="flex-1 w-full px-4 sm:px-6 py-8">
-          <InitializeUserData />
         </main>
       </div>
     );

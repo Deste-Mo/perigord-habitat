@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Search,
@@ -304,6 +304,7 @@ function EquipementModal({
 
 // ── Page principale ───────────────────────────────────────────────────────────
 export default function LogementsPage() {
+  const router = useRouter();
   const [activePiece, setActivePiece] = useState(PIECES[0]);
   const [search, setSearch] = useState("");           // valeur de l'input (live)
   const [confirmedSearch, setConfirmedSearch] = useState(""); // filtre actif (après sélection)
@@ -380,13 +381,13 @@ export default function LogementsPage() {
       {/* ── HEADER ─────────────────────────────────────────────────────────── */}
       <div className="mx-auto px-4 sm:px-6 pt-6 pb-4">
         {/* Bouton retour */}
-        <Link
-          href="/client/compte"
+        <button
+          onClick={() => router.back()}
           className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm mb-5 transition-colors"
         >
           <ArrowLeft size={14} />
           Retour
-        </Link>
+        </button>
 
         {/* Titre + HousePreview3D */}
         <div className="flex items-start gap-6">
