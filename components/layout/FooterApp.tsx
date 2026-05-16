@@ -8,7 +8,7 @@ export function FooterApp() {
   const navigation = [
     { href: "/", label: "Accueil", icon: Home },
     { href: "/client/chat", label: "Assistant IA", icon: MessageSquare },
-    { href: "/client/tutos", label: "Tutos & conseils", icon: FileText },
+    { href: "/tutos", label: "Tutos & conseils", icon: FileText },
     { href: "/client/contacts", label: "Contacts", icon: Phone },
   ];
 

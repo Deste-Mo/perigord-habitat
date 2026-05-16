@@ -25,7 +25,7 @@ const NAV_MAIN = [
   { href: "/",                     icon: Home,       title: "Accueil"         },
   { href: "/client/chat",          icon: Bot,        title: "Assistant"       },
   { href: "/maison",               icon: Building2,  title: "Logement"        },
-  { href: "/client/tutos",         icon: BookOpen,   title: "Conseils"        },
+  { href: "/tutos",         icon: BookOpen,   title: "Conseils"        },
   { href: "/client/qui-fait-quoi", icon: HelpCircle, title: "Qui fait quoi ?" },
   { href: "/client/contacts",      icon: Phone,      title: "Contacts"        },
 ];

@@ -54,7 +54,7 @@ export function TutoCard({ notice }: TutoCardProps) {
           {new Date(notice.date).toLocaleDateString("fr-FR")}
         </span>
         <Link
-          href={`/client/tutos/${notice.id}`}
+          href={`/tutos/${notice.id}`}
           className="flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors group-hover:gap-2"
         >
           Détails

@@ -1,6 +1,6 @@
 import type { Notice, NoticeCategorie } from "@/types/notice";
 
-export const CATEGORIES: NoticeCategorie[] = ["Plomberie", "Électricité", "Chauffage", "Ventilation", "Entretien"];
+export const CATEGORIES: NoticeCategorie[] = ["Plomberie", "Électricité", "Chauffage", "Ventilation", "Entretien", "Sécurité", "Propreté et hygiène", "Extérieur et parties communes", "Numérique et connectivité"];
 
 export const NOTICES: Notice[] = [
   // === PLOMBERIE ===
@@ -267,5 +267,133 @@ export const NOTICES: Notice[] = [
     type: "ecogeste",
     description: "Gestes quotidiens pour un logement plus écologique et économique.", 
     date: "2026-02-12" 
+  },
+
+  // === SÉCURITÉ ===
+  { 
+    id: 33, 
+    titre: "Changer un cylindre de serrure", 
+    categorie: "Sécurité", 
+    type: "tutoriel",
+    description: "Guide pour remplacer votre cylindre de serrure rapidement et en toute sécurité.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 34, 
+    titre: "Sécuriser ses fenêtres et balcons", 
+    categorie: "Sécurité", 
+    type: "prevention",
+    description: "Renforcez la sécurité de vos fenêtres et balcons contre les intrusions et les accidents.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 35, 
+    titre: "Que faire en cas d'intrusion ou de cambriolage", 
+    categorie: "Sécurité", 
+    type: "prevention",
+    description: "Les réflexes à adopter face à une intrusion et les démarches à suivre après un cambriolage.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 36, 
+    titre: "Bien utiliser son interphone / digicode", 
+    categorie: "Sécurité", 
+    type: "tutoriel",
+    description: "Bonnes pratiques pour utiliser l'interphone et le digicode en toute sécurité.", 
+    date: "2026-05-16" 
+  },
+
+  // === PROPRETÉ ET HYGIÈNE ===
+  { 
+    id: 37, 
+    titre: "Nettoyer et détartrer les sanitaires", 
+    categorie: "Propreté et hygiène", 
+    type: "tutoriel",
+    description: "Méthodes naturelles pour nettoyer et détartrer efficacement vos sanitaires.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 38, 
+    titre: "Entretenir son réfrigérateur et son congélateur", 
+    categorie: "Propreté et hygiène", 
+    type: "tutoriel",
+    description: "Conseils pour nettoyer, dégivrer et maintenir vos appareils de froid en bon état.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 39, 
+    titre: "Nettoyer son four et sa hotte", 
+    categorie: "Propreté et hygiène", 
+    type: "tutoriel",
+    description: "Techniques écologiques pour nettoyer four et hotte sans produits chimiques.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 40, 
+    titre: "Entretenir son lave-linge (joints, tambour, filtres)", 
+    categorie: "Propreté et hygiène", 
+    type: "tutoriel",
+    description: "Entretien préventif de votre lave-linge pour prolonger sa durée de vie.", 
+    date: "2026-05-16" 
+  },
+
+  // === EXTÉRIEUR ET PARTIES COMMUNES ===
+  { 
+    id: 41, 
+    titre: "Entretenir son balcon ou sa terrasse", 
+    categorie: "Extérieur et parties communes", 
+    type: "tutoriel",
+    description: "Guide pour nettoyer et entretenir votre balcon ou terrasse toute l'année.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 42, 
+    titre: "Respecter les règles de vie en immeuble", 
+    categorie: "Extérieur et parties communes", 
+    type: "prevention",
+    description: "Les règles essentielles pour bien vivre en immeuble et respecter ses voisins.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 43, 
+    titre: "Entretenir sa boîte aux lettres et son entrée", 
+    categorie: "Extérieur et parties communes", 
+    type: "tutoriel",
+    description: "Conseils pour entretenir vos espaces d'entrée et votre boîte aux lettres.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 44, 
+    titre: "Gestion des espaces verts partagés", 
+    categorie: "Extérieur et parties communes", 
+    type: "ecogeste",
+    description: "Bonnes pratiques pour profiter et contribuer aux espaces verts collectifs.", 
+    date: "2026-05-16" 
+  },
+
+  // === NUMÉRIQUE ET CONNECTIVITÉ ===
+  { 
+    id: 45, 
+    titre: "Installer sa box internet", 
+    categorie: "Numérique et connectivité", 
+    type: "tutoriel",
+    description: "Procédure pas à pas pour installer votre box internet ADSL ou fibre.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 46, 
+    titre: "Utiliser les services en ligne du bailleur", 
+    categorie: "Numérique et connectivité", 
+    type: "tutoriel",
+    description: "Guide pour créer et utiliser votre espace locataire en ligne.", 
+    date: "2026-05-16" 
+  },
+  { 
+    id: 47, 
+    titre: "Protéger ses données personnelles à domicile", 
+    categorie: "Numérique et connectivité", 
+    type: "prevention",
+    description: "Réflexes essentiels pour sécuriser vos données et votre Wi-Fi à la maison.", 
+    date: "2026-05-16" 
   },
 ];

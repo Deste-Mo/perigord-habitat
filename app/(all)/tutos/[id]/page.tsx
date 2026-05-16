@@ -31,7 +31,7 @@ export default function TutoDetailPage() {
               Le tutoriel que vous recherchez n'existe pas ou a été supprimé.
             </p>
             <button
-              onClick={() => router.push("/client/tutos")}
+              onClick={() => router.push("/tutos")}
               className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all shadow-lg hover:shadow-xl font-semibold group"
             >
               <ArrowLeft size={22} className="group-hover:-translate-x-1 transition-transform" />
