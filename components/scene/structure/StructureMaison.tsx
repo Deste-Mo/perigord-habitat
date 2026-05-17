@@ -4,6 +4,7 @@ import { Mur } from './Mur';
 import { Fenetre } from './Fenetre';
 import { Porte } from './Porte';
 import { Toit } from './Toit';
+import { MarkerCliquable } from '../equipements/MarkerCliquable';
 import { LARGEUR_MAISON, PROFONDEUR_MAISON, EPAISSEUR_MUR, HAUTEUR_MUR } from '@/lib/three/constantes';   
 
 interface Props {
@@ -33,6 +34,9 @@ const P_SEJ_CHAMBRE:  Ouverture = { centre: -2.625, largeur: 0.85, yBot: 0, yTop
 const P_CUI_COULOIR:  Ouverture = { centre:  1.5,   largeur: 0.85, yBot: 0, yTop: 2.05 };
 const P_CHAM_COULOIR: Ouverture = { centre:  3.25,  largeur: 0.85, yBot: 0, yTop: 2.05 };
 const P_COULOIR_SDB:  Ouverture = { centre:  3.2,   largeur: 0.8,  yBot: 0, yTop: 2.05 };
+// Couloir d'entrée : portes latérales vers séjour (gauche) et cuisine (droite)
+const P_COULOIR_SEJ:  Ouverture = { centre: -2.5,  largeur: 0.85, yBot: 0, yTop: 2.1  };
+const P_COULOIR_CUI:  Ouverture = { centre: -2.5,  largeur: 0.85, yBot: 0, yTop: 2.1  };
 function MurPerce({ debut, fin, ouvertures = [], couleur = EXT, filDefer = false }: {
   debut: [number, number]; fin: [number, number];
   ouvertures?: Ouverture[]; couleur?: string; filDefer?: boolean;
@@ -88,8 +92,16 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
           <MurPerce debut={[lm,-pm]}  fin={[lm,pm]}    ouvertures={[F_CUISINE_DROITE, F_SDB_DROITE]}    couleur={EXT} filDefer={filDefer} />
 
           {/* Toutes les cloisons intérieures — avec ouvertures de portes */}
-          {/* X=0.75 de Z=-pm à Z=1.5 : pas de porte */}
-          <Mur debut={[0.75,-pm]}   fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
+          {/* Porte d'entrée principale — façade avant, ouvre vers l'intérieur */}
+          <Porte position={[-1.05, 0, -pm + 0.125]} rotation={[0, 0, 0]} largeur={0.9} hauteur={2.1} exterieure={true} />
+          {/* ── Couloir d'entrée entre séjour et cuisine ── */}
+          {/* Cloison gauche X=-1.8 : avec porte vers séjour */}
+          <MurPerce debut={[-1.8,-pm]} fin={[-1.8,1.5]} ouvertures={[P_COULOIR_SEJ]} couleur={INT} filDefer={filDefer} />
+          {/* Cloison droite X=0.75 : avec porte vers cuisine */}
+          <MurPerce debut={[0.75,-pm]} fin={[0.75,1.5]} ouvertures={[P_COULOIR_CUI]} couleur={INT} filDefer={filDefer} />
+          {/* Portes physiques */}
+          <Porte position={[-1.8, 0, -2.5]} rotation={[0,  Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
+          <Porte position={[ 0.75, 0, -2.5]} rotation={[0, -Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
           {/* X=0.75 de Z=1.5 à Z=pm : porte chambre/couloir à Z=3.25 */}
           <MurPerce debut={[0.75,1.5]} fin={[0.75,pm]} ouvertures={[P_CHAM_COULOIR]} couleur={INT} filDefer={filDefer} />
           {/* Z=1.5 côté gauche (X=-6 à X=0.75) : porte séjour/chambre à X=-2.625 */}
@@ -106,12 +118,16 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
       {/* ═══ SÉJOUR ═══ */}
       {pieceVisible === 'sejour' && (
         <>
-          <Mur      debut={[-lm,-pm]}   fin={[-1.5,-pm]}  couleur={EXT} filDefer={filDefer} />
-          <Mur      debut={[-0.6,-pm]}  fin={[0.75,-pm]}  couleur={EXT} filDefer={filDefer} />
-          <MurPerce debut={[-lm,-pm]}   fin={[-lm,1.5]}   ouvertures={[F_SEJOUR_GAUCHE]} couleur={EXT} filDefer={filDefer} />
-          <Mur debut={[0.75,-pm]}  fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
-          <Mur debut={[-lm,1.5]}   fin={[-3.05,1.5]}  couleur={INT} filDefer={filDefer} />
-          <Mur debut={[-2.2,1.5]}  fin={[0.75,1.5]}   couleur={INT} filDefer={filDefer} />
+          {/* Mur avant séjour — jusqu'à la cloison du couloir (plus de porte dans le séjour) */}
+          <Mur debut={[-lm,-pm]} fin={[-1.8,-pm]} couleur={EXT} filDefer={filDefer} />
+          {/* Mur gauche avec fenêtre */}
+          <MurPerce debut={[-lm,-pm]} fin={[-lm,1.5]} ouvertures={[F_SEJOUR_GAUCHE]} couleur={EXT} filDefer={filDefer} />
+          {/* Cloison droite du séjour (vers le couloir d'entrée) avec porte */}
+          <MurPerce debut={[-1.8,-pm]} fin={[-1.8,1.5]} ouvertures={[P_COULOIR_SEJ]} couleur={INT} filDefer={filDefer} />
+          <Porte position={[-1.8, 0, -2.5]} rotation={[0, Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
+          {/* Mur arrière séjour */}
+          <Mur debut={[-lm,1.5]}  fin={[-3.05,1.5]} couleur={INT} filDefer={filDefer} />
+          <Mur debut={[-2.2,1.5]} fin={[-1.8,1.5]}  couleur={INT} filDefer={filDefer} />
         </>
       )}
 
@@ -120,7 +136,9 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
         <>
           <MurPerce debut={[-0.6,-pm]} fin={[lm,-pm]}  ouvertures={[F_CUISINE_AVANT]}  couleur={EXT} filDefer={filDefer} />
           <MurPerce debut={[lm,-pm]}   fin={[lm,1.5]}  ouvertures={[F_CUISINE_DROITE]} couleur={EXT} filDefer={filDefer} />
-          <Mur debut={[0.75,-pm]}   fin={[0.75,1.5]}  couleur={INT} filDefer={filDefer} />
+          {/* Cloison gauche cuisine (vers couloir d'entrée) avec porte */}
+          <MurPerce debut={[0.75,-pm]} fin={[0.75,1.5]} ouvertures={[P_COULOIR_CUI]} couleur={INT} filDefer={filDefer} />
+          <Porte position={[0.75, 0, -2.5]} rotation={[0, -Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
           <Mur debut={[0.75,1.5]}   fin={[1.075,1.5]} couleur={INT} filDefer={filDefer} />
           <Mur debut={[1.925,1.5]}  fin={[lm,1.5]}    couleur={INT} filDefer={filDefer} />
         </>
@@ -177,6 +195,10 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
             equipementIdVolet="salon-4"
             equipementIdStore="salon-5"
           />
+          {/* Marker pour fenêtre séjour gauche */}
+          {afficherTout && (
+            <MarkerCliquable position={[-lm-0.1, 1.4, -1.5]} taille={20} zone="exterieur" />
+          )}
         </>
       )}
       {(afficherTout || pieceVisible === 'cuisine') && (
@@ -196,6 +218,10 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
             idPiece="cuisine"
             idElement="fenetreCuisine2"
           />
+          {/* Un seul marker pour les fenêtres cuisine */}
+          {afficherTout && (
+            <MarkerCliquable position={[3.5, 1.4, -pm-0.1]} taille={20} zone="exterieur" />
+          )}
         </>
       )}
       {(afficherTout || pieceVisible === 'chambre') && (
@@ -222,22 +248,71 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
             equipementIdVolet="chambre-4"
             equipementIdStore="chambre-5"
           />
+          {/* Un seul marker pour les fenêtres chambre */}
+          {afficherTout && (
+            <MarkerCliquable position={[-2.5, 1.4, pm+0.1]} taille={20} zone="exterieur" />
+          )}
         </>
       )}
       {(afficherTout || pieceVisible === 'salleDeBain') && (
-        <Fenetre
-          position={[lm-em2,1.4,3.5]}
-          rotation={[0,-Math.PI/2,0]}
-          largeur={0.8}
-          hauteur={0.8}
-          idPiece="salleDeBain"
-          idElement="fenetreSDB"
-        />
+        <>
+          <Fenetre
+            position={[lm-em2,1.4,3.5]}
+            rotation={[0,-Math.PI/2,0]}
+            largeur={0.8}
+            hauteur={0.8}
+            idPiece="salleDeBain"
+            idElement="fenetreSDB"
+          />
+          {/* Marker pour fenêtre salle de bain */}
+          {afficherTout && (
+            <MarkerCliquable position={[lm+0.1, 1.4, 3.5]} taille={20} zone="exterieur" />
+          )}
+        </>
       )}
 
       {/* ═══ PORTES ═══ */}
       {(afficherTout || pieceVisible === 'sejour') && (
-        <Porte position={[-1.05,0,-pm+0.02]} />
+        <>
+          <Porte position={[-1.05,0,-pm+0.02]} />
+          {/* Marker pour la porte d'entrée (vue extérieure) */}
+          {afficherTout && (
+            <>
+              <MarkerCliquable position={[-1.05, 1.05, -pm-0.1]} taille={24} zone="exterieur" />
+              
+              {/* Boîte aux lettres à droite de la porte */}
+              <group position={[-0.4, 1.2, -pm-0.05]}>
+                <mesh castShadow>
+                  <boxGeometry args={[0.35, 0.3, 0.12]} />
+                  <meshStandardMaterial color="#3a3a3a" roughness={0.5} metalness={0.6} />
+                </mesh>
+                <MarkerCliquable position={[-0.4, 1.2, -pm-0.1]} taille={20} zone="exterieur" />
+              </group>
+              
+              {/* Sonnette à côté de la porte */}
+              <group position={[-0.5, 1.4, -pm-0.05]}>
+                <mesh castShadow>
+                  <boxGeometry args={[0.02, 0.12, 0.08]} />
+                  <meshStandardMaterial color="#374151" roughness={0.3} metalness={0.3} />
+                </mesh>
+                <mesh position={[0.015, 0.02, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+                  <cylinderGeometry args={[0.022, 0.022, 0.01, 10]} />
+                  <meshStandardMaterial color="#1e40af" roughness={0.3} metalness={0.5} />
+                </mesh>
+                <MarkerCliquable position={[-0.5, 1.4, -pm-0.1]} taille={18} zone="exterieur" />
+              </group>
+              
+              {/* Interphone au-dessus de la sonnette */}
+              <group position={[-0.5, 1.6, -pm-0.05]}>
+                <mesh castShadow>
+                  <boxGeometry args={[0.02, 0.12, 0.08]} />
+                  <meshStandardMaterial color="#374151" roughness={0.3} metalness={0.3} />
+                </mesh>
+                <MarkerCliquable position={[-0.5, 1.6, -pm-0.1]} taille={18} zone="exterieur" />
+              </group>
+            </>
+          )}
+        </>
       )}
       {(afficherTout || pieceVisible === 'sejour' || pieceVisible === 'chambre') && (
         <Porte position={[-2.625,0,1.5]} largeur={0.85} hauteur={2.05} />

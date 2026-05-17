@@ -31,10 +31,10 @@ function construirePrereglages() {
 }
 
 export const PREREGLAGES_CAMERA: Record<string, { pos: THREE.Vector3; cible: THREE.Vector3 }> = {
-  // Vue orbite par défaut : angle 45° optimal pour voir toute la maison de l'extérieur
-  orbite: { pos: new THREE.Vector3(20, 16, 20), cible: new THREE.Vector3(0, 2, 0) },
-  // Vue visite intérieur : vue en orbite plus proche pour voir l'intérieur de la maison
-  visite: { pos: new THREE.Vector3(12, 10, 12), cible: new THREE.Vector3(0, 1.4, 0.5) },
+  // Vue orbite extérieure : angle 45° pour voir toute la maison depuis l'extérieur
+  exterieur_orbite: { pos: new THREE.Vector3(20, 16, 20), cible: new THREE.Vector3(0, 2, 0) },
+  // Vue orbite intérieure : plus proche pour voir l'intérieur de la maison
+  interieur_orbite: { pos: new THREE.Vector3(12, 10, 12), cible: new THREE.Vector3(0, 1.4, 0.5) },
   ...construirePrereglages(),
 };
 
@@ -48,12 +48,11 @@ export const CIBLES_ORBITE: Record<string, [number, number, number]> = {
 };
 
 export function getClePrereglage(pieceActive: IdPiece | 'exterieur' | 'interieur', modeCamera: ModeCamera): string {
-  // Pour l'extérieur et l'intérieur général, utiliser directement le mode caméra
-  if (pieceActive === 'exterieur' || pieceActive === 'interieur') {
-    return modeCamera;
+  if (pieceActive === 'exterieur') {
+    return 'exterieur_orbite';
   }
-  
-  // Pour une pièce spécifique, toujours utiliser la position centrée (point B)
-  // Peu importe le mode, on commence au centre de la pièce
+  if (pieceActive === 'interieur') {
+    return 'interieur_orbite';
+  }
   return `${pieceActive}_piece`;
 }

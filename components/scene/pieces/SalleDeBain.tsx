@@ -1,7 +1,10 @@
 'use client';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
+import { ZonePiece } from '../equipements/ZonePiece';
+import { MarkerCliquable } from '../equipements/MarkerCliquable';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
+import { getEquipementNom } from '@/lib/equipements';
 
 /**
  * SALLE DE BAIN — centre (4.25, 3.25), 3.25m × 3.25m
@@ -23,7 +26,7 @@ import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
 
 export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol', equipementId: 'sdb-10', defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
+  const sol    = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'sol', defaut: { couleur: '#4b5563', rugosite: 0.25, metalique: 0 } });
   const douche = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'douche', equipementId: 'sdb-2', defaut: { couleur: '#e0f2fe', rugosite: 0.2,  metalique: 0 } });
   const vasque = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'meubleVasque', equipementId: 'sdb-6', defaut: { couleur: '#78350f', rugosite: 0.4,  metalique: 0 } });
   const miroir = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'miroir', equipementId: 'sdb-11', defaut: { couleur: '#3b82f6', rugosite: 0.05, metalique: 0.8 } });
@@ -293,8 +296,8 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           <cylinderGeometry args={[0.22, 0.22, 0.85, 14]} />
           <meshStandardMaterial {...M(cumulus)} />
         </mesh>
-        {[-0.1, 0.1].map((x, i) => (
-          <mesh {...cumulus.propsInteraction} key={i} position={[x, -0.48, 0]}>
+        {[-0.1, 0.1].map((x) => (
+          <mesh key={`pied-cumulus-${x}`} {...cumulus.propsInteraction} position={[x, -0.48, 0]}>
             <cylinderGeometry args={[0.02, 0.02, 0.14, 8]} />
             <meshStandardMaterial {...M(cumulus)} />
           </mesh>
@@ -433,8 +436,8 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           <boxGeometry args={[0.36, 2.2, 0.5]} />
           <meshStandardMaterial {...M(colonne)} />
         </mesh>
-        {[0.55, 1.65].map((y, i) => (
-          <group key={i}>
+        {[0.55, 1.65].map((y) => (
+          <group key={`colonne-${y}`}>
             <mesh {...colonne.propsInteraction} position={[0.01, y, 0]}>
               <boxGeometry args={[0.34, 1.0, 0.02]} />
               <meshStandardMaterial {...M(colonne)} />
@@ -449,20 +452,20 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
 
       {/* Sèche-serviettes — éloigné du mur droit */}
       <group position={[5.6, 1.2, 3.8]}>
-        {[-0.18, 0, 0.18].map((z, i) => (
-          <mesh {...seche.propsInteraction} key={i} position={[0, 0, z]} rotation={[0, 0, Math.PI / 2]}>
+        {[-0.18, 0, 0.18].map((z) => (
+          <mesh key={`tube-${z}`} {...seche.propsInteraction} position={[0, 0, z]} rotation={[0, 0, Math.PI / 2]}>
             <cylinderGeometry args={[0.018, 0.018, 0.55, 8]} />
             <meshStandardMaterial {...M(seche)} />
           </mesh>
         ))}
-        {[-0.25, 0.25].map((x, i) => (
-          <mesh {...seche.propsInteraction} key={i} position={[x, 0, 0]}>
+        {[-0.25, 0.25].map((x) => (
+          <mesh key={`barre-${x}`} {...seche.propsInteraction} position={[x, 0, 0]}>
             <cylinderGeometry args={[0.018, 0.018, 0.42, 8]} />
             <meshStandardMaterial {...M(seche)} />
           </mesh>
         ))}
-        {[-0.25, 0.25].map((x, i) => (
-          <mesh {...seche.propsInteraction} key={i} position={[x, 0.22, -0.02]}>
+        {[-0.25, 0.25].map((x) => (
+          <mesh key={`pied-${x}`} {...seche.propsInteraction} position={[x, 0.22, -0.02]}>
             <boxGeometry args={[0.04, 0.04, 0.04]} />
             <meshStandardMaterial {...M(seche)} />
           </mesh>
@@ -486,8 +489,8 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           <meshStandardMaterial {...M(panier)} />
         </mesh>
         {/* Anses */}
-        {[-0.16, 0.16].map((x, i) => (
-          <mesh {...panier.propsInteraction} key={i} position={[x, 0.58, 0]} rotation={[0, 0, Math.PI / 2]}>
+        {[-0.16, 0.16].map((x) => (
+          <mesh key={`anse-${x}`} {...panier.propsInteraction} position={[x, 0.58, 0]} rotation={[0, 0, Math.PI / 2]}>
             <torusGeometry args={[0.05, 0.012, 8, 12, Math.PI]} />
             <meshStandardMaterial {...M(panier)} />
           </mesh>
@@ -498,6 +501,43 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
           <meshStandardMaterial {...M(panier)} />
         </mesh>
       </group>
+      {/* ── Markers orange — salle de bain ── */}
+      {/* Mur ARRIÈRE — zone baignoire/douche (z≈4.2–4.6) */}
+      <MarkerCliquable position={[3.0,  0.55, 4.5]}  equipementId="sdb-1"  libelle={getEquipementNom('sdb-1')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[3.3,  0.08, 4.2]}  equipementId="sdb-2"  libelle={getEquipementNom('sdb-2')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[3.82, 1.3,  4.2]}  equipementId="sdb-3"  libelle={getEquipementNom('sdb-3')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[3.4,  1.3,  4.62]} equipementId="sdb-4"  libelle={getEquipementNom('sdb-4')}  idPiece="salleDeBain" />
+      {/* Mur GAUCHE (x≈2.9) */}
+      <MarkerCliquable position={[2.9,  1.55, 2.0]}  equipementId="sdb-5"  libelle={getEquipementNom('sdb-5')}  idPiece="salleDeBain" />
+      {/* Mur AVANT (z≈1.74) — vasque / miroir */}
+      <MarkerCliquable position={[4.25, 0.9,  1.74]} equipementId="sdb-6"  libelle={getEquipementNom('sdb-6')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.25, 1.12, 1.62]} equipementId="sdb-7"  libelle={getEquipementNom('sdb-7')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.25, 0.2,  1.74]} equipementId="sdb-8"  libelle={getEquipementNom('sdb-8')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.25, 1.6,  1.52]} equipementId="sdb-9"  libelle={getEquipementNom('sdb-9')}  idPiece="salleDeBain" />
+      {/* Sol / Plafond */}
+      <MarkerCliquable position={[3.5,  0.05, 3.25]} equipementId="sdb-10" libelle={getEquipementNom('sdb-10')} idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.25, 1.55, 1.64]} equipementId="sdb-11" libelle={getEquipementNom('sdb-11')} idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.6,  1.55, 1.64]} equipementId="sdb-12" libelle={getEquipementNom('sdb-12')} idPiece="salleDeBain" />
+      {/* Mur DROIT (x≈5.6) — sèche-serviettes */}
+      <MarkerCliquable position={[5.6,  1.3,  3.8]}  equipementId="sdb-13" libelle={getEquipementNom('sdb-13')} idPiece="salleDeBain" />
+      <MarkerCliquable position={[3.25, 2.72, 3.25]} equipementId="sdb-14" libelle={getEquipementNom('sdb-14')} idPiece="salleDeBain" />
+      {/* Mur GAUCHE (x≈2.64) — prise / interrupteur */}
+      <MarkerCliquable position={[2.64, 1.3,  2.8]}  equipementId="sdb-15" libelle={getEquipementNom('sdb-15')} idPiece="salleDeBain" />
+      {/* Joints douche */}
+      <MarkerCliquable position={[3.3,  0.3,  4.2]}  equipementId="sdb-16" libelle={getEquipementNom('sdb-16')} idPiece="salleDeBain" />
+      <MarkerCliquable position={[4.55, 0.2,  1.74]} equipementId="sdb-17" libelle={getEquipementNom('sdb-17')} idPiece="salleDeBain" />
+
+      {/* ── Markers orange — WC (zone coin droit, intégrée à la salle de bain) ── */}
+      <MarkerCliquable position={[5.2,  0.45, 4.2]}  equipementId="wc-1"   libelle={getEquipementNom('wc-1')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.2,  0.55, 4.24]} equipementId="wc-2"   libelle={getEquipementNom('wc-2')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.2,  0.87, 4.05]} equipementId="wc-3"   libelle={getEquipementNom('wc-3')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.05, 0.3,  3.98]} equipementId="wc-4"   libelle={getEquipementNom('wc-4')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.5,  0.05, 4.5]}  equipementId="wc-5"   libelle={getEquipementNom('wc-5')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.85, 1.5,  4.2]}  equipementId="wc-6"   libelle={getEquipementNom('wc-6')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.0,  2.72, 4.2]}  equipementId="wc-7"   libelle={getEquipementNom('wc-7')}   idPiece="salleDeBain" />
+      <MarkerCliquable position={[5.4,  2.72, 3.5]}  equipementId="wc-8"   libelle={getEquipementNom('wc-8')}   idPiece="salleDeBain" />
+
+      <ZonePiece idPiece="salleDeBain" nom="Salle de bain" x={4.25} z={3.25} largeur={3.25} profondeur={3.25} />
     </group>
   );
 }

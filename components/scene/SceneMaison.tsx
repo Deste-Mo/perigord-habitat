@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import { OrbitControls, Sky, Stars, Environment } from '@react-three/drei';
 import * as THREE from 'three';
@@ -12,6 +12,7 @@ import { Cuisine } from './pieces/Cuisine';
 import { Chambre } from './pieces/Chambre';
 import { SalleDeBain } from './pieces/SalleDeBain';
 import { Couloir } from './pieces/Couloir';
+import { CouloirEntree } from './pieces/CouloirEntree';
 import { Terrain } from './terrain/Terrain';
 import { EclairagePrincipal } from './eclairage/EclairagePrincipal';
 import { useScene } from '@/hooks/useSceneStore';
@@ -23,6 +24,8 @@ import { PostEffets } from './PostEffets';
 export function SceneMaison() {
   const { modeCamera, pieceActive, modeJourNuit, lumieres, afficherFilDefer, sensibiliteCamera, setPieceActive } = useScene();
   const { camera, gl, controls } = useThree();
+  const modeCameraRef = useRef(modeCamera);
+  modeCameraRef.current = modeCamera;
 
   // Activer les contrôles drone uniquement en mode visite ET dans une pièce spécifique
   const estModeVisite = modeCamera === 'visite';
@@ -31,8 +34,8 @@ export function SceneMaison() {
   
   useDroneControls({ 
     enabled: droneActif, 
-    speed: 0.08,
-    rotationSpeed: 0.015 * sensibiliteCamera,
+    speed: 0.06,
+    rotationSpeed: 0.003 * sensibiliteCamera,
     pieceActive,
     onChangePiece: setPieceActive
   });
@@ -44,7 +47,8 @@ export function SceneMaison() {
 
   // Transition caméra fluide avec rotation - synchronisée avec OrbitControls
   useEffect(() => {
-    const cle = getClePrereglage(pieceActive, modeCamera);
+    const estVisite = modeCameraRef.current === 'visite';
+    const cle = getClePrereglage(pieceActive, modeCameraRef.current);
     const prereglage = PREREGLAGES_CAMERA[cle];
     
     if (!prereglage) {
@@ -56,6 +60,16 @@ export function SceneMaison() {
     const posFin = prereglage.pos.clone();
     const cibleFin = prereglage.cible.clone();
     
+    // En mode visite (FPS), snap immédiat — pas d'animation
+    if (estVisite) {
+      camera.position.copy(posFin);
+      camera.rotation.order = 'YXZ';
+      camera.lookAt(cibleFin);
+      camera.rotation.z = 0;
+      camera.updateMatrixWorld();
+      return;
+    }
+
     // Si on est déjà à la bonne position (changement de mode dans la même pièce), ne pas animer
     const distance = posDepart.distanceTo(posFin);
     if (distance < 0.1) {
@@ -133,7 +147,7 @@ export function SceneMaison() {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pieceActive, camera, controls]); // modeCamera intentionnellement exclu
+  }, [pieceActive, camera, controls]);
 
   const pieceOuverte = pieceActive !== 'exterieur';
   const filDefer     = afficherFilDefer;
@@ -187,22 +201,25 @@ export function SceneMaison() {
         <Immeuble filDefer={filDefer} />
       )}
       
-      {/* En mode visite, afficher toutes les pièces pour permettre le passage entre elles */}
-      {/* Sinon, afficher toutes les pièces en mode intérieur/extérieur, ou seulement la pièce sélectionnée */}
-      {(pieceActive === 'exterieur' || pieceActive === 'interieur' || droneActif || pieceActive === 'sejour') && (
+      {/* Pièces intérieures — uniquement quand on est à l'intérieur ou en mode drone */}
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'sejour') && (
         <Sejour lumiere={lumieres.sejour} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
-      {(pieceActive === 'exterieur' || pieceActive === 'interieur' || droneActif || pieceActive === 'cuisine') && (
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'cuisine') && (
         <Cuisine lumiere={lumieres.cuisine} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
-      {(pieceActive === 'exterieur' || pieceActive === 'interieur' || droneActif || pieceActive === 'chambre') && (
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'chambre') && (
         <Chambre lumiere={lumieres.chambre} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
-      {(pieceActive === 'exterieur' || pieceActive === 'interieur' || droneActif || pieceActive === 'salleDeBain') && (
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'salleDeBain') && (
         <SalleDeBain lumiere={lumieres.salleDeBain} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
-      {(pieceActive === 'exterieur' || pieceActive === 'interieur' || droneActif || pieceActive === 'couloir') && (
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'couloir') && (
         <Couloir lumiere={lumieres.couloir} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
+      )}
+      {/* Couloir d'entrée — entre séjour (X<-1.8) et cuisine (X>0.75) */}
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'sejour' || pieceActive === 'cuisine') && (
+        <CouloirEntree lumiere={lumieres.couloir} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
     </>
   );

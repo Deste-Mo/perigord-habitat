@@ -4,7 +4,11 @@ import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { PriseElectrique } from '../structure/PriseElectrique';
 import { RobinetThermostatique } from '../structure/RobinetThermostatique';
+import { Fenetre } from '../structure/Fenetre';
+import { ZonePiece } from '../equipements/ZonePiece';
+import { MarkerCliquable } from '../equipements/MarkerCliquable';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
+import { getEquipementNom } from '@/lib/equipements';
 
 /**
  * CHAMBRE — centre (-2.625, 3.25), 6.5m × 3.25m
@@ -219,6 +223,7 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
   const rideaux = useElementSelectionnable({ idPiece: 'chambre', idElement: 'rideaux',   libelle: 'Rideaux',       defaut: { couleur: '#f5f5f5', rugosite: 0.8,  metalique: 0 } });
   const radiateur = useElementSelectionnable({ idPiece: 'chambre', idElement: 'radiateur', equipementId: 'chambre-6', defaut: { couleur: '#e5e7eb', rugosite: 0.3, metalique: 0.6 } });
   const vmc = useElementSelectionnable({ idPiece: 'chambre', idElement: 'vmc', equipementId: 'chambre-8', defaut: { couleur: '#f3f4f6', rugosite: 0.5, metalique: 0.2 } });
+  const porteChambre = useElementSelectionnable({ idPiece: 'chambre', idElement: 'porteChambre', equipementId: 'chambre-10', defaut: { couleur: '#5a3a1a', rugosite: 0.5, metalique: 0 } });
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -442,6 +447,52 @@ export function Chambre({ lumiere, filDefer = false, masquerPlafond = false }: P
           </mesh>
         ))}
       </group>
+
+      {/* ── Fenêtre — mur arrière (z≈4.875), centrée entre les rideaux ── */}
+      <Fenetre
+        position={[-2.625, 1.4, 4.875]}
+        rotation={[0, Math.PI, 0]}
+        largeur={1.2}
+        hauteur={1.0}
+        idPiece="chambre"
+        idElement="fenetreChambre"
+        equipementId="chambre-3"
+        equipementIdVolet="chambre-4"
+        equipementIdStore="chambre-5"
+      />
+
+      {/* ── Porte intérieure — cloison avant (z≈1.625) ── */}
+      <group {...porteChambre.propsInteraction} position={[-2.625, 1.0, 1.625]}>
+        <mesh castShadow>
+          <boxGeometry args={[0.85, 2.0, 0.06]} />
+          <meshStandardMaterial
+            color={porteChambre.estSelectionne ? '#00e5ff' : porteChambre.materiau.couleur}
+            roughness={porteChambre.materiau.rugosite}
+            metalness={porteChambre.materiau.metalique}
+            emissive={porteChambre.emissif}
+            emissiveIntensity={porteChambre.intensiteEmissif}
+          />
+        </mesh>
+        <mesh position={[0.4, 0, 0.04]}>
+          <cylinderGeometry args={[0.02, 0.02, 0.08, 8]} />
+          <meshStandardMaterial color="#c0c0c0" roughness={0.2} metalness={0.9} />
+        </mesh>
+      </group>
+
+      {/* ── Markers orange — chambre ── */}
+      <MarkerCliquable position={[-2.625, 0.05, 3.25]} equipementId="chambre-1"  libelle={getEquipementNom('chambre-1')}  idPiece="chambre" />
+      <MarkerCliquable position={[-5.7,   1.6,  3.25]} equipementId="chambre-2"  libelle={getEquipementNom('chambre-2')}  idPiece="chambre" />
+      <MarkerCliquable position={[-2.625, 1.6,  4.75]} equipementId="chambre-3"  libelle={getEquipementNom('chambre-3')}  idPiece="chambre" />
+      <MarkerCliquable position={[-2.625, 2.05, 4.75]} equipementId="chambre-4"  libelle={getEquipementNom('chambre-4')}  idPiece="chambre" />
+      <MarkerCliquable position={[-2.625, 2.25, 4.75]} equipementId="chambre-5"  libelle={getEquipementNom('chambre-5')}  idPiece="chambre" />
+      <MarkerCliquable position={[-1.5,   0.7,  4.8]}  equipementId="chambre-6"  libelle={getEquipementNom('chambre-6')}  idPiece="chambre" />
+      <MarkerCliquable position={[-1.0,   0.7,  4.8]}  equipementId="chambre-7"  libelle={getEquipementNom('chambre-7')}  idPiece="chambre" />
+      <MarkerCliquable position={[-4.5,   2.75, 2.0]}  equipementId="chambre-8"  libelle={getEquipementNom('chambre-8')}  idPiece="chambre" />
+      <MarkerCliquable position={[-2.0,   1.4,  1.75]} equipementId="chambre-9"  libelle={getEquipementNom('chambre-9')}  idPiece="chambre" />
+      <MarkerCliquable position={[-2.625, 1.5,  1.7]}  equipementId="chambre-10" libelle={getEquipementNom('chambre-10')} idPiece="chambre" />
+      <MarkerCliquable position={[-5.3,   1.5,  3.725]}equipementId="chambre-11" libelle={getEquipementNom('chambre-11')} idPiece="chambre" />
+
+      <ZonePiece idPiece="chambre" nom="Chambre" x={-2.625} z={3.25} largeur={6.5} profondeur={3.25} />
     </group>
   );
 }
