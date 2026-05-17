@@ -79,11 +79,9 @@ const IMAGE_MAP: Record<string, string> = {
   "placard integre": "portes-placards.png",
   "porte intérieure": "ouvrant-porte.png",
   "porte interieure": "ouvrant-porte.png",
-  
+
   // Portes et serrures
   "porte d'entrée": "ouvrant-porte.png",
-  "porte intérieure": "ouvrant-porte.png",
-  "porte interieure": "ouvrant-porte.png",
   "porte": "ouvrant-porte.png",
   "serrure": "serrures-canons.png",
   "verrou": "serrures-canons.png",
@@ -193,14 +191,6 @@ const IMAGE_MAP: Record<string, string> = {
   "chasse": "chasse-eau.png",
   "mécanisme de chasse": "chasse-eau.png",
   "mecanisme de chasse": "chasse-eau.png",
-  "revêtement sol wc": "plafond-murs-plinthes.png",
-  "revetement sol wc": "plafond-murs-plinthes.png",
-  "revêtement mural wc": "murs.png",
-  "revetement mural wc": "murs.png",
-  "luminaire wc": "douilles.png",
-  "vmc / grille ventilation wc": "grille-entree-air.png",
-  "robinet d'arrêt wc": "robinet-arret.png",
-  "robinet d'arret wc": "robinet-arret.png",
   "wc": "equipement-general.png",  // Fallback pour "WC" seul
   "toilette": "equipement-general.png",  // Fallback pour "Toilettes" seul
   "détartrage": "entretien-detartrage.png",
