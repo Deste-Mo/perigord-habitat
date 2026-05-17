@@ -17,16 +17,16 @@ export function MaterielHero({ materiel }: { materiel: Materiel }) {
 
       <Link
         href="/client/materiels"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-indigo-600 transition-colors self-start"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors self-start"
       >
         <ChevronLeft size={16} />
         Retour aux équipements
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
 
         {/* Zone image */}
-        <div className="relative w-full h-[55vh] bg-gray-100 overflow-hidden">
+        <div className="relative w-full h-[55vh] bg-muted overflow-hidden">
           <div
             className="absolute inset-0 transition-transform duration-300 ease-out"
             style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}
@@ -51,7 +51,7 @@ export function MaterielHero({ materiel }: { materiel: Materiel }) {
             <button
               onClick={zoomIn}
               disabled={scale >= 3}
-              className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm shadow flex items-center justify-center text-gray-700 hover:bg-white hover:text-indigo-600 transition-colors disabled:opacity-40"
+              className="w-9 h-9 rounded-xl bg-background/90 backdrop-blur-sm shadow flex items-center justify-center text-foreground hover:bg-card hover:text-primary transition-colors disabled:opacity-40"
               aria-label="Zoom avant"
             >
               <ZoomIn size={17} />
@@ -59,7 +59,7 @@ export function MaterielHero({ materiel }: { materiel: Materiel }) {
             <button
               onClick={zoomOut}
               disabled={scale <= 1}
-              className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-sm shadow flex items-center justify-center text-gray-700 hover:bg-white hover:text-indigo-600 transition-colors disabled:opacity-40"
+              className="w-9 h-9 rounded-xl bg-background/90 backdrop-blur-sm shadow flex items-center justify-center text-foreground hover:bg-card hover:text-primary transition-colors disabled:opacity-40"
               aria-label="Zoom arrière"
             >
               <ZoomOut size={17} />
@@ -70,11 +70,11 @@ export function MaterielHero({ materiel }: { materiel: Materiel }) {
         {/* Description */}
         <div className="px-6 py-5 flex flex-col gap-1.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-lg sm:text-xl font-bold text-gray-900">{materiel.nom}</h1>
-            <span className="text-sm text-gray-400">·</span>
-            <span className="text-sm text-indigo-500 font-medium">{materiel.piece}</span>
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">{materiel.nom}</h1>
+            <span className="text-sm text-muted-foreground">·</span>
+            <span className="text-sm text-indigo-500 dark:text-indigo-400 font-medium">{materiel.piece}</span>
           </div>
-          <p className="text-sm text-gray-500 leading-relaxed max-w-2xl">{materiel.description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">{materiel.description}</p>
         </div>
       </div>
     </main>

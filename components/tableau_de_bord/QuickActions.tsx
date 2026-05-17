@@ -12,10 +12,10 @@ interface QuickAction {
 }
 
 const colorClasses = {
-  blue: "bg-blue-600 hover:bg-blue-700",
-  green: "bg-green-600 hover:bg-green-700",
-  orange: "bg-orange-600 hover:bg-orange-700",
-  purple: "bg-purple-600 hover:bg-purple-700"
+  blue: "bg-primary hover:bg-primary/90",
+  green: "bg-primary hover:bg-primary/90",
+  orange: "bg-primary hover:bg-primary/90",
+  purple: "bg-primary hover:bg-primary/90"
 };
 
 export function QuickActions({ actions }: { actions: QuickAction[] }) {

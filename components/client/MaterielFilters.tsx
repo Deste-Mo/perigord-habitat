@@ -15,8 +15,8 @@ export function MaterielFilters({ active, onChange }: MaterielFiltersProps) {
           onClick={() => onChange(p)}
           className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
             active === p
-              ? "bg-indigo-600 text-white border-indigo-600"
-              : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:text-primary"
           }`}
         >
           {p}

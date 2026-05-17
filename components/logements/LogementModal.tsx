@@ -32,23 +32,23 @@ export function LogementModal({ logement, onClose }: LogementModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl"
+        className="bg-card rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 border-b border-gray-200 shrink-0">
+        <div className="flex items-start justify-between px-6 py-5 border-b border-border shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
               {logement.type === "maison" ? <Home size={20} /> : <Building2 size={20} />}
             </div>
             <div>
-              <h2 className="text-lg font-black text-gray-900 leading-tight">{logement.nom}</h2>
-              <p className="text-xs text-gray-400">{TYPE_LABEL[logement.type]}</p>
+              <h2 className="text-lg font-black text-foreground leading-tight">{logement.nom}</h2>
+              <p className="text-xs text-muted-foreground">{TYPE_LABEL[logement.type]}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           >
             <X size={20} />
           </button>
@@ -68,77 +68,77 @@ export function LogementModal({ logement, onClose }: LogementModalProps) {
           </div>
 
           {/* Adresse */}
-          <div className="bg-gray-50 rounded-xl p-4 flex items-start gap-3">
-            <MapPin className="text-indigo-500 mt-0.5 shrink-0" size={18} />
+          <div className="bg-muted rounded-xl p-4 flex items-start gap-3">
+            <MapPin className="text-indigo-500 dark:text-indigo-400 mt-0.5 shrink-0" size={18} />
             <div>
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wide mb-0.5">Adresse</p>
-              <p className="font-semibold text-gray-900">{logement.adresse}</p>
-              <p className="text-sm text-gray-600">{logement.codePostal} {logement.ville}</p>
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-0.5">Adresse</p>
+              <p className="font-semibold text-foreground">{logement.adresse}</p>
+              <p className="text-sm text-muted-foreground">{logement.codePostal} {logement.ville}</p>
             </div>
           </div>
 
           {/* Caractéristiques */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-muted rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <Ruler className="text-gray-400" size={15} />
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Surface</p>
+                <Ruler className="text-muted-foreground" size={15} />
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Surface</p>
               </div>
-              <p className="font-bold text-gray-900 text-lg">{logement.surface} m²</p>
+              <p className="font-bold text-foreground text-lg">{logement.surface} m²</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-muted rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <BedDouble className="text-gray-400" size={15} />
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Pièces</p>
+                <BedDouble className="text-muted-foreground" size={15} />
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Pièces</p>
               </div>
-              <p className="font-bold text-gray-900 text-lg">{logement.nbPieces} pièce{logement.nbPieces > 1 ? "s" : ""}</p>
+              <p className="font-bold text-foreground text-lg">{logement.nbPieces} pièce{logement.nbPieces > 1 ? "s" : ""}</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-muted rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <Building2 className="text-gray-400" size={15} />
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Étage</p>
+                <Building2 className="text-muted-foreground" size={15} />
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Étage</p>
               </div>
-              <p className="font-bold text-gray-900 text-lg">
+              <p className="font-bold text-foreground text-lg">
                 {logement.etage === 0 ? "RDC" : `${logement.etage}e étage`}
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-muted rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <Euro className="text-gray-400" size={15} />
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Loyer CC</p>
+                <Euro className="text-muted-foreground" size={15} />
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Loyer CC</p>
               </div>
-              <p className="font-bold text-indigo-600 text-lg">{logement.loyerCC.toLocaleString("fr-FR")} €</p>
+              <p className="font-bold text-indigo-600 dark:text-indigo-400 text-lg">{logement.loyerCC.toLocaleString("fr-FR")} €</p>
             </div>
           </div>
 
           {/* Locataire */}
-          <div className={`rounded-xl p-4 border-2 ${logement.locataire ? "bg-blue-50 border-blue-200" : "bg-gray-50 border-gray-200"}`}>
+          <div className={`rounded-xl p-4 border-2 ${logement.locataire ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800" : "bg-muted border-border"}`}>
             <div className="flex items-center gap-2 mb-1">
-              <User className={logement.locataire ? "text-blue-500" : "text-gray-400"} size={16} />
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Locataire</p>
+              <User className={logement.locataire ? "text-blue-500 dark:text-blue-400" : "text-muted-foreground"} size={16} />
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Locataire</p>
             </div>
             {logement.locataire ? (
               <>
-                <p className="font-bold text-blue-900">{logement.locataire}</p>
+                <p className="font-bold text-blue-900 dark:text-blue-200">{logement.locataire}</p>
                 {logement.dateEntree && (
-                  <div className="flex items-center gap-1.5 mt-1 text-xs text-blue-600">
+                  <div className="flex items-center gap-1.5 mt-1 text-xs text-blue-600 dark:text-blue-400">
                     <CalendarDays size={12} />
                     <span>Entrée le {new Date(logement.dateEntree).toLocaleDateString("fr-FR")}</span>
                   </div>
                 )}
               </>
             ) : (
-              <p className="text-gray-500 font-medium">Aucun locataire actuellement</p>
+              <p className="text-muted-foreground font-medium">Aucun locataire actuellement</p>
             )}
           </div>
 
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 shrink-0">
+        <div className="px-6 py-4 border-t border-border shrink-0">
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-semibold transition-colors"
+            className="w-full py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-white font-semibold transition-colors"
           >
             Fermer
           </button>

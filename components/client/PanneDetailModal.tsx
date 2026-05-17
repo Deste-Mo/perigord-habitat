@@ -28,7 +28,7 @@ export function PanneDetailModal({ panne, open, onClose }: PanneDetailModalProps
         <div className="flex flex-col gap-6 mt-4">
           {/* Qui doit intervenir */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <User size={16} />
               Qui doit intervenir ?
             </div>
@@ -42,44 +42,44 @@ export function PanneDetailModal({ panne, open, onClose }: PanneDetailModalProps
 
           {/* Qui paie */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Wallet size={16} />
               Qui paie ?
             </div>
-            <div className="p-3 rounded-lg bg-gray-50">
-              <span className="font-semibold text-gray-900">{payeurConfig.label}</span>
+            <div className="p-3 rounded-lg bg-muted">
+              <span className="font-semibold text-foreground">{payeurConfig.label}</span>
             </div>
           </div>
 
           {/* Pourquoi */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Scale size={16} />
               Pourquoi ?
             </div>
-            <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-              <p className="text-sm text-blue-900 leading-relaxed">{panne.raison}</p>
+            <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900">
+              <p className="text-sm text-blue-900 dark:text-blue-200 leading-relaxed">{panne.raison}</p>
             </div>
           </div>
 
           {/* Comment diagnostiquer */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <CheckCircle2 size={16} />
               Comment diagnostiquer ?
             </div>
             <div className="flex flex-col gap-2">
               {panne.diagnostic.map((question, idx) => (
-                <div key={idx} className="flex items-start gap-2 p-3 rounded-lg bg-gray-50">
-                  <span className="text-gray-400 font-mono text-sm mt-0.5">✓</span>
-                  <span className="text-sm text-gray-700">{question}</span>
+                <div key={idx} className="flex items-start gap-2 p-3 rounded-lg bg-muted">
+                  <span className="text-muted-foreground font-mono text-sm mt-0.5">✓</span>
+                  <span className="text-sm text-foreground">{question}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Badge zone */}
-          <div className="flex items-center gap-2 pt-4 border-t border-gray-100">
+          <div className="flex items-center gap-2 pt-4 border-t border-border">
             <Badge variant="outline" className="capitalize">
               {panne.zone.replace("_", " ")}
             </Badge>

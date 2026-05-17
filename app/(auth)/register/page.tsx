@@ -30,8 +30,8 @@ export default function RegisterPage() {
           onClick={() => setStarted(true)}
           className="flex items-center gap-4 p-4 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-accent transition-all text-left group"
         >
-          <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-            <User className="text-blue-600" size={22} />
+          <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/30 flex items-center justify-center shrink-0">
+            <User className="text-blue-600 dark:text-blue-400" size={22} />
           </div>
           <div className="flex-1">
             <p className="font-bold text-foreground">Je suis locataire</p>

@@ -124,8 +124,8 @@ export default function Dashboard() {
           {/* Gestion des équipements */}
           <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-                <Package className="text-blue-600" size={28} />
+              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <Package className="text-primary" size={28} />
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-black text-foreground mb-2">Équipements</h3>
@@ -148,8 +148,8 @@ export default function Dashboard() {
           {/* Incidents */}
           <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
-                <AlertTriangle className="text-orange-600" size={28} />
+              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <AlertTriangle className="text-primary" size={28} />
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-black text-foreground mb-2">Incidents</h3>
@@ -158,7 +158,7 @@ export default function Dashboard() {
                 </p>
                 <a 
                   href="/incident" 
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Voir les incidents
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
