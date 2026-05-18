@@ -8,7 +8,8 @@ const LUMIERES: { id: keyof EtatLumieres; libelle: string; icone: string }[] = [
   { id: 'cuisine',     libelle: 'Cuisine',       icone: '🍳' },
   { id: 'chambre',     libelle: 'Chambre',       icone: '🛏️' },
   { id: 'salleDeBain', libelle: 'Salle de bain', icone: '🚿' },
-  { id: 'couloir',     libelle: 'Couloir',       icone: '🚪' },
+  { id: 'couloir',       libelle: 'Couloir',          icone: '🚪' },
+  { id: 'couloirEntree', libelle: "Couloir d'entrée", icone: '🏠' },
 ];
 
 export function PanneauLumieres() {

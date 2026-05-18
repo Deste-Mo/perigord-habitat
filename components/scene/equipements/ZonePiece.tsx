@@ -5,7 +5,7 @@ import { useMarkersVisibles } from '@/hooks/useMarkersVisibles';
 import { useScene } from '@/hooks/useSceneStore';
 import type { IdPiece } from '@/types/maison';
 
-const PIECES_NAVIGABLES = new Set<IdPiece>(['sejour', 'cuisine', 'chambre', 'salleDeBain', 'couloir']);
+const PIECES_NAVIGABLES = new Set<IdPiece>(['sejour', 'cuisine', 'chambre', 'salleDeBain', 'couloir', 'couloirEntree']);
 
 interface ZonePieceProps {
   idPiece: string;
