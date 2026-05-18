@@ -8,7 +8,8 @@ const lightRooms: { id: keyof EtatLumieres; label: string }[] = [
   { id: 'cuisine',     label: 'Kitchen'     },
   { id: 'chambre',     label: 'Bedroom'     },
   { id: 'salleDeBain', label: 'Bathroom'    },
-  { id: 'couloir',     label: 'Hallway'     },
+  { id: 'couloir',       label: 'Hallway'         },
+  { id: 'couloirEntree', label: 'Entrance Hallway' },
 ];
 
 export function LightPanel() {

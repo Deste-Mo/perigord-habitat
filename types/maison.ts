@@ -7,7 +7,8 @@ export type IdPiece =
   | 'cuisine'
   | 'chambre'
   | 'salleDeBain'
-  | 'couloir';
+  | 'couloir'
+  | 'couloirEntree';
 
 export interface Materiau {
   couleur: string;
@@ -28,6 +29,7 @@ export interface EtatLumieres {
   chambre: boolean;
   salleDeBain: boolean;
   couloir: boolean;
+  couloirEntree: boolean;
 }
 
 export interface EtatScene {

@@ -218,8 +218,8 @@ export function SceneMaison() {
         <Couloir lumiere={lumieres.couloir} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
       {/* Couloir d'entrée — entre séjour (X<-1.8) et cuisine (X>0.75) */}
-      {(pieceActive === 'interieur' || droneActif || pieceActive === 'sejour' || pieceActive === 'cuisine') && (
-        <CouloirEntree lumiere={lumieres.couloir} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
+      {(pieceActive === 'interieur' || droneActif || pieceActive === 'sejour' || pieceActive === 'cuisine' || pieceActive === 'couloirEntree') && (
+        <CouloirEntree lumiere={lumieres.couloirEntree} filDefer={filDefer} masquerPlafond={pieceOuverte || droneActif} />
       )}
     </>
   );

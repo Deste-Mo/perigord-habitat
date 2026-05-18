@@ -10,7 +10,7 @@ import { LARGEUR_MAISON, PROFONDEUR_MAISON, EPAISSEUR_MUR, HAUTEUR_MUR } from '@
 interface Props {
   filDefer?: boolean;
   masquerToit?: boolean;
-  pieceVisible?: 'exterieur' | 'interieur' | 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir';
+  pieceVisible?: 'exterieur' | 'interieur' | 'sejour' | 'cuisine' | 'chambre' | 'salleDeBain' | 'couloir' | 'couloirEntree';
 }
 
 const EXT = '#f5f5f5', INT = '#e8e8e8';
@@ -166,6 +166,26 @@ export function StructureMaison({ filDefer = false, masquerToit = false, pieceVi
           <Mur debut={[1.925,1.5]}  fin={[2.5,1.5]}    couleur={INT} filDefer={filDefer} />
           <Mur debut={[2.5,1.5]}    fin={[2.5,2.8]}    couleur={INT} filDefer={filDefer} />
           <Mur debut={[2.5,3.6]}    fin={[2.5,pm]}     couleur={INT} filDefer={filDefer} />
+        </>
+      )}
+
+      {/* ═══ COULOIR D'ENTRÉE ═══ */}
+      {pieceVisible === 'couloirEntree' && (
+        <>
+          {/* Façade avant gauche — avec porte d'entrée */}
+          <MurPerce debut={[-lm,-pm]} fin={[-1.5,-pm]} ouvertures={[P_ENTREE]} couleur={EXT} filDefer={filDefer} />
+          {/* Façade avant droite */}
+          <Mur debut={[-0.6,-pm]} fin={[0.75,-pm]} couleur={EXT} filDefer={filDefer} />
+          {/* Porte d'entrée physique */}
+          <Porte position={[-1.05, 0, -pm + 0.125]} rotation={[0, 0, 0]} largeur={0.9} hauteur={2.1} exterieure={true} />
+          {/* Cloison gauche (vers séjour) avec porte */}
+          <MurPerce debut={[-1.8,-pm]} fin={[-1.8,1.5]} ouvertures={[P_COULOIR_SEJ]} couleur={INT} filDefer={filDefer} />
+          <Porte position={[-1.8, 0, -2.5]} rotation={[0, Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
+          {/* Cloison droite (vers cuisine) avec porte */}
+          <MurPerce debut={[0.75,-pm]} fin={[0.75,1.5]} ouvertures={[P_COULOIR_CUI]} couleur={INT} filDefer={filDefer} />
+          <Porte position={[0.75, 0, -2.5]} rotation={[0, -Math.PI / 2, 0]} largeur={0.85} hauteur={2.1} />
+          {/* Cloison du fond (Z=1.5) */}
+          <Mur debut={[-1.8,1.5]} fin={[0.75,1.5]} couleur={INT} filDefer={filDefer} />
         </>
       )}
 
