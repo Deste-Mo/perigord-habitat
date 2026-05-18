@@ -1,18 +1,25 @@
 'use client';
 import { EffectComposer, Bloom, Vignette, SMAA, N8AO } from '@react-three/postprocessing';
+import { useThree } from '@react-three/fiber';
 import { useScene } from '@/hooks/useSceneStore';
 
 export function PostEffets() {
   const { modeJourNuit, pieceActive } = useScene();
+  const { gl } = useThree();
   const estInterieur = pieceActive !== 'exterieur';
+
+  // Ne pas rendre les effets si le renderer n'est pas prêt
+  if (!gl || !gl.domElement) {
+    return null;
+  }
 
   return (
     <EffectComposer multisampling={0}>
       {/* Occlusion ambiante : ombres de contact dans les coins et entre objets */}
       <N8AO
-        aoRadius={estInterieur ? 0.8 : 1.5}
-        intensity={estInterieur ? 3 : 2}
-        distanceFalloff={1}
+        aoRadius={estInterieur ? 0.8 : 1.2}
+        intensity={estInterieur ? 2.5 : 0.6}
+        distanceFalloff={0.5}
         quality="medium"
         halfRes={false}
         depthAwareUpsampling={true}

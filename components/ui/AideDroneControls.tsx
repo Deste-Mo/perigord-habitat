@@ -36,14 +36,14 @@ export function AideDroneControls() {
 
       <div className="p-3 flex flex-col gap-1.5">
         {[
-          ['↑', 'Avancer'],
-          ['↓', 'Reculer'],
-          ['←', 'Tourner gauche'],
-          ['→', 'Tourner droite'],
+          ['↑ / W', 'Avancer'],
+          ['↓ / S', 'Reculer'],
+          ['← / A', 'Gauche'],
+          ['→ / D', 'Droite'],
         ].map(([key, label]) => (
           <div key={key} className="flex items-center gap-2.5">
             <kbd className="bg-white/8 border border-white/12 px-2 py-0.5 rounded-md
-              min-w-[28px] text-center font-mono text-white/65 text-xs">
+              min-w-[42px] text-center font-mono text-white/65 text-xs">
               {key}
             </kbd>
             <span className="text-white/55 text-xs">{label}</span>
@@ -53,9 +53,7 @@ export function AideDroneControls() {
         <div className="h-px bg-white/8 my-1" />
 
         {[
-          ['Q / D', 'Latéral'],
-          ['Espace', 'Monter'],
-          ['Shift', 'Descendre'],
+          ['Souris', 'Regarder autour'],
         ].map(([key, label]) => (
           <div key={key} className="flex items-center gap-2.5">
             <kbd className="bg-white/8 border border-white/12 px-2 py-0.5 rounded-md

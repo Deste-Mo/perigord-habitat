@@ -2,6 +2,9 @@
 import React from 'react';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
+import { Equipement3D } from '../equipements/Equipement3D';
+import { MarkerCliquable } from '../equipements/MarkerCliquable';
+import { ZonePiece } from '../equipements/ZonePiece';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 
 /**
@@ -36,10 +39,17 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
   return (
     <group>
       {/* Sol */}
-      <Sol x={1.625} z={3.25} largeur={1.5} profondeur={3.25}
-        couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
-        propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
-        filDefer={filDefer} />
+      <group>
+        <Sol x={1.625} z={3.25} largeur={1.5} profondeur={3.25}
+          couleur={sol.materiau.couleur} rugosite={sol.materiau.rugosite}
+          propsInteraction={sol.propsInteraction} emissif={sol.emissif} intensiteEmissif={sol.intensiteEmissif}
+          filDefer={filDefer} />
+        
+        {/* Marker pour le sol - au centre */}
+        {!sol.estSelectionne && (
+          <MarkerCliquable position={[1.625, 0.05, 3.25]} taille={24} zone="interieur" idPiece="couloir" />
+        )}
+      </group>
 
       {/* Plafond */}
       {!masquerPlafond && (
@@ -47,6 +57,11 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
           <planeGeometry args={[1.5, 3.25]} />
           <meshStandardMaterial color="#6b7280" roughness={0.9} />
         </mesh>
+      )}
+
+      {/* Marker pour le revêtement mural - sur le mur gauche */}
+      {!peinture.estSelectionne && (
+        <MarkerCliquable position={[0.89, 1.4, 3.25]} taille={20} zone="interieur" idPiece="couloir" />
       )}
 
       {/* Lumière */}
@@ -66,6 +81,46 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
           metalness={plafonnier.materiau.metalique}
         />
       </mesh>
+
+      {/* ══ ÉQUIPEMENTS ENTRÉE / COULOIR (selon equipements.json) ══ */}
+      
+      {/* Porte d'entrée (entree-1) - visible depuis l'intérieur */}
+      <Equipement3D
+        equipementId="entree-1"
+        position={[-1.05, 1.05, 1.5]}
+        rotation={[0, Math.PI, 0]}
+        type="porte"
+        idPiece="couloir"
+        idElement="porteEntree"
+      />
+
+      {/* Serrure et verrou (entree-2) - sur la porte d'entrée */}
+      <Equipement3D
+        equipementId="entree-2"
+        position={[-0.7, 1.05, 1.48]}
+        rotation={[0, Math.PI, 0]}
+        type="serrure"
+        idPiece="couloir"
+        idElement="serrureEntree"
+      />
+
+      {/* Boîte aux lettres (entree-3) - mur gauche, près de l'entrée */}
+      <Equipement3D
+        equipementId="entree-3"
+        position={[0.86, 1.2, 2.0]}
+        type="boiteAuxLettres"
+        idPiece="couloir"
+        idElement="boiteAuxLettres"
+      />
+
+      {/* Interphone / visiophone (entree-7) - mur gauche, à côté de la sonnette */}
+      <Equipement3D
+        equipementId="entree-7"
+        position={[0.86, 1.55, 1.85]}
+        type="interphone"
+        idPiece="couloir"
+        idElement="interphone"
+      />
 
       {/* ── Patères — mur gauche (x ≈ 0.875), à hauteur 1.6m ── */}
       {/* Planche support */}
@@ -108,6 +163,11 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
             <meshStandardMaterial {...M(etagere)} />
           </mesh>
         ))}
+        
+        {/* Marker pour l'étagère */}
+        {!etagere.estSelectionne && (
+          <MarkerCliquable position={[0, 0.5, 0.2]} taille={20} zone="interieur" idPiece="couloir" />
+        )}
       </group>
 
       {/* Interrupteur — mur gauche (x≈0.875), à l'entrée */}
@@ -119,29 +179,45 @@ export function Couloir({ lumiere, filDefer = false, masquerPlafond = false }: P
       />
 
       {/* ── Sonnette / interphone — mur gauche, près de la porte d'entrée cuisine ── */}
-      <group {...sonnette.propsInteraction} position={[0.86, 1.4, 1.85]}>
-        {/* Boîtier */}
-        <mesh>
-          <boxGeometry args={[0.02, 0.12, 0.08]} />
-          <meshStandardMaterial {...M(sonnette)} />
-        </mesh>
-        {/* Bouton */}
-        <mesh position={[0.015, 0.02, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.022, 0.022, 0.01, 10]} />
-          <meshStandardMaterial {...M(sonnette)} />
-        </mesh>
-        {/* Grille haut-parleur */}
-        <mesh position={[0.015, -0.03, 0]}>
-          <boxGeometry args={[0.01, 0.04, 0.06]} />
-          <meshStandardMaterial {...M(sonnette)} />
-        </mesh>
-      </group>
+      <Equipement3D
+        equipementId="entree-8"
+        position={[0.86, 1.4, 1.85]}
+        type="sonnette"
+        idPiece="couloir"
+        idElement="sonnette"
+      />
+
+      {/* ── Détecteur de fumée (DAAF) — plafond, centre du couloir ── */}
+      <Equipement3D
+        equipementId="entree-9"
+        position={[1.625, 2.75, 3.25]}
+        type="daaf"
+        idPiece="couloir"
+        idElement="daaf"
+      />
+
+      {/* ── Grille de ventilation — plafond, près du mur arrière ── */}
+      <Equipement3D
+        equipementId="entree-10"
+        position={[1.625, 2.75, 4.5]}
+        type="grille"
+        idPiece="couloir"
+        idElement="grilleVentilation"
+      />
 
       {/* ── Interrupteur — mur droit (x ≈ 2.375), près de la porte SDB ── */}
-      <mesh {...interrupteur.propsInteraction} position={[2.36, 1.2, 2.2]}>
-        <boxGeometry args={[0.02, 0.1, 0.08]} />
-        <meshStandardMaterial {...M(interrupteur)} />
-      </mesh>
+      <group position={[2.36, 1.2, 2.2]}>
+        <mesh {...interrupteur.propsInteraction}>
+          <boxGeometry args={[0.02, 0.1, 0.08]} />
+          <meshStandardMaterial {...M(interrupteur)} />
+        </mesh>
+        
+        {/* Marker pour l'interrupteur */}
+        {!interrupteur.estSelectionne && (
+          <MarkerCliquable position={[0.08, 0, 0]} taille={16} zone="interieur" idPiece="couloir" />
+        )}
+      </group>
+      <ZonePiece idPiece="couloir" nom="Couloir" x={1.625} z={3.25} largeur={1.5} profondeur={3.25} />
     </group>
   );
 }

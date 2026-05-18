@@ -51,6 +51,37 @@ export function Terrain() {
 
       {/* ── Pelouse — même texture gazon que SolInterieur ──────────────── */}
       <SolInterieur exterieur={true} />
+      
+      {/* ── Trottoir devant l'immeuble (côté façade principale) ─────── */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-20,0.01,-12]} receiveShadow>
+        <planeGeometry args={[14,2]} />
+        <meshStandardMaterial color="#4a4a4a" roughness={0.9} />
+      </mesh>
+      
+      {/* ── Zone de parking continue (6 places) ────────────────────────── */}
+      {/* Surface complète du parking */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.011, -12]} receiveShadow>
+        <planeGeometry args={[15, 4.8]} />
+        <meshStandardMaterial color="#3a3a3a" roughness={0.85} />
+      </mesh>
+      
+      {/* Lignes blanches de séparation entre les places (5 lignes pour 6 places) */}
+      {[-26, -23.5, -21, -18.5, -16].map((x, i) => (
+        <mesh key={i} rotation={[-Math.PI/2,0,0]} position={[x, 0.012, -12]} receiveShadow>
+          <planeGeometry args={[0.1, 4.8]} />
+          <meshStandardMaterial color="#ffffff" roughness={0.8} />
+        </mesh>
+      ))}
+      
+      {/* Lignes blanches avant et arrière du parking */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.012, -14.4]} receiveShadow>
+        <planeGeometry args={[15, 0.1]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.8} />
+      </mesh>
+      <mesh rotation={[-Math.PI/2,0,0]} position={[-21.5, 0.012, -9.6]} receiveShadow>
+        <planeGeometry args={[15, 0.1]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.8} />
+      </mesh>
 
       {/* ── Dalle maison ───────────────────────────────────────────────── */}
       <mesh position={[0,-0.06,0]} receiveShadow>
@@ -93,6 +124,9 @@ export function Terrain() {
 
       {/* ── Arbres réalistes ───────────────────────────────────────────── */}
       <Arbres />
+
+      {/* ── Boîte aux lettres familiale — bord arrière-droit du parking ── */}
+      <BoiteAuxLettresFamiliale position={[-14.5, 0, -9.5]} />
 
       {/* ── Massifs de fleurs ──────────────────────────────────────────── */}
       <Massifs />
@@ -528,6 +562,67 @@ function Conifere({ position, hauteur, rayon, c1, c2, c3 }: {
       <mesh position={[0, hauteur*0.92, 0]} castShadow>
         <coneGeometry args={[rayon*0.15, hauteur*0.18, 6]} />
         <meshStandardMaterial color={c3} roughness={0.95} />
+      </mesh>
+    </group>
+  );
+}
+
+// ── Boîte aux lettres familiale standard ─────────────────────────────────────
+function BoiteAuxLettresFamiliale({ position }: { position: [number, number, number] }) {
+  const C_POTEAU  = '#8a9098';
+  const C_CORPS   = '#2e4a1e';
+  const C_COUVERCLE = '#243c18';
+  const C_TRAPPE  = '#1a2e10';
+  const C_FENTE   = '#0a0e08';
+
+  return (
+    <group position={position}>
+      {/* Socle béton */}
+      <mesh position={[0, 0.04, 0]} receiveShadow>
+        <boxGeometry args={[0.22, 0.08, 0.22]} />
+        <meshStandardMaterial color="#9a9690" roughness={0.9} />
+      </mesh>
+
+      {/* Poteau métallique */}
+      <mesh position={[0, 0.62, 0]} castShadow>
+        <boxGeometry args={[0.06, 1.16, 0.06]} />
+        <meshStandardMaterial color={C_POTEAU} roughness={0.4} metalness={0.6} />
+      </mesh>
+
+      {/* Corps principal de la boîte */}
+      <mesh position={[0, 1.14, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.38, 0.26, 0.28]} />
+        <meshStandardMaterial color={C_CORPS} roughness={0.7} />
+      </mesh>
+
+      {/* Couvercle légèrement débordant */}
+      <mesh position={[0, 1.28, 0]} castShadow>
+        <boxGeometry args={[0.40, 0.04, 0.30]} />
+        <meshStandardMaterial color={C_COUVERCLE} roughness={0.65} />
+      </mesh>
+
+      {/* Trappe d'accès (face avant, légèrement décalée) */}
+      <mesh position={[0, 1.10, -0.145]} castShadow>
+        <boxGeometry args={[0.28, 0.20, 0.01]} />
+        <meshStandardMaterial color={C_TRAPPE} roughness={0.75} />
+      </mesh>
+
+      {/* Fente de dépôt du courrier */}
+      <mesh position={[0, 1.22, -0.146]}>
+        <boxGeometry args={[0.18, 0.025, 0.002]} />
+        <meshStandardMaterial color={C_FENTE} roughness={1} />
+      </mesh>
+
+      {/* Petite poignée */}
+      <mesh position={[0, 1.06, -0.156]} castShadow>
+        <cylinderGeometry args={[0.012, 0.012, 0.06, 8]} />
+        <meshStandardMaterial color={C_POTEAU} roughness={0.3} metalness={0.8} />
+      </mesh>
+
+      {/* Numéro de maison (plaquette) */}
+      <mesh position={[0, 1.14, -0.147]}>
+        <boxGeometry args={[0.07, 0.04, 0.001]} />
+        <meshStandardMaterial color="#d4c88a" roughness={0.6} metalness={0.3} />
       </mesh>
     </group>
   );

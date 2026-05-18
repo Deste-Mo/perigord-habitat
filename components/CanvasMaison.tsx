@@ -23,10 +23,17 @@ export function CanvasMaison() {
         gl={{
           antialias: false,
           alpha: false,
+          powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 0.7,
         }}
         dpr={[1, 1.5]}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#000000', 1);
+          gl.domElement.addEventListener('webglcontextlost', (e) => {
+            e.preventDefault();
+          }, false);
+        }}
       >
         <Suspense fallback={<Chargement />}>
           <SceneMaison />

@@ -4,7 +4,10 @@ import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { PriseElectrique } from '../structure/PriseElectrique';
 import { RobinetThermostatique } from '../structure/RobinetThermostatique';
+import { ZonePiece } from '../equipements/ZonePiece';
+import { MarkerCliquable } from '../equipements/MarkerCliquable';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
+import { getEquipementNom } from '@/lib/equipements';
 
 interface Props { lumiere: boolean; filDefer?: boolean; masquerPlafond?: boolean }
 
@@ -17,7 +20,7 @@ function Refrigerateur({ propsInteraction, M }: { propsInteraction: Record<strin
       <mesh {...propsInteraction} position={[0.3, 0.65, 0.38]}><boxGeometry args={[0.04, 0.22, 0.04]} /><meshStandardMaterial {...M} /></mesh>
       <mesh {...propsInteraction} position={[0.3, -0.3, 0.38]}><boxGeometry args={[0.04, 0.5, 0.04]} /><meshStandardMaterial {...M} /></mesh>
       {[-0.2, 0, 0.2].map((x, i) => (
-        <mesh {...propsInteraction} key={i} position={[x, -0.9, 0.37]}><boxGeometry args={[0.12, 0.02, 0.02]} /><meshStandardMaterial {...M} /></mesh>
+        <mesh key={i} {...propsInteraction} position={[x, -0.9, 0.37]}><boxGeometry args={[0.12, 0.02, 0.02]} /><meshStandardMaterial {...M} /></mesh>
       ))}
     </group>
   );
@@ -43,7 +46,7 @@ function Four({ propsInteraction, M }: { propsInteraction: Record<string,unknown
       <mesh {...propsInteraction} position={[0, 0, 0.3]}><boxGeometry args={[0.52, 0.42, 0.02]} /><meshStandardMaterial {...M} /></mesh>
       <mesh {...propsInteraction} position={[0, -0.24, 0.32]}><boxGeometry args={[0.38, 0.04, 0.04]} /><meshStandardMaterial {...M} /></mesh>
       {[-0.22, -0.08, 0.08, 0.22].map((x, i) => (
-        <mesh {...propsInteraction} key={i} position={[x, 0.26, 0.32]} rotation={[Math.PI/2, 0, 0]}><cylinderGeometry args={[0.025, 0.025, 0.03, 10]} /><meshStandardMaterial {...M} /></mesh>
+        <mesh key={i} {...propsInteraction} position={[x, 0.26, 0.32]} rotation={[Math.PI/2, 0, 0]}><cylinderGeometry args={[0.025, 0.025, 0.03, 10]} /><meshStandardMaterial {...M} /></mesh>
       ))}
     </group>
   );
@@ -234,17 +237,17 @@ function Chaise({ position, rotation, M, propsInteraction }: {
       <mesh {...propsInteraction} position={[0, 0.5, 0.02]} castShadow><boxGeometry args={[0.4, 0.06, 0.4]} /><meshStandardMaterial {...M} /></mesh>
       <mesh {...propsInteraction} position={[0, 0.78, -0.2]} castShadow><boxGeometry args={[0.44, 0.52, 0.04]} /><meshStandardMaterial {...M} /></mesh>
       {[-0.14, 0, 0.14].map((x, i) => (
-        <mesh {...propsInteraction} key={i} position={[x, 0.78, -0.2]}><boxGeometry args={[0.03, 0.48, 0.03]} /><meshStandardMaterial {...M} /></mesh>
+        <mesh key={i} {...propsInteraction} position={[x, 0.78, -0.2]}><boxGeometry args={[0.03, 0.48, 0.03]} /><meshStandardMaterial {...M} /></mesh>
       ))}
       {[[-0.18,-0.18],[-0.18,0.18],[0.18,-0.18],[0.18,0.18]].map(([lx,lz],i) => (
-        <mesh {...propsInteraction} key={i} position={[lx, 0.23, lz]} castShadow><cylinderGeometry args={[0.025, 0.025, 0.46, 6]} /><meshStandardMaterial {...M} /></mesh>
+        <mesh key={i} {...propsInteraction} position={[lx, 0.23, lz]} castShadow><cylinderGeometry args={[0.025, 0.025, 0.46, 6]} /><meshStandardMaterial {...M} /></mesh>
       ))}
     </group>
   );
 }
 
 export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: Props) {
-  const sol        = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'sol', equipementId: 'cuisine-12', defaut: { couleur: '#4b5563', rugosite: 0.35, metalique: 0 } });
+  const sol        = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'sol', defaut: { couleur: '#4b5563', rugosite: 0.35, metalique: 0 } });
   const planTravail= useElementSelectionnable({ idPiece: 'cuisine', idElement: 'planDeTravail', libelle: 'Plan de travail',  defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.3 } });
   const meubles    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'meublesHauts',  libelle: 'Meubles',          defaut: { couleur: '#f3f4f6', rugosite: 0.5,  metalique: 0 } });
   const refrigo    = useElementSelectionnable({ idPiece: 'cuisine', idElement: 'refrigerateur', equipementId: 'cuisine-9', defaut: { couleur: '#f0f0f0', rugosite: 0.25, metalique: 0.15 } });
@@ -361,7 +364,7 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         <meshStandardMaterial {...M(plaque)} />
       </mesh>
       {[[-0.22,-0.12],[0.22,-0.12],[-0.22,0.12],[0.22,0.12]].map(([x,z],i) => (
-        <mesh {...plaque.propsInteraction} key={i} position={[3.0+x, 0.958, -3.65+z]}>
+        <mesh key={i} {...plaque.propsInteraction} position={[3.0+x, 0.958, -3.65+z]}>
           <cylinderGeometry args={[0.07, 0.07, 0.01, 16]} />
           <meshStandardMaterial {...M(plaque)} />
         </mesh>
@@ -514,7 +517,7 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
         <meshStandardMaterial {...M(table)} />
       </mesh>
       {[[-0.55,-0.35],[0.55,-0.35],[-0.55,0.35],[0.55,0.35]].map(([lx,lz],i) => (
-        <mesh {...table.propsInteraction} key={i} position={[2.8+lx, 0.38, -1.25+lz]} castShadow>
+        <mesh key={i} {...table.propsInteraction} position={[2.8+lx, 0.38, -1.25+lz]} castShadow>
           <boxGeometry args={[0.06, 0.76, 0.06]} />
           <meshStandardMaterial {...M(table)} />
         </mesh>
@@ -615,6 +618,30 @@ export function Cuisine({ lumiere, filDefer = false, masquerPlafond = false }: P
           <meshStandardMaterial {...M(interphone)} />
         </mesh>
       </group>
+      {/* ── Markers orange — cuisine ── */}
+      {/* Zone évier — plan de travail (x≈4.0) */}
+      <MarkerCliquable position={[4.0,  0.97, -3.66]} equipementId="cuisine-1"  libelle={getEquipementNom('cuisine-1')}  idPiece="cuisine" />
+      <MarkerCliquable position={[4.0,  1.15, -3.84]} equipementId="cuisine-2"  libelle={getEquipementNom('cuisine-2')}  idPiece="cuisine" />
+      <MarkerCliquable position={[4.15, 1.1,  -3.84]} equipementId="cuisine-3"  libelle={getEquipementNom('cuisine-3')}  idPiece="cuisine" />
+      <MarkerCliquable position={[4.0,  0.7,  -3.66]} equipementId="cuisine-4"  libelle={getEquipementNom('cuisine-4')}  idPiece="cuisine" />
+      <MarkerCliquable position={[4.0,  0.4,  -3.5]}  equipementId="cuisine-5"  libelle={getEquipementNom('cuisine-5')}  idPiece="cuisine" />
+      {/* Zone cuisson — hotte/plaque/four (x≈3.0) */}
+      <MarkerCliquable position={[3.0,  1.6,  -3.8]}  equipementId="cuisine-6"  libelle={getEquipementNom('cuisine-6')}  idPiece="cuisine" />
+      <MarkerCliquable position={[3.0,  0.95, -3.65]} equipementId="cuisine-7"  libelle={getEquipementNom('cuisine-7')}  idPiece="cuisine" />
+      <MarkerCliquable position={[3.0,  0.55, -3.66]} equipementId="cuisine-8"  libelle={getEquipementNom('cuisine-8')}  idPiece="cuisine" />
+      {/* Mur droit — frigo/lave-vaisselle (x≈5.4–4.7) */}
+      <MarkerCliquable position={[5.4,  1.2,  -3.68]} equipementId="cuisine-9"  libelle={getEquipementNom('cuisine-9')}  idPiece="cuisine" />
+      <MarkerCliquable position={[4.7,  0.6,  -3.66]} equipementId="cuisine-10" libelle={getEquipementNom('cuisine-10')} idPiece="cuisine" />
+      {/* Mur du fond — crédence / VMC / gaz / prise */}
+      <MarkerCliquable position={[3.65, 1.35, -3.86]} equipementId="cuisine-11" libelle={getEquipementNom('cuisine-11')} idPiece="cuisine" />
+      <MarkerCliquable position={[3.5,  0.05, -1.5]}  equipementId="cuisine-12" libelle={getEquipementNom('cuisine-12')} idPiece="cuisine" />
+      <MarkerCliquable position={[2.0,  2.75, -3.8]}  equipementId="cuisine-13" libelle={getEquipementNom('cuisine-13')} idPiece="cuisine" />
+      <MarkerCliquable position={[3.5,  0.7,  -3.86]} equipementId="cuisine-14" libelle={getEquipementNom('cuisine-14')} idPiece="cuisine" />
+      <MarkerCliquable position={[5.85, 1.4,  -3.85]} equipementId="cuisine-15" libelle={getEquipementNom('cuisine-15')} idPiece="cuisine" />
+      {/* Zone avant — lave-linge */}
+      <MarkerCliquable position={[2.2,  0.6,   0.5]}  equipementId="cuisine-16" libelle={getEquipementNom('cuisine-16')} idPiece="cuisine" />
+
+      <ZonePiece idPiece="cuisine" nom="Cuisine" x={3.375} z={-1.75} largeur={5.0} profondeur={6.25} />
     </group>
   );
 }
