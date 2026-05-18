@@ -10,7 +10,7 @@ const SECTIONS = [
     title: "Réparations locatives",
     description: "Découvrez ce qui est à la charge du locataire et du propriétaire en matière de réparations.",
     icon: Wrench,
-    color: "bg-blue-50 text-blue-600",
+    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400",
     href: "/client/qui-fait-quoi/reparations",
   },
   {
@@ -18,7 +18,7 @@ const SECTIONS = [
     title: "Charges récupérables",
     description: "Liste des charges que le propriétaire peut récupérer auprès du locataire.",
     icon: Receipt,
-    color: "bg-green-50 text-green-600",
+    color: "bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400",
     href: "/client/qui-fait-quoi/charges",
   },
   {
@@ -26,7 +26,7 @@ const SECTIONS = [
     title: "Grille de vétusté",
     description: "Comprendre comment la vétusté est calculée pour l'état des lieux de sortie.",
     icon: Calendar,
-    color: "bg-orange-50 text-orange-600",
+    color: "bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400",
     href: "/client/qui-fait-quoi/vetuste",
   },
   {
@@ -34,7 +34,7 @@ const SECTIONS = [
     title: "Cas particuliers",
     description: "Situations spécifiques et exceptions aux règles générales.",
     icon: AlertCircle,
-    color: "bg-purple-50 text-purple-600",
+    color: "bg-purple-50 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400",
     href: "/client/qui-fait-quoi/cas-particuliers",
   },
 ];

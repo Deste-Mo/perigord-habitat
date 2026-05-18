@@ -53,7 +53,7 @@ export function RulesSection() {
   ];
 
   return (
-    <section className="w-full py-20 sm:py-24 bg-gray-50">
+    <section className="w-full py-20 sm:py-24 bg-muted">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Titre - même style que HowItWorksSection */}
         <ScrollReveal animation="fade-up">
@@ -62,10 +62,10 @@ export function RulesSection() {
               <Sparkles size={18} />
               Base légale
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground mb-6 leading-tight">
               Sur quelles règles repose ce site ?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Une base légale solide pour des réponses fiables et conformes à la réglementation française
             </p>
           </div>
@@ -79,19 +79,19 @@ export function RulesSection() {
                 const Icon = loi.icon;
                 return (
                   <div key={index} className="group h-full">
-                    <div className="bg-white rounded-2xl p-6 h-full hover:bg-gray-50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col shadow-lg">
+                    <div className="bg-card rounded-2xl p-6 h-full hover:bg-muted transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col shadow-lg">
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-14 h-14 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md">
                           <Icon className="text-white" size={26} />
                         </div>
-                        <div className="px-3 py-1.5 rounded-full bg-indigo-50 border-2 border-indigo-200">
-                          <span className="text-xs font-bold text-indigo-700">LOI</span>
+                        <div className="px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/20 border-2 border-indigo-200 dark:border-indigo-800">
+                          <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300">LOI</span>
                         </div>
                       </div>
-                      <h4 className="text-lg font-black text-gray-900 mb-2">{loi.titre}</h4>
-                      <p className="text-indigo-600 font-semibold text-sm mb-3">{loi.description}</p>
+                      <h4 className="text-lg font-black text-foreground mb-2">{loi.titre}</h4>
+                      <p className="text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-3">{loi.description}</p>
                       <div className="h-1 w-12 bg-indigo-600 rounded-full mb-3"></div>
-                      <p className="text-gray-600 text-sm leading-relaxed flex-1">{loi.details}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed flex-1">{loi.details}</p>
                     </div>
                   </div>
                 );
@@ -109,14 +109,14 @@ export function RulesSection() {
                 
                 return (
                   <div key={index} className="group h-full">
-                    <div className="bg-white rounded-2xl p-6 h-full hover:bg-gray-50 transition-all duration-300 hover:shadow-xl flex flex-col shadow-lg">
+                    <div className="bg-card rounded-2xl p-6 h-full hover:bg-muted transition-all duration-300 hover:shadow-xl flex flex-col shadow-lg">
                       {/* En-tête avec icône */}
-                      <div className="flex items-center gap-4 mb-6 pb-4 border-b-2 border-gray-100">
+                      <div className="flex items-center gap-4 mb-6 pb-4 border-b-2 border-border">
                         <div className={`w-16 h-16 rounded-2xl ${resp.bgColor} flex items-center justify-center shadow-lg`}>
                           <Icon className="text-white" size={28} />
                         </div>
                         <div>
-                          <h4 className="text-2xl font-black text-gray-900">{resp.titre}</h4>
+                          <h4 className="text-2xl font-black text-foreground">{resp.titre}</h4>
                           <div className={`h-1 w-16 ${resp.bgColor} rounded-full mt-1`}></div>
                         </div>
                       </div>
@@ -128,7 +128,7 @@ export function RulesSection() {
                             <div className={`w-6 h-6 rounded-md ${resp.bgColor} flex items-center justify-center shrink-0 mt-0.5`}>
                               <CheckCircle className="text-white" size={14} />
                             </div>
-                            <span className="text-gray-700 font-medium leading-relaxed">{item}</span>
+                            <span className="text-foreground font-medium leading-relaxed">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -142,16 +142,16 @@ export function RulesSection() {
 
         {/* Principe clé */}
         <ScrollReveal animation="fade-up" delay={600}>
-          <div className="bg-white rounded-2xl p-8 sm:p-10 shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div className="bg-card rounded-2xl p-8 sm:p-10 shadow-xl hover:shadow-2xl transition-all duration-300">
             <div className="flex flex-col sm:flex-row items-start gap-6">
               <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-lg">
                 <Scale className="text-white" size={32} />
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4">Le principe est simple</h3>
-                <p className="text-lg sm:text-xl text-gray-700 leading-relaxed">
-                  Le <span className="font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg">locataire</span> entretient, 
-                  le <span className="font-bold text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg">bailleur</span> répare les éléments importants, 
+                <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-4">Le principe est simple</h3>
+                <p className="text-lg sm:text-xl text-foreground leading-relaxed">
+                  Le <span className="font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/20 px-3 py-1.5 rounded-lg">locataire</span> entretient, 
+                  le <span className="font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/20 px-3 py-1.5 rounded-lg">bailleur</span> répare les éléments importants, 
                   sauf cas particuliers définis par la loi.
                 </p>
               </div>

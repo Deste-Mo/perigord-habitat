@@ -15,24 +15,24 @@ interface StatsCardProps {
 
 const colorClasses = {
   blue: {
-    bg: "bg-blue-50",
-    icon: "bg-blue-600",
-    text: "text-blue-600"
+    bg: "bg-primary/10",
+    icon: "bg-primary",
+    text: "text-primary"
   },
   green: {
-    bg: "bg-green-50",
-    icon: "bg-green-600",
-    text: "text-green-600"
+    bg: "bg-primary/10",
+    icon: "bg-primary",
+    text: "text-primary"
   },
   orange: {
-    bg: "bg-orange-50",
-    icon: "bg-orange-600",
-    text: "text-orange-600"
+    bg: "bg-primary/10",
+    icon: "bg-primary",
+    text: "text-primary"
   },
   purple: {
-    bg: "bg-purple-50",
-    icon: "bg-purple-600",
-    text: "text-purple-600"
+    bg: "bg-primary/10",
+    icon: "bg-primary",
+    text: "text-primary"
   }
 };
 

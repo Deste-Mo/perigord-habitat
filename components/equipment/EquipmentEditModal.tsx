@@ -39,23 +39,23 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl"
+        className="bg-card rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ─────────────────────────────────────────────────────── */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
-              <Package className="text-indigo-600" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/30 flex items-center justify-center">
+              <Package className="text-indigo-600 dark:text-indigo-400" size={20} />
             </div>
             <div>
-              <h2 className="text-lg font-black text-gray-900 leading-tight">Modifier l'équipement</h2>
-              <p className="text-xs text-gray-400">{equipment.piece}</p>
+              <h2 className="text-lg font-black text-foreground leading-tight">Modifier l'équipement</h2>
+              <p className="text-xs text-muted-foreground">{equipment.piece}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           >
             <X size={20} />
           </button>
@@ -67,7 +67,7 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
 
             {/* Nom */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Nom de l'équipement
               </label>
               <input
@@ -75,20 +75,20 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
                 value={form.nom}
                 onChange={(e) => set("nom", e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 font-medium transition-colors"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground font-medium transition-colors"
               />
             </div>
 
             {/* Pièce */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Pièce
               </label>
               <select
                 value={form.piece}
                 onChange={(e) => set("piece", e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 font-medium transition-colors bg-white"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground font-medium transition-colors bg-card"
               >
                 {pieces.map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -98,7 +98,7 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
 
             {/* Responsable */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Responsable
               </label>
               <input
@@ -106,19 +106,19 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
                 value={form.responsable}
                 onChange={(e) => set("responsable", e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 font-medium transition-colors"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground font-medium transition-colors"
               />
             </div>
 
             {/* Type remarque */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Type de charge
               </label>
               <select
                 value={form.typeRemarque}
                 onChange={(e) => set("typeRemarque", e.target.value as TypeRemarque)}
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 font-medium transition-colors bg-white"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground font-medium transition-colors bg-card"
               >
                 {TYPE_REMARQUE_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -128,31 +128,31 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
 
             {/* Toggles */}
             <div className="grid grid-cols-2 gap-4">
-              <label className="flex items-center justify-between px-4 py-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-indigo-300 transition-colors">
-                <span className="text-sm font-semibold text-gray-700">Charge locative</span>
+              <label className="flex items-center justify-between px-4 py-3 rounded-xl border-2 border-border cursor-pointer hover:border-primary/50 transition-colors">
+                <span className="text-sm font-semibold text-foreground">Charge locative</span>
                 <button
                   type="button"
                   onClick={() => set("chargeLocative", !form.chargeLocative)}
                   className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                    form.chargeLocative ? "bg-indigo-600" : "bg-gray-300"
+                    form.chargeLocative ? "bg-primary" : "bg-muted-foreground/30"
                   }`}
                 >
-                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-card rounded-full shadow transition-transform duration-200 ${
                     form.chargeLocative ? "translate-x-5" : "translate-x-0"
                   }`} />
                 </button>
               </label>
 
-              <label className="flex items-center justify-between px-4 py-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-indigo-300 transition-colors">
-                <span className="text-sm font-semibold text-gray-700">Contrat maintenance</span>
+              <label className="flex items-center justify-between px-4 py-3 rounded-xl border-2 border-border cursor-pointer hover:border-primary/50 transition-colors">
+                <span className="text-sm font-semibold text-foreground">Contrat maintenance</span>
                 <button
                   type="button"
                   onClick={() => set("contratMaintenance", !form.contratMaintenance)}
                   className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                    form.contratMaintenance ? "bg-indigo-600" : "bg-gray-300"
+                    form.contratMaintenance ? "bg-primary" : "bg-muted-foreground/30"
                   }`}
                 >
-                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-card rounded-full shadow transition-transform duration-200 ${
                     form.contratMaintenance ? "translate-x-5" : "translate-x-0"
                   }`} />
                 </button>
@@ -161,38 +161,38 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
 
             {/* Référence légale */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Référence légale
               </label>
               <textarea
                 value={form.referenceLegale}
                 onChange={(e) => set("referenceLegale", e.target.value)}
                 rows={2}
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 text-sm transition-colors resize-none"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground text-sm transition-colors resize-none"
               />
             </div>
 
             {/* Remarque pratique */}
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
                 Remarque pratique
               </label>
               <textarea
                 value={form.remarque}
                 onChange={(e) => set("remarque", e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none text-gray-900 text-sm transition-colors resize-none"
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-border focus:border-primary focus:outline-none text-foreground text-sm transition-colors resize-none"
               />
             </div>
 
           </div>
 
           {/* ── Footer ─────────────────────────────────────────────────────── */}
-          <div className="px-6 py-4 border-t border-gray-200 flex flex-col gap-3 shrink-0">
+          <div className="px-6 py-4 border-t border-border flex flex-col gap-3 shrink-0">
 
             {/* Message d'erreur */}
             {saveError && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg px-3 py-2">
                 ⚠️ {saveError}
               </p>
             )}
@@ -202,7 +202,7 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
                 type="button"
                 onClick={onClose}
                 disabled={saving}
-                className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold text-sm transition-colors disabled:opacity-50"
+                className="flex-1 py-2.5 rounded-xl border-2 border-border hover:border-gray-300 text-foreground font-semibold text-sm transition-colors disabled:opacity-50"
               >
                 Annuler
               </button>
@@ -210,7 +210,7 @@ export function EquipmentEditModal({ equipment, pieces, onClose, onSave, saving 
                 type="submit"
                 disabled={!isDirty || saving}
                 className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl
-                  bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-200 disabled:text-gray-400
+                  bg-primary hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground
                   text-white font-semibold text-sm transition-colors"
               >
                 {saving ? (

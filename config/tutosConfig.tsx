@@ -6,7 +6,10 @@ import {
   Sparkles,
   BookOpenCheck,
   Leaf,
-  Shield
+  Shield,
+  ShieldCheck,
+  Trees,
+  Wifi
 } from "lucide-react";
 import type { NoticeCategorie, NoticeType } from "@/types/notice";
 
@@ -19,6 +22,10 @@ export const CATEGORIE_CONFIG: Record<
   Chauffage: { color: "text-red-600", bg: "bg-red-50", icon: Flame },
   Ventilation: { color: "text-cyan-600", bg: "bg-cyan-50", icon: Wind },
   Entretien: { color: "text-green-600", bg: "bg-green-50", icon: Sparkles },
+  Sécurité: { color: "text-slate-600", bg: "bg-slate-50", icon: ShieldCheck },
+  "Propreté et hygiène": { color: "text-teal-600", bg: "bg-teal-50", icon: Droplet },
+  "Extérieur et parties communes": { color: "text-emerald-600", bg: "bg-emerald-50", icon: Trees },
+  "Numérique et connectivité": { color: "text-purple-600", bg: "bg-purple-50", icon: Wifi },
 };
 
 export const TYPE_CONFIG: Record<

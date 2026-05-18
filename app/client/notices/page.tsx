@@ -4,7 +4,7 @@ import { useState } from "react";
 import { HeaderApp } from "@/components/layout/HeaderApp";
 import { NOTICES, CATEGORIES } from "@/data/notices";
 import type { NoticeCategorie } from "@/types/notice";
-import { FileText, Calendar, Download, Droplet, Zap, Flame, Wind, Sparkles } from "lucide-react";
+import { FileText, Calendar, Download, Droplet, Zap, Flame, Wind, Sparkles, ShieldCheck, Trees, Wifi } from "lucide-react";
 
 const CAT_CONFIG: Record<NoticeCategorie, { bg: string; color: string; icon: any }> = {
   "Plomberie": { bg: "bg-blue-100", color: "text-blue-700", icon: Droplet },
@@ -12,6 +12,10 @@ const CAT_CONFIG: Record<NoticeCategorie, { bg: string; color: string; icon: any
   "Chauffage": { bg: "bg-orange-100", color: "text-orange-700", icon: Flame },
   "Ventilation": { bg: "bg-cyan-100", color: "text-cyan-700", icon: Wind },
   "Entretien": { bg: "bg-purple-100", color: "text-purple-700", icon: Sparkles },
+  "Sécurité": { bg: "bg-slate-100", color: "text-slate-700", icon: ShieldCheck },
+  "Propreté et hygiène": { bg: "bg-teal-100", color: "text-teal-700", icon: Droplet },
+  "Extérieur et parties communes": { bg: "bg-emerald-100", color: "text-emerald-700", icon: Trees },
+  "Numérique et connectivité": { bg: "bg-purple-100", color: "text-purple-700", icon: Wifi },
 };
 
 export default function NoticesPage() {

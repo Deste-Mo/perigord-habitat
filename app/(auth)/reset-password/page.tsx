@@ -33,8 +33,8 @@ export default function ResetPasswordPage() {
     return (
       <AuthCard title="Mot de passe mis à jour" description="">
         <div className="flex flex-col items-center gap-4 py-4 text-center">
-          <div className="bg-green-50 p-4 rounded-full">
-            <CheckCircle size={36} className="text-green-600" />
+          <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-full">
+            <CheckCircle size={36} className="text-green-600 dark:text-green-400" />
           </div>
           <p className="text-sm text-muted-foreground">
             Votre mot de passe a été réinitialisé avec succès.

@@ -14,7 +14,7 @@ export function TutoCard({ notice }: TutoCardProps) {
   const CategorieIcon = categorieConfig.icon;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-3 p-5 group">
+    <div className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-3 p-5 group">
       {/* En-tête avec icônes */}
       <div className="flex items-start justify-between gap-2">
         <div
@@ -39,23 +39,23 @@ export function TutoCard({ notice }: TutoCardProps) {
 
       {/* Contenu */}
       <div className="flex flex-col gap-1 flex-1">
-        <h2 className="font-semibold text-gray-900 text-base leading-snug group-hover:text-indigo-600 transition-colors">
+        <h2 className="font-semibold text-foreground text-base leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
           {notice.titre}
         </h2>
-        <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
           {notice.description}
         </p>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-        <span className="flex items-center gap-1.5 text-xs text-gray-400">
+      <div className="flex items-center justify-between pt-3 border-t border-border">
+        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Calendar size={14} />
           {new Date(notice.date).toLocaleDateString("fr-FR")}
         </span>
         <Link
-          href={`/client/tutos/${notice.id}`}
-          className="flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors group-hover:gap-2"
+          href={`/tutos/${notice.id}`}
+          className="flex items-center gap-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors group-hover:gap-2"
         >
           Détails
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

@@ -9,10 +9,10 @@ interface TutoStatsProps {
 
 export function TutoStats({ total, tutoriels, ecogestes, prevention }: TutoStatsProps) {
   const stats = [
-    { label: "Total", value: total, icon: BookOpen, color: "text-indigo-600", bg: "bg-indigo-50" },
-    { label: "Tutoriels", value: tutoriels, icon: BookOpenCheck, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "Écogestes", value: ecogestes, icon: Leaf, color: "text-green-600", bg: "bg-green-50" },
-    { label: "Prévention", value: prevention, icon: Shield, color: "text-orange-600", bg: "bg-orange-50" },
+    { label: "Total", value: total, icon: BookOpen, color: "text-indigo-600 dark:text-indigo-400", bg: "bg-indigo-50 dark:bg-indigo-950/20" },
+    { label: "Tutoriels", value: tutoriels, icon: BookOpenCheck, color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/20" },
+    { label: "Écogestes", value: ecogestes, icon: Leaf, color: "text-green-600 dark:text-green-400", bg: "bg-green-50 dark:bg-green-950/20" },
+    { label: "Prévention", value: prevention, icon: Shield, color: "text-orange-600 dark:text-orange-400", bg: "bg-orange-50 dark:bg-orange-950/20" },
   ];
 
   return (

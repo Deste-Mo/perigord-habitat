@@ -23,7 +23,7 @@ const CONTACTS: Record<string, ContactSection> = {
   bailleur: {
     title: "Votre bailleur",
     icon: Building2,
-    color: "bg-blue-50 text-blue-600",
+    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400",
     items: [
       { label: "Nom", value: "Périgord Habitat", icon: Building2 },
       { label: "Téléphone", value: "05 53 XX XX XX", icon: Phone, link: "tel:0553XXXXXX" },
@@ -35,7 +35,7 @@ const CONTACTS: Record<string, ContactSection> = {
   urgences: {
     title: "Numéros d'urgence",
     icon: AlertTriangle,
-    color: "bg-red-50 text-red-600",
+    color: "bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400",
     items: [
       { label: "Pompiers", value: "18", icon: Phone, link: "tel:18", urgent: true },
       { label: "SAMU", value: "15", icon: Phone, link: "tel:15", urgent: true },
@@ -49,7 +49,7 @@ const CONTACTS: Record<string, ContactSection> = {
   prestataires: {
     title: "Prestataires agréés",
     icon: Wrench,
-    color: "bg-green-50 text-green-600",
+    color: "bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400",
     items: [
       { label: "Chaudière / Chauffage", value: "Chauffage Pro - 05 53 XX XX XX", icon: Phone, link: "tel:0553XXXXXX" },
       { label: "VMC / Ventilation", value: "Ventil'Air - 05 53 XX XX XX", icon: Phone, link: "tel:0553XXXXXX" },
@@ -61,7 +61,7 @@ const CONTACTS: Record<string, ContactSection> = {
   assistance: {
     title: "Assistance téléphonique",
     icon: Phone,
-    color: "bg-purple-50 text-purple-600",
+    color: "bg-purple-50 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400",
     items: [
       { 
         label: "Hotline technique 24/7", 

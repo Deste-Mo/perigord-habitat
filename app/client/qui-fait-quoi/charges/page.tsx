@@ -63,7 +63,7 @@ export default function ChargesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-muted flex flex-col">
       <HeaderApp />
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
@@ -74,17 +74,17 @@ export default function ChargesPage() {
           </Link>
         </Button>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8">
+        <div className="bg-card rounded-xl border border-border shadow-sm p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400 flex items-center justify-center">
               <Receipt size={24} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Charges récupérables</h1>
+            <h1 className="text-2xl font-bold text-foreground">Charges récupérables</h1>
           </div>
 
           {/* Introduction */}
           <div className="mb-8">
-            <p className="text-gray-700 leading-relaxed text-base">
+            <p className="text-foreground leading-relaxed text-base">
               Les charges locatives, c&apos;est de l&apos;argent que vous payez en plus de votre loyer. 
               Ces charges servent à payer des services ou des travaux dans votre immeuble. 
               Voici ce que votre bailleur a le droit de vous demander de payer.
@@ -93,20 +93,20 @@ export default function ChargesPage() {
 
           {/* Section Charges récupérables */}
           <div className="mb-10">
-            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-green-500">
-              <h2 className="text-xl font-bold text-green-600">
+            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-green-500 dark:border-green-400">
+              <h2 className="text-xl font-bold text-green-600 dark:text-green-400">
                 Ce que le bailleur peut récupérer auprès du locataire
               </h2>
             </div>
 
             <div className="space-y-6">
               {chargesRecuperables.map((section, idx) => (
-                <div key={idx} className="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
-                  <h3 className="font-bold text-gray-900 mb-3 text-base">{section.category}</h3>
+                <div key={idx} className="bg-green-50 dark:bg-green-950/20 rounded-lg p-5 border-l-4 border-green-500 dark:border-green-400">
+                  <h3 className="font-bold text-foreground mb-3 text-base">{section.category}</h3>
                   <ul className="space-y-2">
                     {section.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="flex items-start gap-2 text-gray-700 text-sm">
-                        <CheckCircle size={16} className="text-green-600 shrink-0 mt-0.5" />
+                      <li key={itemIdx} className="flex items-start gap-2 text-foreground text-sm">
+                        <CheckCircle size={16} className="text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -118,17 +118,17 @@ export default function ChargesPage() {
 
           {/* Section Charges NON récupérables */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-red-500">
-              <h2 className="text-xl font-bold text-red-600">
+            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-red-500 dark:border-red-400">
+              <h2 className="text-xl font-bold text-red-600 dark:text-red-400">
                 Ce que le bailleur NE peut PAS récupérer
               </h2>
             </div>
 
-            <div className="bg-red-50 rounded-lg p-5 border-l-4 border-red-500">
+            <div className="bg-red-50 dark:bg-red-950/20 rounded-lg p-5 border-l-4 border-red-500 dark:border-red-400">
               <ul className="space-y-2">
                 {chargesNonRecuperables.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm">
-                    <X size={16} className="text-red-600 shrink-0 mt-0.5" />
+                  <li key={idx} className="flex items-start gap-2 text-foreground text-sm">
+                    <X size={16} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -137,11 +137,11 @@ export default function ChargesPage() {
           </div>
 
           {/* Info importante */}
-          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-5">
+          <div className="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 dark:border-blue-400 rounded-lg p-5">
             <div className="flex items-start gap-3">
-              <Info size={20} className="text-blue-600 shrink-0 mt-0.5" />
+              <Info size={20} className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm text-blue-800 leading-relaxed">
+                <p className="text-sm text-blue-800 dark:text-blue-300 leading-relaxed">
                   <span className="font-semibold">Chaque année</span>, votre bailleur vous envoie un décompte détaillé des charges. 
                   Vous avez le droit de demander à consulter les justificatifs.
                 </p>

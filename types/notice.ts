@@ -1,4 +1,4 @@
-export type NoticeCategorie = "Plomberie" | "Électricité" | "Chauffage" | "Ventilation" | "Entretien";
+export type NoticeCategorie = "Plomberie" | "Électricité" | "Chauffage" | "Ventilation" | "Entretien" | "Sécurité" | "Propreté et hygiène" | "Extérieur et parties communes" | "Numérique et connectivité";
 
 export type NoticeType = "tutoriel" | "ecogeste" | "prevention";
 
