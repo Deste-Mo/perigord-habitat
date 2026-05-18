@@ -1,4 +1,6 @@
 'use client';
+import { useMemo } from 'react';
+import * as THREE from 'three';
 import { Sol } from '../structure/Sol';
 import { Interrupteur3D } from '../structure/Interrupteur3D';
 import { ZonePiece } from '../equipements/ZonePiece';
@@ -39,7 +41,34 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
   const panier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'panierLinge',      libelle: 'Panier à linge',   defaut: { couleur: '#d97706', rugosite: 0.8,  metalique: 0 } });
   const robinet= useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'robinet', equipementId: 'sdb-7', defaut: { couleur: '#9ca3af', rugosite: 0.2,  metalique: 0.8 } });
   const joints = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'joints', equipementId: 'sdb-16', defaut: { couleur: '#6b7280', rugosite: 0.6,  metalique: 0 } });
-  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier', equipementId: 'sdb-14', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const plafonnier = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'plafonnier', libelle: 'Plafonnier', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+  const carrelageMur = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'carrelageMur', equipementId: 'sdb-9', defaut: { couleur: '#e8f4fd', rugosite: 0.15, metalique: 0.05 } });
+  const ventilationSDB = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'ventilationSDB', equipementId: 'sdb-14', defaut: { couleur: '#9ca3af', rugosite: 0.4, metalique: 0.3 } });
+  const luminaireWC = useElementSelectionnable({ idPiece: 'salleDeBain', idElement: 'luminaireWC', equipementId: 'wc-7', defaut: { couleur: '#f9fafb', rugosite: 0.3, metalique: 0 } });
+
+  const tileTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    const tileW = 24, tileH = 32, gap = 2, cols = Math.floor(256 / (tileW + gap)), rows = Math.floor(256 / (tileH + gap));
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = c * (tileW + gap), y = r * (tileH + gap);
+        const bright = 200 + Math.floor(Math.random() * 40);
+        ctx.fillStyle = `rgb(${bright}, ${bright + 10}, ${bright + 20})`;
+        ctx.fillRect(x, y, tileW, tileH);
+        ctx.strokeStyle = 'rgba(180,190,200,0.15)';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(x + 2, y + 2, tileW - 4, tileH - 4);
+      }
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(2, 3);
+    return tex;
+  }, []);
 
   const M = (s: typeof sol) => ({
     color: s.estSelectionne ? '#00e5ff' : s.materiau.couleur,
@@ -288,6 +317,54 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         <meshPhysicalMaterial {...M(tapis)} sheen={1} sheenRoughness={0.8} sheenColor={tapis.materiau.couleur} />
       </mesh>
 
+      {/* ═══ Revêtement mural carrelé (sdb-9) — panneau décoratif sur mur gauche ═══ */}
+      <group position={[2.55, 1.6, 2.6]}>
+        {/* Cadre du panneau */}
+        <mesh {...carrelageMur.propsInteraction} position={[0, 0, 0]}>
+          <boxGeometry args={[0.035, 0.56, 0.46]} />
+          <meshStandardMaterial
+            color={carrelageMur.estSelectionne ? '#00e5ff' : '#4b5563'}
+            roughness={0.6}
+            metalness={0.1}
+          />
+        </mesh>
+        {/* Surface carrelée */}
+        <mesh {...carrelageMur.propsInteraction} position={[0.025, 0, 0]}>
+          <boxGeometry args={[0.02, 0.48, 0.38]} />
+          <meshStandardMaterial
+            map={tileTexture}
+            color={carrelageMur.estSelectionne ? '#00e5ff' : '#ffffff'}
+            roughness={carrelageMur.materiau.rugosite}
+            metalness={carrelageMur.materiau.metalique}
+            emissive={carrelageMur.emissif}
+            emissiveIntensity={carrelageMur.intensiteEmissif}
+          />
+        </mesh>
+      </group>
+
+      {/* VMC / grille ventilation SDB — plafond côté gauche */}
+      <group {...ventilationSDB.propsInteraction} position={[3.25, 2.75, 3.25]}>
+        <mesh>
+          <boxGeometry args={[0.22, 0.02, 0.22]} />
+          <meshStandardMaterial
+            color={ventilationSDB.estSelectionne ? '#00e5ff' : ventilationSDB.materiau.couleur}
+            roughness={ventilationSDB.materiau.rugosite}
+            metalness={ventilationSDB.materiau.metalique}
+            emissive={ventilationSDB.emissif}
+            emissiveIntensity={ventilationSDB.intensiteEmissif}
+          />
+        </mesh>
+        {Array.from({ length: 6 }).map((_, i) => (
+          <mesh key={`vmc-lame-${i}`} position={[0, 0.015, -0.08 + i * 0.032]}>
+            <boxGeometry args={[0.18, 0.004, 0.008]} />
+            <meshStandardMaterial
+              color={ventilationSDB.estSelectionne ? '#00e5ff' : '#6b7280'}
+              roughness={0.6}
+            />
+          </mesh>
+        ))}
+      </group>
+
       {/* ═══ MUR GAUCHE (x≈2.75) ═══ */}
       
       {/* Cumulus — en hauteur, loin de la porte, éloigné du mur */}
@@ -428,6 +505,18 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
         </mesh>
       </group>
 
+      {/* Luminaire WC — plafond au-dessus de la zone WC */}
+      <mesh {...luminaireWC.propsInteraction} position={[5.0, 2.72, 4.2]}>
+        <cylinderGeometry args={[0.08, 0.07, 0.04, 12]} />
+        <meshStandardMaterial
+          color={luminaireWC.estSelectionne ? '#00e5ff' : (lumiere ? '#fffde7' : luminaireWC.materiau.couleur)}
+          emissive={luminaireWC.emissif !== '#000000' ? luminaireWC.emissif : (lumiere ? '#fff5e0' : '#000')}
+          emissiveIntensity={luminaireWC.intensiteEmissif > 0 ? luminaireWC.intensiteEmissif : (lumiere ? 1.2 : 0)}
+          roughness={luminaireWC.materiau.rugosite}
+          metalness={luminaireWC.materiau.metalique}
+        />
+      </mesh>
+
       {/* ═══ MUR DROIT (x≈5.75) ═══ */}
       
       {/* Colonne rangement — éloignée du mur droit */}
@@ -513,7 +602,7 @@ export function SalleDeBain({ lumiere, filDefer = false, masquerPlafond = false 
       <MarkerCliquable position={[4.25, 0.9,  1.74]} equipementId="sdb-6"  libelle={getEquipementNom('sdb-6')}  idPiece="salleDeBain" />
       <MarkerCliquable position={[4.25, 1.12, 1.62]} equipementId="sdb-7"  libelle={getEquipementNom('sdb-7')}  idPiece="salleDeBain" />
       <MarkerCliquable position={[4.25, 0.2,  1.74]} equipementId="sdb-8"  libelle={getEquipementNom('sdb-8')}  idPiece="salleDeBain" />
-      <MarkerCliquable position={[4.25, 1.6,  1.52]} equipementId="sdb-9"  libelle={getEquipementNom('sdb-9')}  idPiece="salleDeBain" />
+      <MarkerCliquable position={[2.55, 1.7,  2.6]}  equipementId="sdb-9"  libelle={getEquipementNom('sdb-9')}  idPiece="salleDeBain" />
       {/* Sol / Plafond */}
       <MarkerCliquable position={[3.5,  0.05, 3.25]} equipementId="sdb-10" libelle={getEquipementNom('sdb-10')} idPiece="salleDeBain" />
       <MarkerCliquable position={[4.25, 1.55, 1.64]} equipementId="sdb-11" libelle={getEquipementNom('sdb-11')} idPiece="salleDeBain" />
