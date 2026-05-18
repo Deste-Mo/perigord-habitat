@@ -3,13 +3,14 @@ import React, { useRef } from 'react';
 import { useElementSelectionnable } from '@/hooks/useElementSelectionnable';
 import { MarkerCliquable } from './MarkerCliquable';
 import * as THREE from 'three';
+import type { IdPiece } from '@/types/maison';
 
 interface Equipement3DProps {
   equipementId: string;
   position: [number, number, number];
   rotation?: [number, number, number];
   type: 'porte' | 'serrure' | 'boiteAuxLettres' | 'luminaire' | 'interphone' | 'sonnette' | 'daaf' | 'grille';
-  idPiece: string;
+  idPiece: IdPiece | 'exterieur';
   idElement: string;
   libelle?: string;
   afficherMarker?: boolean;

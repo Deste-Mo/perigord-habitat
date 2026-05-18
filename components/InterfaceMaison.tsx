@@ -9,15 +9,16 @@ import { useScene } from '@/hooks/useSceneStore';
 import type { IdPiece, ModeCamera } from '@/types/maison';
 
 const PIECES: { id: IdPiece; label: string }[] = [
-  { id: 'sejour',      label: 'Séjour' },
-  { id: 'cuisine',     label: 'Cuisine' },
-  { id: 'chambre',     label: 'Chambre' },
-  { id: 'salleDeBain', label: 'Salle de bain' },
+  { id: 'sejour',        label: 'Séjour' },
+  { id: 'cuisine',       label: 'Cuisine' },
+  { id: 'chambre',       label: 'Chambre' },
+  { id: 'salleDeBain',   label: 'Salle de bain' },
+  { id: 'couloirEntree', label: "Couloir d'entrée" },
 ];
 
 const NOMS_PIECES: Record<string, string> = {
   sejour: 'Séjour', cuisine: 'Cuisine', chambre: 'Chambre', salleDeBain: 'Salle de bain',
-  couloir: 'Couloir', exterieur: 'Extérieur', interieur: 'Intérieur',
+  couloir: 'Couloir', couloirEntree: "Couloir d'entrée", exterieur: 'Extérieur', interieur: 'Intérieur',
 };
 
 function SelecteurCamera({ modeCamera, setModeCamera }: { modeCamera: ModeCamera; setModeCamera: (m: ModeCamera) => void }) {
@@ -154,7 +155,7 @@ export function InterfaceMaison() {
             ) : (
               <>
                 <button
-                  onClick={() => { setPieceActive('exterieur'); }}
+                  onClick={() => { setPieceActive('exterieur'); setPieceMarkersActive('exterieur'); }}
                   className="w-full px-3 py-1.5 rounded-lg text-xs font-medium
                     bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all duration-150"
                 >

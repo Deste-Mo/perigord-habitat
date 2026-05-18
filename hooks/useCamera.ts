@@ -14,6 +14,8 @@ const CAMERA_PIECES: Record<string, { pos: [number, number, number]; cible: [num
   salleDeBain: { pos: [4.25, 1.65, 2.2], cible: [4.25, 1.65, 3.8] },
   // Couloir (1.5m × 3.25m): centre (1.625, 3.25), caméra légèrement vers l'avant
   couloir:     { pos: [1.625, 1.65, 2.2], cible: [1.625, 1.65, 3.8] },
+  // Couloir d'entrée (2.3m × 6.25m): centre (-0.525, -1.75), caméra côté séjour regardant vers la porte
+  couloirEntree: { pos: [-0.525, 1.65, 0.5], cible: [-0.525, 1.65, -4.0] },
 };
 
 function construirePrereglages() {
@@ -43,8 +45,9 @@ export const CIBLES_ORBITE: Record<string, [number, number, number]> = {
   cuisine:     [ 3.5, 1.4, -1.5],      // Centre cuisine
   chambre:     [-2.625, 1.4,  3.25],   // Centre chambre
   salleDeBain: [ 4.25, 1.4,  3.25],    // Centre salle de bain
-  couloir:     [ 1.625, 1.4,  3.25],   // Centre couloir
-  interieur:   [ 0, 1.4,  0.5],        // Centre de la maison
+  couloir:        [ 1.625, 1.4,  3.25],   // Centre couloir
+  couloirEntree:  [-0.525, 1.4, -1.75],  // Centre couloir d'entrée
+  interieur:      [ 0, 1.4,  0.5],       // Centre de la maison
 };
 
 export function getClePrereglage(pieceActive: IdPiece | 'exterieur' | 'interieur', modeCamera: ModeCamera): string {

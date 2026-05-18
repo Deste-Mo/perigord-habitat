@@ -12,7 +12,7 @@ export function FournisseurScene({ children }: { children: React.ReactNode }) {
   const [tooltip,             setTooltip]          = useState<string | null>(null);
   const [equipementModalId,   setEquipementModalId] = useState<string | null>(null);
   const [lumieres,            setLumieres]         = useState<EtatLumieres>({
-    sejour: true, cuisine: true, chambre: true, salleDeBain: true, couloir: true,
+    sejour: true, cuisine: true, chambre: true, salleDeBain: true, couloir: true, couloirEntree: true,
   });
   const [objetSelectionne,    setObjetSelectionne]    = useState<ObjetSelectionne | null>(null);
   const [surchargesMateriaux, setSurchargesMateriaux] = useState<Record<string, Materiau>>({});

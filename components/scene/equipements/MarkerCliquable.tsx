@@ -53,10 +53,12 @@ export function MarkerCliquable({
   if (idPiece && pieceMarkersActive !== idPiece) return null;
   if (zone === 'exterieur' && pieceActive !== 'exterieur') return null;
   if (zone === 'interieur' && pieceActive === 'exterieur') return null;
+  // En vue extérieure, n'afficher que les markers de l'immeuble (ceux avec equipementId)
+  if (pieceActive === 'exterieur' && !equipementId) return null;
 
   if (idPiece) {
     const pieceVisible = idPiece === 'couloirEntree'
-      ? (pieceActive === 'sejour' || pieceActive === 'cuisine' || pieceActive === 'interieur')
+      ? (pieceActive === 'couloirEntree' || pieceActive === 'sejour' || pieceActive === 'cuisine' || pieceActive === 'interieur')
       : pieceActive === idPiece || pieceActive === 'interieur';
     if (!pieceVisible) return null;
   }

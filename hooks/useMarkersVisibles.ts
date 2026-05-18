@@ -11,12 +11,12 @@ interface MarkersState {
 }
 
 export const useMarkersVisibles = create<MarkersState>((set) => ({
-  markersVisibles: false,
+  markersVisibles: true,
   setMarkersVisibles: (visible) => set({ markersVisibles: visible }),
   toggleMarkers: () => set((state) => ({ markersVisibles: !state.markersVisibles })),
   hoveredEquipementId: null,
   setHoveredEquipementId: (id) => set({ hoveredEquipementId: id }),
-  pieceMarkersActive: null,
+  pieceMarkersActive: 'exterieur',
   setPieceMarkersActive: (piece) => set({
     pieceMarkersActive: piece,
     markersVisibles: piece !== null,
