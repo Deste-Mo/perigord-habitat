@@ -75,7 +75,7 @@ export function ChatMessages({
           className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
         >
           {msg.role === "assistant" && (
-            <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-gray-200">
+            <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-border">
               <Image src="/logo-default.png" alt="QFQ" width={32} height={32} />
             </div>
           )}
@@ -88,21 +88,21 @@ export function ChatMessages({
                 {msg.medias.map((media, i) => {
                   if (media.type === "image" && media.url) {
                     return (
-                      <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                      <div key={i} className="rounded-xl overflow-hidden border border-border shadow-sm">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={media.url} alt={media.name} className="max-h-48 max-w-xs object-cover" />
                       </div>
                     );
                   }
                   if (media.type === "video" && media.url) {
-                    return (
-                      <div key={i} className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                      return (
+                        <div key={i} className="rounded-xl overflow-hidden border border-border shadow-sm">
                         <video src={media.url} controls className="max-h-48 max-w-xs object-cover" />
                       </div>
                     );
                   }
                   return (
-                    <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs text-indigo-700">
+                    <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800 rounded-lg text-xs text-indigo-700 dark:text-indigo-300">
                       <Paperclip size={12} />
                       <span className="truncate max-w-[180px]">{media.name}</span>
                     </div>
@@ -117,7 +117,7 @@ export function ChatMessages({
                 className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === "user"
                     ? "bg-indigo-600 text-white rounded-br-sm whitespace-pre-line"
-                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                    : "bg-muted text-foreground rounded-bl-sm"
                 }`}
               >
                 {msg.role === "assistant" && msg.id === streamingMsgId ? (
@@ -137,10 +137,10 @@ export function ChatMessages({
       {/* Indicateur "en train d'écrire" style Messenger */}
       {isTyping && (
         <div className="flex gap-3 justify-start">
-          <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-gray-200">
+          <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden border border-border">
             <Image src="/logo-default.png" alt="QFQ" width={32} height={32} />
           </div>
-          <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
+          <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
             <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
             <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
             <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />

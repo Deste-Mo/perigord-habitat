@@ -110,7 +110,7 @@ export default function ReparationsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-muted flex flex-col">
       <HeaderApp />
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
@@ -121,17 +121,17 @@ export default function ReparationsPage() {
           </Link>
         </Button>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-8">
+        <div className="bg-card rounded-xl border border-border shadow-sm p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 flex items-center justify-center">
               <Wrench size={24} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Réparations locatives</h1>
+            <h1 className="text-2xl font-bold text-foreground">Réparations locatives</h1>
           </div>
 
           {/* Introduction */}
           <div className="mb-8">
-            <p className="text-gray-700 leading-relaxed text-base">
+            <p className="text-foreground leading-relaxed text-base">
               Dans votre logement, certaines réparations sont à votre charge. D&apos;autres sont à la charge de votre propriétaire ou bailleur. 
               Ce guide vous aide à savoir qui doit faire quoi.
             </p>
@@ -139,23 +139,23 @@ export default function ReparationsPage() {
 
           {/* Section Locataire */}
           <div className="mb-10">
-            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-blue-500">
-              <div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center">
+            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-blue-500 dark:border-blue-400">
+              <div className="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-700 flex items-center justify-center">
                 <User size={20} className="text-white" />
               </div>
-              <h2 className="text-xl font-bold text-blue-600">
+              <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400">
                 Ce que le LOCATAIRE doit entretenir et réparer
               </h2>
             </div>
 
             <div className="space-y-6">
               {locataireReparations.map((section, idx) => (
-                <div key={idx} className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
-                  <h3 className="font-bold text-gray-900 mb-3 text-base">{section.category}</h3>
+                <div key={idx} className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-5 border-l-4 border-blue-500 dark:border-blue-400">
+                  <h3 className="font-bold text-foreground mb-3 text-base">{section.category}</h3>
                   <ul className="space-y-2">
                     {section.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="flex items-start gap-2 text-gray-700 text-sm">
-                        <CheckCircle size={16} className="text-blue-600 shrink-0 mt-0.5" />
+                      <li key={itemIdx} className="flex items-start gap-2 text-foreground text-sm">
+                        <CheckCircle size={16} className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -167,23 +167,23 @@ export default function ReparationsPage() {
 
           {/* Section Bailleur */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-orange-500">
-              <div className="w-10 h-10 rounded-lg bg-orange-500 flex items-center justify-center">
+            <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-orange-500 dark:border-orange-400">
+              <div className="w-10 h-10 rounded-lg bg-orange-600 dark:bg-orange-700 flex items-center justify-center">
                 <Building2 size={20} className="text-white" />
               </div>
-              <h2 className="text-xl font-bold text-orange-600">
+              <h2 className="text-xl font-bold text-orange-600 dark:text-orange-400">
                 Ce que le BAILLEUR doit réparer
               </h2>
             </div>
 
             <div className="space-y-6">
               {bailleurReparations.map((section, idx) => (
-                <div key={idx} className="bg-orange-50 rounded-lg p-5 border-l-4 border-orange-500">
-                  <h3 className="font-bold text-gray-900 mb-3 text-base">{section.category}</h3>
+                <div key={idx} className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-5 border-l-4 border-orange-500 dark:border-orange-400">
+                  <h3 className="font-bold text-foreground mb-3 text-base">{section.category}</h3>
                   <ul className="space-y-2">
                     {section.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="flex items-start gap-2 text-gray-700 text-sm">
-                        <CheckCircle size={16} className="text-orange-600 shrink-0 mt-0.5" />
+                      <li key={itemIdx} className="flex items-start gap-2 text-foreground text-sm">
+                        <CheckCircle size={16} className="text-orange-600 dark:text-orange-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -194,12 +194,12 @@ export default function ReparationsPage() {
           </div>
 
           {/* Avertissement */}
-          <div className="bg-amber-50 border-l-4 border-amber-500 rounded-lg p-5">
+          <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 dark:border-amber-400 rounded-lg p-5">
             <div className="flex items-start gap-3">
-              <AlertTriangle size={20} className="text-amber-600 shrink-0 mt-0.5" />
+              <AlertTriangle size={20} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-amber-900 mb-1">Attention</p>
-                <p className="text-sm text-amber-800 leading-relaxed">
+                <p className="font-semibold text-amber-900 dark:text-amber-200 mb-1">Attention</p>
+                <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
                   Si une dégradation est causée par un mauvais usage ou un défaut d&apos;entretien du locataire, 
                   la réparation peut rester à sa charge même si c&apos;est normalement la responsabilité du bailleur.
                 </p>

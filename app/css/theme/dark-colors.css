@@ -10,10 +10,10 @@
     --primary-foreground: var(--color-white);
     --secondary: var(--color-secondary);
     --secondary-foreground: var(--color-white);
-    --muted: var(--color-muted);
-    --muted-foreground: var(--color-muted-foreground);
-    --accent: var(--color-accent);
-    --accent-foreground: var(--color-accent-foreground);
+    --muted: var(--color-darkmuted);
+    --muted-foreground: #a0aec0;
+    --accent: var(--color-lightprimary);
+    --accent-foreground: var(--color-primary);
     --destructive: var(--color-error);
     --border: var(--color-darkborder);
     --input: var(--color-darkborder);

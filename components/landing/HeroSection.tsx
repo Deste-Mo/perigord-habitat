@@ -20,7 +20,7 @@ export function HeroSection() {
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto lg:mx-0">
           {/* Badge avec animation */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-white bg-white/95 backdrop-blur-sm text-indigo-700 text-base font-bold mb-8 shadow-2xl animate-fade-in-up">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-white/50 bg-background/95 backdrop-blur-sm text-primary text-base font-bold mb-8 shadow-2xl animate-fade-in-up">
             <Home size={20} className="shrink-0" />
             Cher Locataire, Bienvenue
           </div>
@@ -45,13 +45,13 @@ export function HeroSection() {
                 <ArrowRight size={20} />
               </Link>
             </Button>
-            <Button asChild size="lg" className="gap-3 rounded-xl px-8 py-6 text-base font-bold shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all bg-orange-500 hover:bg-orange-600 text-white">
+            <Button asChild size="lg" className="gap-3 rounded-xl px-8 py-6 text-base font-bold shadow-2xl hover:scale-105 transition-all bg-primary hover:bg-primary/90 text-white">
               <Link href="/maison">
                 <Building2 size={20} />
                 Visiter mon logement en 3D
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-8 py-6 text-base font-bold bg-white text-gray-900 hover:text-gray-900 border-2 border-white shadow-2xl hover:scale-105 hover:bg-gray-50 transition-all backdrop-blur-sm">
+            <Button asChild size="lg" variant="outline" className="gap-3 rounded-xl px-8 py-6 text-base font-bold bg-background/95 text-foreground border-2 border-border shadow-2xl hover:scale-105 hover:bg-muted transition-all backdrop-blur-sm">
               <Link href="#comment-ca-marche">
                 En savoir plus
                 <ArrowRight size={20} />
