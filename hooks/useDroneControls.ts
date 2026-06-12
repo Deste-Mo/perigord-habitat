@@ -44,7 +44,9 @@ export function useDroneControls({
   const moveState = useRef({ forward: false, backward: false, left: false, right: false });
   const velocity = useRef(new THREE.Vector3());
   const pieceActuelle = useRef<IdPiece | 'exterieur' | 'interieur'>(pieceActive);
-  const estVerrouille = useRef(false);
+  const isDragging = useRef(false);
+  const lastMouseX = useRef(0);
+  const lastMouseY = useRef(0);
 
   // Yaw (horizontal) and pitch (vertical) tracking — the core of a clean FPS camera
   const yaw = useRef(0);
@@ -64,34 +66,11 @@ export function useDroneControls({
     }
   }, [enabled, camera]);
 
-  // Pointer lock
+  // Keyboard + mouse drag
   useEffect(() => {
     if (!enabled) return;
 
     const canvas = gl.domElement;
-
-    const onPointerLockChange = () => {
-      estVerrouille.current = document.pointerLockElement === canvas;
-    };
-
-    const onCanvasClick = () => {
-      if (document.pointerLockElement !== canvas) {
-        canvas.requestPointerLock();
-      }
-    };
-
-    document.addEventListener('pointerlockchange', onPointerLockChange);
-    canvas.addEventListener('click', onCanvasClick);
-
-    return () => {
-      document.removeEventListener('pointerlockchange', onPointerLockChange);
-      canvas.removeEventListener('click', onCanvasClick);
-    };
-  }, [enabled, gl]);
-
-  // Keyboard + mouse
-  useEffect(() => {
-    if (!enabled) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
       switch (e.code) {
@@ -111,24 +90,51 @@ export function useDroneControls({
       }
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      if (!estVerrouille.current) return;
+    const onMouseDown = (e: MouseEvent) => {
+      if (e.button === 0) {
+        isDragging.current = true;
+        lastMouseX.current = e.clientX;
+        lastMouseY.current = e.clientY;
+        canvas.style.cursor = 'grabbing';
+      }
+    };
 
-      yaw.current -= e.movementX * rotationSpeed;
-      pitch.current -= e.movementY * rotationSpeed;
+    const onMouseUp = (e: MouseEvent) => {
+      if (e.button === 0) {
+        isDragging.current = false;
+        canvas.style.cursor = 'grab';
+      }
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+
+      const deltaX = e.clientX - lastMouseX.current;
+      const deltaY = e.clientY - lastMouseY.current;
+      lastMouseX.current = e.clientX;
+      lastMouseY.current = e.clientY;
+
+      yaw.current -= deltaX * rotationSpeed;
+      pitch.current -= deltaY * rotationSpeed;
       pitch.current = Math.max(-Math.PI / 2 + 0.02, Math.min(Math.PI / 2 - 0.02, pitch.current));
     };
 
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
-    document.addEventListener('mousemove', onMouseMove);
 
     return () => {
+      canvas.style.cursor = '';
+      canvas.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('keyup', onKeyUp);
-      document.removeEventListener('mousemove', onMouseMove);
     };
-  }, [enabled, rotationSpeed]);
+  }, [enabled, gl, rotationSpeed]);
 
   useFrame(() => {
     if (!enabled) return;
@@ -222,6 +228,5 @@ export function useDroneControls({
 
   return {
     moveState: moveState.current,
-    estVerrouille: estVerrouille.current,
   };
 }
