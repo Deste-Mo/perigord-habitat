@@ -1,8 +1,9 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { EquipementDetailModal } from '@/components/modals/EquipementDetailModal';
+import { ModalGuideVisite } from '@/components/ui/ModalGuideVisite';
 import { getEquipementById } from '@/lib/equipements';
 import { useMarkersVisibles } from '@/hooks/useMarkersVisibles';
 import { useScene } from '@/hooks/useSceneStore';
@@ -45,7 +46,17 @@ export function InterfaceMaison() {
     sensibiliteCamera, setSensibiliteCamera } = useScene();
   const { markersVisibles, toggleMarkers, setPieceMarkersActive } = useMarkersVisibles();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [guideVisible, setGuideVisible] = useState(false);
+  const guideDejaMontre = useRef(false);
   const router = useRouter();
+
+  // Affiche le guide une seule fois à la première entrée en mode visite
+  useEffect(() => {
+    if (modeCamera === 'visite' && !guideDejaMontre.current) {
+      setGuideVisible(true);
+      guideDejaMontre.current = true;
+    }
+  }, [modeCamera]);
 
   const estExterieur = pieceActive === 'exterieur';
   const pieceCourante = NOMS_PIECES[pieceActive] || '';
@@ -86,6 +97,13 @@ export function InterfaceMaison() {
             equipement={equipementModal}
             onClose={() => setEquipementModalId(null)}
           />
+        </div>
+      )}
+
+      {/* Guide de navigation — mode visite */}
+      {guideVisible && (
+        <div className="pointer-events-auto">
+          <ModalGuideVisite onCommencer={() => setGuideVisible(false)} />
         </div>
       )}
 
