@@ -7,6 +7,7 @@ import { ModalGuideVisite } from '@/components/ui/ModalGuideVisite';
 import { getEquipementById } from '@/lib/equipements';
 import { useMarkersVisibles } from '@/hooks/useMarkersVisibles';
 import { useScene } from '@/hooks/useSceneStore';
+import { MobileNavPad } from '@/components/MobileNavPad';
 import type { IdPiece, ModeCamera } from '@/types/maison';
 
 const NOMS_PIECES: Record<string, string> = {
@@ -152,6 +153,11 @@ export function InterfaceMaison() {
 
   const equipementModal = equipementModalId ? getEquipementById(equipementModalId) : null;
 
+  // Mode visite actif dans une pièce réelle → afficher le pad mobile
+  const estModeVisite = modeCamera === 'visite';
+  const pieceSpecifique = pieceActive !== 'exterieur' && pieceActive !== 'interieur';
+  const padMobileVisible = estModeVisite && pieceSpecifique;
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
@@ -234,10 +240,17 @@ export function InterfaceMaison() {
         </div>
       </div>
 
+      {/* Pad de navigation mobile — mode visite uniquement */}
+      {padMobileVisible && !mobileMenuOpen && (
+        <div className="md:hidden">
+          <MobileNavPad />
+        </div>
+      )}
+
       {/* Badge pièce active — bas à gauche */}
       {!estExterieur && pieceCourante && (
         <div className={`fixed left-4 pointer-events-none z-30 transition-all duration-300
-          ${mobileMenuOpen ? 'bottom-[72vh]' : 'bottom-4'}`}>
+          ${mobileMenuOpen ? 'bottom-[72vh]' : padMobileVisible ? 'bottom-[13rem]' : 'bottom-4'}`}>
           <div className="bg-gray-950/50 backdrop-blur-md px-4 py-2 rounded-lg border border-white/8">
             <span className="text-white/50 text-xs font-medium tracking-wide">{pieceCourante}</span>
           </div>

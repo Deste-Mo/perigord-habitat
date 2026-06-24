@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { IdPiece } from '@/types/maison';
+import { etatNavMobile } from './droneNavBus';
 
 interface DroneControlsProps {
   enabled: boolean;
@@ -32,6 +33,8 @@ const PORTES: Array<{
   { piece1: 'chambre', piece2: 'couloir', position: { x: 0.75, z: 3.25 }, direction: 'x', largeur: 0.85 },
   { piece1: 'couloir', piece2: 'salleDeBain', position: { x: 2.5, z: 3.2 }, direction: 'x', largeur: 0.8 },
 ];
+
+export type DirectionDeplacement = 'forward' | 'backward' | 'left' | 'right';
 
 export function useDroneControls({
   enabled,
@@ -119,12 +122,38 @@ export function useDroneControls({
       pitch.current = Math.max(-Math.PI / 2 + 0.02, Math.min(Math.PI / 2 - 0.02, pitch.current));
     };
 
+    // Touch — rotation de caméra (drag sur le canvas, hors pad de navigation)
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        const deltaX = e.touches[0].clientX - lastTouchX;
+        const deltaY = e.touches[0].clientY - lastTouchY;
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+
+        yaw.current -= deltaX * rotationSpeed * 3;
+        pitch.current -= deltaY * rotationSpeed * 3;
+        pitch.current = Math.max(-Math.PI / 2 + 0.02, Math.min(Math.PI / 2 - 0.02, pitch.current));
+      }
+    };
+
     canvas.style.cursor = 'grab';
     canvas.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
+    canvas.addEventListener('touchstart', onTouchStart, { passive: true });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: true });
 
     return () => {
       canvas.style.cursor = '';
@@ -133,11 +162,12 @@ export function useDroneControls({
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('keyup', onKeyUp);
+      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('touchmove', onTouchMove);
     };
   }, [enabled, gl, rotationSpeed]);
 
-  useFrame(() => {
-    if (!enabled) return;
+  useFrame(() => {    if (!enabled) return;
 
     // First frame after enable: capture the camera's current orientation
     if (premiereFrame.current) {
@@ -173,10 +203,10 @@ export function useDroneControls({
 
     velocity.current.set(0, 0, 0);
 
-    if (state.forward)  velocity.current.add(direction.clone().multiplyScalar(speed));
-    if (state.backward) velocity.current.add(direction.clone().multiplyScalar(-speed));
-    if (state.left)     velocity.current.add(right.clone().multiplyScalar(-speed));
-    if (state.right)    velocity.current.add(right.clone().multiplyScalar(speed));
+    if (state.forward  || etatNavMobile.forward)  velocity.current.add(direction.clone().multiplyScalar(speed));
+    if (state.backward || etatNavMobile.backward) velocity.current.add(direction.clone().multiplyScalar(-speed));
+    if (state.left     || etatNavMobile.left)     velocity.current.add(right.clone().multiplyScalar(-speed));
+    if (state.right    || etatNavMobile.right)    velocity.current.add(right.clone().multiplyScalar(speed));
 
     const nouvellePosition = camera.position.clone().add(velocity.current);
     nouvellePosition.y = 1.65;
