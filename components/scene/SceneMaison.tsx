@@ -16,14 +16,14 @@ import { CouloirEntree } from './pieces/CouloirEntree';
 import { Terrain } from './terrain/Terrain';
 import { EclairagePrincipal } from './eclairage/EclairagePrincipal';
 import { useScene } from '@/hooks/useSceneStore';
-import { PREREGLAGES_CAMERA, getClePrereglage } from '@/hooks/useCamera';
+import { PREREGLAGES_CAMERA, getClePrereglage, getPositionCameraExterieur, getPositionOrbitePiece, CENTRES_PIECES, getPrereglageVisite } from '@/hooks/useCamera';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useDroneControls } from '@/hooks/useDroneControls';
 import { PostEffets } from './PostEffets';
 
 export function SceneMaison() {
   const { modeCamera, pieceActive, modeJourNuit, lumieres, afficherFilDefer, sensibiliteCamera, setPieceActive } = useScene();
-  const { camera, gl, controls } = useThree();
+  const { camera, gl, controls, size } = useThree();
   const modeCameraRef = useRef(modeCamera);
   modeCameraRef.current = modeCamera;
 
@@ -39,6 +39,32 @@ export function SceneMaison() {
     pieceActive,
     onChangePiece: setPieceActive
   });
+
+  // ── Repositionnement caméra responsive ────────────────────────────────────
+  // Recalcule la position initiale de la vue extérieure selon le ratio du canvas.
+  // Se déclenche au mount ET à chaque rotation d'appareil / resize de fenêtre.
+  // N'intervient que si l'utilisateur est en vue extérieure (n'écrase pas les
+  // positions de pièce ou une navigation en cours).
+  useEffect(() => {
+    if (pieceActive !== 'exterieur') return;
+    if (modeCameraRef.current === 'visite') return;
+
+    const ratio = size.width / size.height;
+    const { pos, cible } = getPositionCameraExterieur(ratio);
+
+    camera.position.copy(pos);
+    camera.lookAt(cible);
+    camera.updateMatrixWorld();
+
+    // Synchroniser OrbitControls avec la nouvelle cible
+    const orbitControls = controls as OrbitControlsImpl | null;
+    if (orbitControls) {
+      orbitControls.target.copy(cible);
+      orbitControls.update();
+    }
+  // size.width / size.height changent à chaque resize via useThree()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [size.width, size.height, pieceActive]);
 
   // Exposition jour/nuit
   useEffect(() => {
@@ -57,14 +83,36 @@ export function SceneMaison() {
     }
     
     const posDepart = camera.position.clone();
-    const posFin = prereglage.pos.clone();
-    const cibleFin = prereglage.cible.clone();
-    
+
+    // ── Position et cible finales adaptées au ratio pour le mode orbite de pièce ─
+    const estPieceSpecifique = pieceActive !== 'exterieur' && pieceActive !== 'interieur';
+    const ratio = size.width / size.height;
+    const centrePiece = estPieceSpecifique ? CENTRES_PIECES[pieceActive] : null;
+    const estMobileOrbite = !estVisite && estPieceSpecifique && ratio < 1.2 && centrePiece;
+
+    // Sur mobile orbite : pointer vers le vrai centre de la pièce (pas la position FPS)
+    const cibleFin = estMobileOrbite
+      ? centrePiece!.clone()
+      : prereglage.cible.clone();
+
+    let posFin: THREE.Vector3;
+    if (estMobileOrbite) {
+      posFin = getPositionOrbitePiece(centrePiece!, ratio);
+    } else {
+      posFin = prereglage.pos.clone();
+    }    
     // En mode visite (FPS), snap immédiat — pas d'animation
     if (estVisite) {
-      camera.position.copy(posFin);
+      // Sur mobile portrait, utiliser la position centrale de la pièce
+      // pour éviter d'être collé au mur dès l'entrée en mode visite
+      const ratioActuel = size.width / size.height;
+      const prereglageVisite = getPrereglageVisite(pieceActive, ratioActuel);
+      const posFPS  = prereglageVisite ? prereglageVisite.pos   : posFin;
+      const cibleFPS = prereglageVisite ? prereglageVisite.cible : cibleFin;
+
+      camera.position.copy(posFPS);
       camera.rotation.order = 'YXZ';
-      camera.lookAt(cibleFin);
+      camera.lookAt(cibleFPS);
       camera.rotation.z = 0;
       camera.updateMatrixWorld();
       return;
@@ -153,11 +201,37 @@ export function SceneMaison() {
   const filDefer     = afficherFilDefer;
   
   // Cible pour OrbitControls - utiliser la cible correspondant au préréglage
+  // En vue extérieure, la cible dépend du ratio pour rester centrée sur la scène complète
   const cle = getClePrereglage(pieceActive, modeCamera);
   const prereglage = PREREGLAGES_CAMERA[cle];
-  const cibleOrbite: [number, number, number] = prereglage 
-    ? [prereglage.cible.x, prereglage.cible.y, prereglage.cible.z]
-    : [0, 2, 0];
+
+  let cibleOrbite: [number, number, number];
+  if (pieceActive === 'exterieur') {
+    const ratio = size.width / size.height;
+    const { cible } = getPositionCameraExterieur(ratio);
+    cibleOrbite = [cible.x, cible.y, cible.z];
+  } else if (pieceSpecifique && CENTRES_PIECES[pieceActive]) {
+    // Pour les pièces, utiliser le centre réel comme cible — pas la position FPS
+    const c = CENTRES_PIECES[pieceActive];
+    cibleOrbite = [c.x, c.y, c.z];
+  } else {
+    cibleOrbite = prereglage
+      ? [prereglage.cible.x, prereglage.cible.y, prereglage.cible.z]
+      : [0, 2, 0];
+  }
+
+  // maxDistance adapté : sur mobile (portrait) la caméra est déjà plus loin, on
+  // autorise un zoom-out plus généreux pour que l'utilisateur puisse explorer.
+  const estMobile = size.width < 768;
+  const maxDistanceExterieur = estMobile ? 90 : 50;
+
+  // Limites OrbitControls pour les pièces — adaptées au ratio
+  // Desktop : [1.5, 4.5] → vue rapprochée immersive
+  // Mobile portrait : [4, 20] → assez de recul pour voir toute la pièce (~5m×5m)
+  // Tablette : [3, 12]
+  const ratio = size.width / size.height;
+  const minDistancePiece = ratio < 0.7 ? 4.0 : ratio < 1.2 ? 3.0 : 1.5;
+  const maxDistancePiece = ratio < 0.7 ? 22  : ratio < 1.2 ? 14  : 4.5;
 
   return (
     <>
@@ -177,8 +251,8 @@ export function SceneMaison() {
           enablePan={true}
           enableZoom={true}
           enableRotate={true}
-          minDistance={pieceSpecifique ? 1.5 : 5}
-          maxDistance={pieceSpecifique ? 4.5 : 50}
+          minDistance={pieceSpecifique ? minDistancePiece : 5}
+          maxDistance={pieceSpecifique ? maxDistancePiece : maxDistanceExterieur}
           minPolarAngle={pieceSpecifique ? Math.PI * 0.25 : 0}
           maxPolarAngle={pieceSpecifique ? Math.PI * 0.75 : Math.PI * 0.49}
           rotateSpeed={sensibiliteCamera}

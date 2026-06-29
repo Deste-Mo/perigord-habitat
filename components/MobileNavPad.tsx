@@ -36,8 +36,8 @@ function BoutonDirection({ direction, children, className = '' }: BoutonDirectio
       onContextMenu={(e) => e.preventDefault()}
       className={`
         flex items-center justify-center
-        w-14 h-14 rounded-xl
-        bg-gray-950/60 backdrop-blur-md
+        w-12 h-12 rounded-xl
+        bg-gray-950/70 backdrop-blur-md
         border border-white/15
         text-white/70
         active:bg-white/20 active:text-white active:border-white/30
@@ -52,41 +52,33 @@ function BoutonDirection({ direction, children, className = '' }: BoutonDirectio
   );
 }
 
-const ArrowUp    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>;
-const ArrowDown  = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>;
-const ArrowLeft  = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>;
-const ArrowRight = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 19l7-7-7-7"/></svg>;
+const ArrowUp    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>;
+const ArrowDown  = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>;
+const ArrowLeft  = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>;
+const ArrowRight = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 19l7-7-7-7"/></svg>;
 
 export function MobileNavPad() {
   return (
     <div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
+      className="pointer-events-auto"
       onTouchMove={(e) => e.preventDefault()}
     >
-      <div className="grid grid-cols-3 grid-rows-3 gap-2 w-[13rem]">
+      <div className="grid grid-cols-3 gap-1.5" style={{ width: '11rem' }}>
         {/* Ligne 1 */}
         <div />
-        <BoutonDirection direction="forward">
-          <ArrowUp />
-        </BoutonDirection>
+        <BoutonDirection direction="forward"><ArrowUp /></BoutonDirection>
         <div />
 
         {/* Ligne 2 */}
-        <BoutonDirection direction="left">
-          <ArrowLeft />
-        </BoutonDirection>
+        <BoutonDirection direction="left"><ArrowLeft /></BoutonDirection>
         <div className="flex items-center justify-center">
           <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
         </div>
-        <BoutonDirection direction="right">
-          <ArrowRight />
-        </BoutonDirection>
+        <BoutonDirection direction="right"><ArrowRight /></BoutonDirection>
 
         {/* Ligne 3 */}
         <div />
-        <BoutonDirection direction="backward">
-          <ArrowDown />
-        </BoutonDirection>
+        <BoutonDirection direction="backward"><ArrowDown /></BoutonDirection>
         <div />
       </div>
     </div>

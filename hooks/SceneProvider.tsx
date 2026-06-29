@@ -20,8 +20,14 @@ export function FournisseurScene({ children }: { children: React.ReactNode }) {
   const setModeCamera    = useCallback((m: ModeCamera) => setModeCameraEtat(m), []);
   const setPieceActive = useCallback((p: IdPiece | 'exterieur' | 'interieur') => {
     setPieceActiveEtat(p);
-    // Ne plus changer automatiquement le mode caméra
-    // L'utilisateur garde le contrôle du mode (orbite ou visite)
+    // Sur mobile portrait, forcer le mode orbite pour éviter la vue FPS
+    // collée aux murs. L'utilisateur peut toujours basculer en visite manuellement.
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) {
+      const estPieceSpecifique = p !== 'exterieur' && p !== 'interieur';
+      if (estPieceSpecifique) {
+        setModeCameraEtat('orbite');
+      }
+    }
   }, []);
   const setModeJourNuit  = useCallback((v: 'jour' | 'nuit') => setModeJourNuitEtat(v), []);
   const toggleFilDefer   = useCallback(() => setAfficherFil(p => !p), []);

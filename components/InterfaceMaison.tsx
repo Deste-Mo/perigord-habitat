@@ -15,6 +15,19 @@ const NOMS_PIECES: Record<string, string> = {
   couloir: 'Couloir', couloirEntree: "Couloir d'entrée", exterieur: 'Extérieur', interieur: 'Intérieur',
 };
 
+/** Retourne true si la largeur de fenêtre est inférieure au breakpoint md (768px). */
+function useEstMobile() {
+  const [estMobile, setEstMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    setEstMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setEstMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return estMobile;
+}
+
 function SelecteurCamera({ modeCamera, setModeCamera }: { modeCamera: ModeCamera; setModeCamera: (m: ModeCamera) => void }) {
   return (
     <div className="flex rounded-lg border border-white/10 overflow-hidden">
@@ -39,6 +52,8 @@ function ContenuMenu() {
   const { markersVisibles, toggleMarkers, setPieceMarkersActive } = useMarkersVisibles();
   const router = useRouter();
   const estExterieur = pieceActive === 'exterieur';
+  const estMobile = useEstMobile();
+
   const PIECES_LISTE: { id: IdPiece; label: string }[] = [
     { id: 'sejour', label: 'Séjour' },
     { id: 'cuisine', label: 'Cuisine' },
@@ -113,7 +128,9 @@ function ContenuMenu() {
                 if (valeur) {
                   setPieceActive(valeur as IdPiece);
                   setPieceMarkersActive(valeur);
-                  setModeCamera('visite');
+                  // Mobile → orbite plongeante (vue de la pièce entière)
+                  // Desktop → visite FPS immersive
+                  setModeCamera(estMobile ? 'orbite' : 'visite');
                 }
               }}
               className="w-full px-3 py-1.5 rounded-lg text-xs font-medium
@@ -137,6 +154,7 @@ export function InterfaceMaison() {
   const { pieceActive, modeCamera, tooltip, equipementModalId, setEquipementModalId } = useScene();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [padVisible, setPadVisible] = useState(true);
   const [guideVisible, setGuideVisible] = useState(false);
   const guideDejaMontre = useRef(false);
 
@@ -202,17 +220,7 @@ export function InterfaceMaison() {
         </div>
       )}
 
-      {/* Bouton toggle mobile */}
-      <button
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="md:hidden fixed top-4 right-4 z-50 pointer-events-auto
-          bg-gray-950/70 backdrop-blur-xl border border-white/10 rounded-xl p-2.5
-          text-white/70 hover:text-white transition-all duration-150"
-      >
-        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
-
-      {/* Overlay mobile */}
+      {/* ── Overlay ferme le bottom sheet ── */}
       {mobileMenuOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/40 z-30 pointer-events-auto"
@@ -220,19 +228,63 @@ export function InterfaceMaison() {
         />
       )}
 
-      {/* Menu mobile — bottom sheet */}
-      <div className={`md:hidden fixed z-40 pointer-events-auto transition-all duration-300
-        left-0 right-0 ${mobileMenuOpen ? 'bottom-0 translate-y-0' : 'bottom-0 translate-y-full'}`}>
-        <div className="bg-gray-950/70 backdrop-blur-xl border border-white/10 rounded-t-2xl shadow-2xl shadow-black/50
-          py-3 px-4 flex flex-col gap-4 max-h-[70vh] overflow-y-auto pb-6">
+      {/* ── Bottom sheet menu mobile ── */}
+      <div className={`md:hidden fixed z-40 pointer-events-auto transition-transform duration-300 ease-out
+        left-0 right-0 bottom-0
+        ${mobileMenuOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+        <div className="bg-gray-950/85 backdrop-blur-2xl border-t border-white/10 rounded-t-2xl
+          shadow-2xl shadow-black/60 py-3 px-4 flex flex-col gap-4 max-h-[78vh] overflow-y-auto pb-8">
           <div className="flex justify-center -mt-1 mb-1">
-            <div className="w-10 h-1 rounded-full bg-white/20" />
+            <div className="w-10 h-1 rounded-full bg-white/25" />
           </div>
           <ContenuMenu />
         </div>
       </div>
 
-      {/* Menu desktop — flottant à droite */}
+      {/* ── Pad directionnel — centré en bas, indépendant du menu ── */}
+      {padMobileVisible && padVisible && !mobileMenuOpen && (
+        <div className="md:hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+          <MobileNavPad />
+        </div>
+      )}
+
+      {/* ── Boutons flottants bas-droite (mobile) ──────────────────────────
+          De gauche à droite :  [toggle flèches]  [☰]
+          Positionnés ensemble en bas à droite, séparés du pad centré.
+      ─────────────────────────────────────────────────────────────────── */}
+      <div className="md:hidden fixed bottom-6 right-4 z-50 pointer-events-auto flex flex-col items-center gap-2">
+
+        {/* Toggle afficher/cacher le pad — visible uniquement en mode visite */}
+        {padMobileVisible && (
+          <button
+            onClick={() => setPadVisible(v => !v)}
+            className={`flex items-center justify-center w-10 h-10 rounded-full
+              backdrop-blur-xl border transition-all duration-150 active:scale-95
+              ${padVisible
+                ? 'bg-white/15 border-white/20 text-white'
+                : 'bg-gray-950/70 border-white/10 text-white/50'}`}
+            aria-label={padVisible ? 'Cacher les flèches' : 'Afficher les flèches'}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12h14"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        )}
+
+        {/* Bouton menu ☰ */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="flex items-center justify-center w-10 h-10 rounded-full
+            bg-gray-950/70 backdrop-blur-xl border border-white/10
+            text-white/70 hover:text-white transition-all duration-150 active:scale-95"
+          aria-label="Menu"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* ── Menu desktop — flottant à droite, inchangé ── */}
       <div className="hidden md:block fixed right-5 top-1/2 -translate-y-1/2 z-40 pointer-events-auto">
         <div className="bg-gray-950/70 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50
           min-w-[180px] py-3 px-4 flex flex-col gap-4">
@@ -240,17 +292,18 @@ export function InterfaceMaison() {
         </div>
       </div>
 
-      {/* Pad de navigation mobile — mode visite uniquement */}
-      {padMobileVisible && !mobileMenuOpen && (
-        <div className="md:hidden">
-          <MobileNavPad />
-        </div>
-      )}
-
       {/* Badge pièce active — bas à gauche */}
       {!estExterieur && pieceCourante && (
-        <div className={`fixed left-4 pointer-events-none z-30 transition-all duration-300
-          ${mobileMenuOpen ? 'bottom-[72vh]' : padMobileVisible ? 'bottom-[13rem]' : 'bottom-4'}`}>
+        <div className={`md:hidden fixed left-4 pointer-events-none z-30 transition-all duration-300
+          ${mobileMenuOpen ? 'bottom-[78vh]' : 'bottom-6'}`}>
+          <div className="bg-gray-950/50 backdrop-blur-md px-4 py-2 rounded-lg border border-white/8">
+            <span className="text-white/50 text-xs font-medium tracking-wide">{pieceCourante}</span>
+          </div>
+        </div>
+      )}
+      {/* Badge pièce active desktop */}
+      {!estExterieur && pieceCourante && (
+        <div className="hidden md:block fixed left-4 bottom-4 pointer-events-none z-30">
           <div className="bg-gray-950/50 backdrop-blur-md px-4 py-2 rounded-lg border border-white/8">
             <span className="text-white/50 text-xs font-medium tracking-wide">{pieceCourante}</span>
           </div>

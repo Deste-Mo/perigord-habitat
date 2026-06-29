@@ -19,7 +19,11 @@ export function CanvasMaison() {
     <div className="w-full h-full">
       <Canvas
         shadows
-        camera={{ fov: 60, near: 0.1, far: 150, position: [20, 16, 20] }}
+        // FOV 55° (légèrement plus large que 60°) — donne plus de marge verticale
+        // sur les écrans portrait sans déformer la vue desktop.
+        // La position initiale et la cible sont recalculées dynamiquement par
+        // SceneMaison selon le ratio du canvas via getPositionCameraExterieur().
+        camera={{ fov: 55, near: 0.1, far: 200, position: [20, 16, 20] }}
         gl={{
           antialias: false,
           alpha: false,
@@ -27,7 +31,8 @@ export function CanvasMaison() {
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 0.7,
         }}
-        dpr={[1, 1.5]}
+        // Sur mobile, limiter à 1× le DPR pour économiser la mémoire GPU
+        dpr={[1, typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 1.5]}
         onCreated={({ gl }) => {
           gl.setClearColor('#000000', 1);
           gl.domElement.addEventListener('webglcontextlost', (e) => {
